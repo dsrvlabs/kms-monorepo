@@ -1,0 +1,27 @@
+{
+  "name": "kms-monorepo",
+  "version": "1.0.0",
+  "description": "blockchain key managament system",
+  "main": "index.js",
+  "repository": "https://github.com/dsrvlabs/kms-monorepo",
+  "author": "daoauth",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "contributors": [
+    {
+      "name": "sunny0529",
+      "url": "https://github.com/sunny0529"
+    },
+    {
+      "name": "kwklly",
+      "url": "https://github.com/kwklly"
+    },
+    {
+      "name": "Nahee-Park",
+      "url": "https://github.com/Nahee-Park"
+    }
+  ]
+}
