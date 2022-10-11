@@ -1,6 +1,6 @@
 // https://github.com/solana-labs/wallet-provider/blob/master/packages/wallet-ledger/src/core.ts
-import type Transport from "@ledgerhq/hw-transport";
-import { PublicKey, Transaction } from "@solana/web3.js";
+import type Transport from '@ledgerhq/hw-transport';
+import { PublicKey, Transaction } from '@solana/web3.js';
 
 const INS_GET_PUBKEY = 0x05;
 const INS_SIGN_MESSAGE = 0x06;
@@ -18,12 +18,7 @@ const LEDGER_CLA = 0xe0;
 /*
  * Helper for chunked send of large payloads
  */
-async function ledgerSend(
-  transport: Transport,
-  instruction: number,
-  p1: number,
-  payload: Buffer
-) {
+async function ledgerSend(transport: Transport, instruction: number, p1: number, payload: Buffer) {
   let p2 = 0;
   let payloadOffset = 0;
 
@@ -47,10 +42,10 @@ async function ledgerSend(
         p1,
         // eslint-disable-next-line no-bitwise
         p2 | P2_MORE,
-        chunk
+        chunk,
       );
       if (reply.length !== 2) {
-        throw new Error("Received unexpected reply payload");
+        throw new Error('Received unexpected reply payload');
       }
       // eslint-disable-next-line no-bitwise
       p2 |= P2_EXTEND;
@@ -105,7 +100,7 @@ export function getSolanaDerivationPath(account?: number, change?: number) {
 export async function signTransaction(
   transport: Transport,
   transaction: Transaction,
-  derivationPath: Buffer = getSolanaDerivationPath()
+  derivationPath: Buffer = getSolanaDerivationPath(),
 ) {
   const messageBytes = transaction.serializeMessage();
   // eslint-disable-next-line no-use-before-define
@@ -115,7 +110,7 @@ export async function signTransaction(
 export async function signBytes(
   transport: Transport,
   bytes: Buffer,
-  derivationPath: Buffer = getSolanaDerivationPath()
+  derivationPath: Buffer = getSolanaDerivationPath(),
 ) {
   const numPaths = Buffer.alloc(1);
   numPaths.writeUInt8(1, 0);
@@ -129,13 +124,13 @@ export async function signBytes(
 
 export async function getPublicKey(
   transport: Transport,
-  derivationPath: Buffer = getSolanaDerivationPath()
+  derivationPath: Buffer = getSolanaDerivationPath(),
 ) {
   const publicKeyBytes = await ledgerSend(
     transport,
     INS_GET_PUBKEY,
     P1_NON_CONFIRM,
-    derivationPath
+    derivationPath,
   );
 
   return new PublicKey(publicKeyBytes);

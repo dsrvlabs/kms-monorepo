@@ -1,43 +1,28 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
-import {
-  AminoMsg,
-  decodeBech32Pubkey,
-  encodeBech32Pubkey,
-} from "@cosmjs/amino";
-import { fromBase64, toBase64 } from "@cosmjs/encoding";
-import { EncodeObject } from "@cosmjs/proto-signing";
-import {
-  assert,
-  assertDefinedAndNotNull,
-  isNonNullObject,
-} from "@cosmjs/utils";
-import { MsgMultiSend, MsgSend } from "cosmjs-types/cosmos/bank/v1beta1/tx";
+import { AminoMsg, decodeBech32Pubkey, encodeBech32Pubkey } from '@cosmjs/amino';
+import { fromBase64, toBase64 } from '@cosmjs/encoding';
+import { EncodeObject } from '@cosmjs/proto-signing';
+import { assert, assertDefinedAndNotNull, isNonNullObject } from '@cosmjs/utils';
+import { MsgMultiSend, MsgSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx';
 import {
   MsgFundCommunityPool,
   MsgSetWithdrawAddress,
   MsgWithdrawDelegatorReward,
   MsgWithdrawValidatorCommission,
-} from "cosmjs-types/cosmos/distribution/v1beta1/tx";
-import {
-  TextProposal,
-  voteOptionFromJSON,
-} from "cosmjs-types/cosmos/gov/v1beta1/gov";
-import {
-  MsgDeposit,
-  MsgSubmitProposal,
-  MsgVote,
-} from "cosmjs-types/cosmos/gov/v1beta1/tx";
+} from 'cosmjs-types/cosmos/distribution/v1beta1/tx';
+import { TextProposal, voteOptionFromJSON } from 'cosmjs-types/cosmos/gov/v1beta1/gov';
+import { MsgDeposit, MsgSubmitProposal, MsgVote } from 'cosmjs-types/cosmos/gov/v1beta1/tx';
 import {
   MsgBeginRedelegate,
   MsgCreateValidator,
   MsgDelegate,
   MsgEditValidator,
   MsgUndelegate,
-} from "cosmjs-types/cosmos/staking/v1beta1/tx";
-import { Any } from "cosmjs-types/google/protobuf/any";
-import { MsgTransfer } from "cosmjs-types/ibc/applications/transfer/v1/tx";
-import Long from "long";
+} from 'cosmjs-types/cosmos/staking/v1beta1/tx';
+import { Any } from 'cosmjs-types/google/protobuf/any';
+import { MsgTransfer } from 'cosmjs-types/ibc/applications/transfer/v1/tx';
+import Long from 'long';
 
 import {
   AminoMsgBeginRedelegate,
@@ -55,7 +40,7 @@ import {
   AminoMsgVote,
   AminoMsgWithdrawDelegatorReward,
   AminoMsgWithdrawValidatorCommission,
-} from "./aminomsgs";
+} from './aminomsgs';
 
 export interface AminoConverter {
   readonly aminoType: string;
@@ -63,14 +48,12 @@ export interface AminoConverter {
   readonly fromAmino: (value: any) => any;
 }
 
-function omitDefault<T extends string | number | Long>(
-  input: T
-): T | undefined {
-  if (typeof input === "string") {
-    return input === "" ? undefined : input;
+function omitDefault<T extends string | number | Long>(input: T): T | undefined {
+  if (typeof input === 'string') {
+    return input === '' ? undefined : input;
   }
 
-  if (typeof input === "number") {
+  if (typeof input === 'number') {
     return input === 0 ? undefined : input;
   }
 
@@ -85,33 +68,22 @@ function createDefaultTypes(prefix: string): Record<string, AminoConverter> {
   return {
     // bank
 
-    "/cosmos.bank.v1beta1.MsgSend": {
-      aminoType: "cosmos-sdk/MsgSend",
-      toAmino: ({
-        fromAddress,
-        toAddress,
-        amount,
-      }: MsgSend): AminoMsgSend["value"] => ({
+    '/cosmos.bank.v1beta1.MsgSend': {
+      aminoType: 'cosmos-sdk/MsgSend',
+      toAmino: ({ fromAddress, toAddress, amount }: MsgSend): AminoMsgSend['value'] => ({
         from_address: fromAddress,
         to_address: toAddress,
         amount: [...amount],
       }),
-      fromAmino: ({
-        from_address,
-        to_address,
-        amount,
-      }: AminoMsgSend["value"]): MsgSend => ({
+      fromAmino: ({ from_address, to_address, amount }: AminoMsgSend['value']): MsgSend => ({
         fromAddress: from_address,
         toAddress: to_address,
         amount: [...amount],
       }),
     },
-    "/cosmos.bank.v1beta1.MsgMultiSend": {
-      aminoType: "cosmos-sdk/MsgMultiSend",
-      toAmino: ({
-        inputs,
-        outputs,
-      }: MsgMultiSend): AminoMsgMultiSend["value"] => ({
+    '/cosmos.bank.v1beta1.MsgMultiSend': {
+      aminoType: 'cosmos-sdk/MsgMultiSend',
+      toAmino: ({ inputs, outputs }: MsgMultiSend): AminoMsgMultiSend['value'] => ({
         inputs: inputs.map((input) => ({
           address: input.address,
           coins: [...input.coins],
@@ -121,10 +93,7 @@ function createDefaultTypes(prefix: string): Record<string, AminoConverter> {
           coins: [...output.coins],
         })),
       }),
-      fromAmino: ({
-        inputs,
-        outputs,
-      }: AminoMsgMultiSend["value"]): MsgMultiSend => ({
+      fromAmino: ({ inputs, outputs }: AminoMsgMultiSend['value']): MsgMultiSend => ({
         inputs: inputs.map((input) => ({
           address: input.address,
           coins: [...input.coins],
@@ -138,91 +107,83 @@ function createDefaultTypes(prefix: string): Record<string, AminoConverter> {
 
     // distribution
 
-    "/cosmos.distribution.v1beta1.MsgFundCommunityPool": {
-      aminoType: "cosmos-sdk/MsgFundCommunityPool",
+    '/cosmos.distribution.v1beta1.MsgFundCommunityPool': {
+      aminoType: 'cosmos-sdk/MsgFundCommunityPool',
       toAmino: ({
         amount,
         depositor,
-      }: MsgFundCommunityPool): AminoMsgFundCommunityPool["value"] => ({
+      }: MsgFundCommunityPool): AminoMsgFundCommunityPool['value'] => ({
         amount: [...amount],
         depositor,
       }),
       fromAmino: ({
         amount,
         depositor,
-      }: AminoMsgFundCommunityPool["value"]): MsgFundCommunityPool => ({
+      }: AminoMsgFundCommunityPool['value']): MsgFundCommunityPool => ({
         amount: [...amount],
         depositor,
       }),
     },
-    "/cosmos.distribution.v1beta1.MsgSetWithdrawAddress": {
-      aminoType: "cosmos-sdk/MsgModifyWithdrawAddress",
+    '/cosmos.distribution.v1beta1.MsgSetWithdrawAddress': {
+      aminoType: 'cosmos-sdk/MsgModifyWithdrawAddress',
       toAmino: ({
         delegatorAddress,
         withdrawAddress,
-      }: MsgSetWithdrawAddress): AminoMsgSetWithdrawAddress["value"] => ({
+      }: MsgSetWithdrawAddress): AminoMsgSetWithdrawAddress['value'] => ({
         delegator_address: delegatorAddress,
         withdraw_address: withdrawAddress,
       }),
       fromAmino: ({
         delegator_address,
         withdraw_address,
-      }: AminoMsgSetWithdrawAddress["value"]): MsgSetWithdrawAddress => ({
+      }: AminoMsgSetWithdrawAddress['value']): MsgSetWithdrawAddress => ({
         delegatorAddress: delegator_address,
         withdrawAddress: withdraw_address,
       }),
     },
-    "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward": {
-      aminoType: "cosmos-sdk/MsgWithdrawDelegationReward",
+    '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward': {
+      aminoType: 'cosmos-sdk/MsgWithdrawDelegationReward',
       toAmino: ({
         delegatorAddress,
         validatorAddress,
-      }: MsgWithdrawDelegatorReward): AminoMsgWithdrawDelegatorReward["value"] => ({
+      }: MsgWithdrawDelegatorReward): AminoMsgWithdrawDelegatorReward['value'] => ({
         delegator_address: delegatorAddress,
         validator_address: validatorAddress,
       }),
       fromAmino: ({
         delegator_address,
         validator_address,
-      }: AminoMsgWithdrawDelegatorReward["value"]): MsgWithdrawDelegatorReward => ({
+      }: AminoMsgWithdrawDelegatorReward['value']): MsgWithdrawDelegatorReward => ({
         delegatorAddress: delegator_address,
         validatorAddress: validator_address,
       }),
     },
-    "/cosmos.distribution.v1beta1.MsgWithdrawValidatorCommission": {
-      aminoType: "cosmos-sdk/MsgWithdrawValidatorCommission",
+    '/cosmos.distribution.v1beta1.MsgWithdrawValidatorCommission': {
+      aminoType: 'cosmos-sdk/MsgWithdrawValidatorCommission',
       toAmino: ({
         validatorAddress,
-      }: MsgWithdrawValidatorCommission): AminoMsgWithdrawValidatorCommission["value"] => ({
+      }: MsgWithdrawValidatorCommission): AminoMsgWithdrawValidatorCommission['value'] => ({
         validator_address: validatorAddress,
       }),
       fromAmino: ({
         validator_address,
-      }: AminoMsgWithdrawValidatorCommission["value"]): MsgWithdrawValidatorCommission => ({
+      }: AminoMsgWithdrawValidatorCommission['value']): MsgWithdrawValidatorCommission => ({
         validatorAddress: validator_address,
       }),
     },
 
     // gov
 
-    "/cosmos.gov.v1beta1.MsgDeposit": {
-      aminoType: "cosmos-sdk/MsgDeposit",
-      toAmino: ({
-        amount,
-        depositor,
-        proposalId,
-      }: MsgDeposit): AminoMsgDeposit["value"] => {
+    '/cosmos.gov.v1beta1.MsgDeposit': {
+      aminoType: 'cosmos-sdk/MsgDeposit',
+      toAmino: ({ amount, depositor, proposalId }: MsgDeposit): AminoMsgDeposit['value'] => {
         return {
           amount,
           depositor,
           proposal_id: proposalId.toString(),
         };
       },
-      fromAmino: ({
-        amount,
-        depositor,
-        proposal_id,
-      }: AminoMsgDeposit["value"]): MsgDeposit => {
+      fromAmino: ({ amount, depositor, proposal_id }: AminoMsgDeposit['value']): MsgDeposit => {
         return {
           amount: Array.from(amount),
           depositor,
@@ -230,24 +191,16 @@ function createDefaultTypes(prefix: string): Record<string, AminoConverter> {
         };
       },
     },
-    "/cosmos.gov.v1beta1.MsgVote": {
-      aminoType: "cosmos-sdk/MsgVote",
-      toAmino: ({
-        option,
-        proposalId,
-        voter,
-      }: MsgVote): AminoMsgVote["value"] => {
+    '/cosmos.gov.v1beta1.MsgVote': {
+      aminoType: 'cosmos-sdk/MsgVote',
+      toAmino: ({ option, proposalId, voter }: MsgVote): AminoMsgVote['value'] => {
         return {
           option,
           proposal_id: proposalId.toString(),
           voter,
         };
       },
-      fromAmino: ({
-        option,
-        proposal_id,
-        voter,
-      }: AminoMsgVote["value"]): MsgVote => {
+      fromAmino: ({ option, proposal_id, voter }: AminoMsgVote['value']): MsgVote => {
         return {
           option: voteOptionFromJSON(option),
           proposalId: Long.fromString(proposal_id),
@@ -255,20 +208,20 @@ function createDefaultTypes(prefix: string): Record<string, AminoConverter> {
         };
       },
     },
-    "/cosmos.gov.v1beta1.MsgSubmitProposal": {
-      aminoType: "cosmos-sdk/MsgSubmitProposal",
+    '/cosmos.gov.v1beta1.MsgSubmitProposal': {
+      aminoType: 'cosmos-sdk/MsgSubmitProposal',
       toAmino: ({
         initialDeposit,
         proposer,
         content,
-      }: MsgSubmitProposal): AminoMsgSubmitProposal["value"] => {
+      }: MsgSubmitProposal): AminoMsgSubmitProposal['value'] => {
         assertDefinedAndNotNull(content);
         let proposal: any;
         switch (content.typeUrl) {
-          case "/cosmos.gov.v1beta1.TextProposal": {
+          case '/cosmos.gov.v1beta1.TextProposal': {
             const textProposal = TextProposal.decode(content.value);
             proposal = {
-              type: "cosmos-sdk/TextProposal",
+              type: 'cosmos-sdk/TextProposal',
               value: {
                 description: textProposal.description,
                 title: textProposal.title,
@@ -289,22 +242,22 @@ function createDefaultTypes(prefix: string): Record<string, AminoConverter> {
         initial_deposit,
         proposer,
         content,
-      }: AminoMsgSubmitProposal["value"]): MsgSubmitProposal => {
+      }: AminoMsgSubmitProposal['value']): MsgSubmitProposal => {
         let any_content: Any;
         switch (content.type) {
-          case "cosmos-sdk/TextProposal": {
+          case 'cosmos-sdk/TextProposal': {
             const { value } = content;
             assert(isNonNullObject(value));
             const { title, description } = value as any;
-            assert(typeof title === "string");
-            assert(typeof description === "string");
+            assert(typeof title === 'string');
+            assert(typeof description === 'string');
             any_content = Any.fromPartial({
-              typeUrl: "/cosmos.gov.v1beta1.TextProposal",
+              typeUrl: '/cosmos.gov.v1beta1.TextProposal',
               value: TextProposal.encode(
                 TextProposal.fromPartial({
                   title,
                   description,
-                })
+                }),
               ).finish(),
             });
             break;
@@ -322,15 +275,15 @@ function createDefaultTypes(prefix: string): Record<string, AminoConverter> {
 
     // staking
 
-    "/cosmos.staking.v1beta1.MsgBeginRedelegate": {
-      aminoType: "cosmos-sdk/MsgBeginRedelegate",
+    '/cosmos.staking.v1beta1.MsgBeginRedelegate': {
+      aminoType: 'cosmos-sdk/MsgBeginRedelegate',
       toAmino: ({
         delegatorAddress,
         validatorSrcAddress,
         validatorDstAddress,
         amount,
-      }: MsgBeginRedelegate): AminoMsgBeginRedelegate["value"] => {
-        assertDefinedAndNotNull(amount, "missing amount");
+      }: MsgBeginRedelegate): AminoMsgBeginRedelegate['value'] => {
+        assertDefinedAndNotNull(amount, 'missing amount');
         return {
           delegator_address: delegatorAddress,
           validator_src_address: validatorSrcAddress,
@@ -343,15 +296,15 @@ function createDefaultTypes(prefix: string): Record<string, AminoConverter> {
         validator_src_address,
         validator_dst_address,
         amount,
-      }: AminoMsgBeginRedelegate["value"]): MsgBeginRedelegate => ({
+      }: AminoMsgBeginRedelegate['value']): MsgBeginRedelegate => ({
         delegatorAddress: delegator_address,
         validatorSrcAddress: validator_src_address,
         validatorDstAddress: validator_dst_address,
         amount,
       }),
     },
-    "/cosmos.staking.v1beta1.MsgCreateValidator": {
-      aminoType: "cosmos-sdk/MsgCreateValidator",
+    '/cosmos.staking.v1beta1.MsgCreateValidator': {
+      aminoType: 'cosmos-sdk/MsgCreateValidator',
       toAmino: ({
         description,
         commission,
@@ -360,11 +313,11 @@ function createDefaultTypes(prefix: string): Record<string, AminoConverter> {
         validatorAddress,
         pubkey,
         value,
-      }: MsgCreateValidator): AminoMsgCreateValidator["value"] => {
-        assertDefinedAndNotNull(description, "missing description");
-        assertDefinedAndNotNull(commission, "missing commission");
-        assertDefinedAndNotNull(pubkey, "missing pubkey");
-        assertDefinedAndNotNull(value, "missing value");
+      }: MsgCreateValidator): AminoMsgCreateValidator['value'] => {
+        assertDefinedAndNotNull(description, 'missing description');
+        assertDefinedAndNotNull(commission, 'missing commission');
+        assertDefinedAndNotNull(pubkey, 'missing pubkey');
+        assertDefinedAndNotNull(value, 'missing value');
         return {
           description: {
             moniker: description.moniker,
@@ -383,10 +336,10 @@ function createDefaultTypes(prefix: string): Record<string, AminoConverter> {
           validator_address: validatorAddress,
           pubkey: encodeBech32Pubkey(
             {
-              type: "tendermint/PubKeySecp256k1",
+              type: 'tendermint/PubKeySecp256k1',
               value: toBase64(pubkey.value),
             },
-            prefix
+            prefix,
           ),
           value,
         };
@@ -399,10 +352,10 @@ function createDefaultTypes(prefix: string): Record<string, AminoConverter> {
         validator_address,
         pubkey,
         value,
-      }: AminoMsgCreateValidator["value"]): MsgCreateValidator => {
+      }: AminoMsgCreateValidator['value']): MsgCreateValidator => {
         const decodedPubkey = decodeBech32Pubkey(pubkey);
-        if (decodedPubkey.type !== "tendermint/PubKeySecp256k1") {
-          throw new Error("Only Secp256k1 public keys are supported");
+        if (decodedPubkey.type !== 'tendermint/PubKeySecp256k1') {
+          throw new Error('Only Secp256k1 public keys are supported');
         }
         return {
           description: {
@@ -421,21 +374,21 @@ function createDefaultTypes(prefix: string): Record<string, AminoConverter> {
           delegatorAddress: delegator_address,
           validatorAddress: validator_address,
           pubkey: {
-            typeUrl: "/cosmos.crypto.secp256k1.PubKey",
+            typeUrl: '/cosmos.crypto.secp256k1.PubKey',
             value: fromBase64(decodedPubkey.value),
           },
           value,
         };
       },
     },
-    "/cosmos.staking.v1beta1.MsgDelegate": {
-      aminoType: "cosmos-sdk/MsgDelegate",
+    '/cosmos.staking.v1beta1.MsgDelegate': {
+      aminoType: 'cosmos-sdk/MsgDelegate',
       toAmino: ({
         delegatorAddress,
         validatorAddress,
         amount,
-      }: MsgDelegate): AminoMsgDelegate["value"] => {
-        assertDefinedAndNotNull(amount, "missing amount");
+      }: MsgDelegate): AminoMsgDelegate['value'] => {
+        assertDefinedAndNotNull(amount, 'missing amount');
         return {
           delegator_address: delegatorAddress,
           validator_address: validatorAddress,
@@ -446,21 +399,21 @@ function createDefaultTypes(prefix: string): Record<string, AminoConverter> {
         delegator_address,
         validator_address,
         amount,
-      }: AminoMsgDelegate["value"]): MsgDelegate => ({
+      }: AminoMsgDelegate['value']): MsgDelegate => ({
         delegatorAddress: delegator_address,
         validatorAddress: validator_address,
         amount,
       }),
     },
-    "/cosmos.staking.v1beta1.MsgEditValidator": {
-      aminoType: "cosmos-sdk/MsgEditValidator",
+    '/cosmos.staking.v1beta1.MsgEditValidator': {
+      aminoType: 'cosmos-sdk/MsgEditValidator',
       toAmino: ({
         description,
         commissionRate,
         minSelfDelegation,
         validatorAddress,
-      }: MsgEditValidator): AminoMsgEditValidator["value"] => {
-        assertDefinedAndNotNull(description, "missing description");
+      }: MsgEditValidator): AminoMsgEditValidator['value'] => {
+        assertDefinedAndNotNull(description, 'missing description');
         return {
           description: {
             moniker: description.moniker,
@@ -479,7 +432,7 @@ function createDefaultTypes(prefix: string): Record<string, AminoConverter> {
         commission_rate,
         min_self_delegation,
         validator_address,
-      }: AminoMsgEditValidator["value"]): MsgEditValidator => ({
+      }: AminoMsgEditValidator['value']): MsgEditValidator => ({
         description: {
           moniker: description.moniker,
           identity: description.identity,
@@ -492,14 +445,14 @@ function createDefaultTypes(prefix: string): Record<string, AminoConverter> {
         validatorAddress: validator_address,
       }),
     },
-    "/cosmos.staking.v1beta1.MsgUndelegate": {
-      aminoType: "cosmos-sdk/MsgUndelegate",
+    '/cosmos.staking.v1beta1.MsgUndelegate': {
+      aminoType: 'cosmos-sdk/MsgUndelegate',
       toAmino: ({
         delegatorAddress,
         validatorAddress,
         amount,
-      }: MsgUndelegate): AminoMsgUndelegate["value"] => {
-        assertDefinedAndNotNull(amount, "missing amount");
+      }: MsgUndelegate): AminoMsgUndelegate['value'] => {
+        assertDefinedAndNotNull(amount, 'missing amount');
         return {
           delegator_address: delegatorAddress,
           validator_address: validatorAddress,
@@ -510,7 +463,7 @@ function createDefaultTypes(prefix: string): Record<string, AminoConverter> {
         delegator_address,
         validator_address,
         amount,
-      }: AminoMsgUndelegate["value"]): MsgUndelegate => ({
+      }: AminoMsgUndelegate['value']): MsgUndelegate => ({
         delegatorAddress: delegator_address,
         validatorAddress: validator_address,
         amount,
@@ -519,8 +472,8 @@ function createDefaultTypes(prefix: string): Record<string, AminoConverter> {
 
     // ibc
 
-    "/ibc.applications.transfer.v1.MsgTransfer": {
-      aminoType: "cosmos-sdk/MsgTransfer",
+    '/ibc.applications.transfer.v1.MsgTransfer': {
+      aminoType: 'cosmos-sdk/MsgTransfer',
       toAmino: ({
         sourcePort,
         sourceChannel,
@@ -529,7 +482,7 @@ function createDefaultTypes(prefix: string): Record<string, AminoConverter> {
         receiver,
         timeoutHeight,
         timeoutTimestamp,
-      }: MsgTransfer): AminoMsgTransfer["value"] => ({
+      }: MsgTransfer): AminoMsgTransfer['value'] => ({
         source_port: sourcePort,
         source_channel: sourceChannel,
         token,
@@ -537,12 +490,8 @@ function createDefaultTypes(prefix: string): Record<string, AminoConverter> {
         receiver,
         timeout_height: timeoutHeight
           ? {
-              revision_height: omitDefault(
-                timeoutHeight.revisionHeight
-              )?.toString(),
-              revision_number: omitDefault(
-                timeoutHeight.revisionNumber
-              )?.toString(),
+              revision_height: omitDefault(timeoutHeight.revisionHeight)?.toString(),
+              revision_number: omitDefault(timeoutHeight.revisionNumber)?.toString(),
             }
           : {},
         timeout_timestamp: omitDefault(timeoutTimestamp)?.toString(),
@@ -555,7 +504,7 @@ function createDefaultTypes(prefix: string): Record<string, AminoConverter> {
         receiver,
         timeout_height,
         timeout_timestamp,
-      }: AminoMsgTransfer["value"]): MsgTransfer => ({
+      }: AminoMsgTransfer['value']): MsgTransfer => ({
         sourcePort: source_port,
         sourceChannel: source_channel,
         token,
@@ -563,17 +512,11 @@ function createDefaultTypes(prefix: string): Record<string, AminoConverter> {
         receiver,
         timeoutHeight: timeout_height
           ? {
-              revisionHeight: Long.fromString(
-                timeout_height.revision_height || "0",
-                true
-              ),
-              revisionNumber: Long.fromString(
-                timeout_height.revision_number || "0",
-                true
-              ),
+              revisionHeight: Long.fromString(timeout_height.revision_height || '0', true),
+              revisionNumber: Long.fromString(timeout_height.revision_number || '0', true),
             }
           : undefined,
-        timeoutTimestamp: Long.fromString(timeout_timestamp || "0", true),
+        timeoutTimestamp: Long.fromString(timeout_timestamp || '0', true),
       }),
     },
   };
@@ -591,21 +534,14 @@ interface AminoTypesOptions {
 export class AminoTypes {
   private readonly register: Record<string, AminoConverter>;
 
-  public constructor({
-    additions = {},
-    prefix = "cosmos",
-  }: AminoTypesOptions = {}) {
+  public constructor({ additions = {}, prefix = 'cosmos' }: AminoTypesOptions = {}) {
     const additionalAminoTypes = Object.values(additions);
-    const filteredDefaultTypes = Object.entries(
-      createDefaultTypes(prefix)
-    ).reduce(
+    const filteredDefaultTypes = Object.entries(createDefaultTypes(prefix)).reduce(
       (acc, [key, value]) =>
-        additionalAminoTypes.find(
-          ({ aminoType }) => value.aminoType === aminoType
-        )
+        additionalAminoTypes.find(({ aminoType }) => value.aminoType === aminoType)
           ? acc
           : { ...acc, [key]: value },
-      {}
+      {},
     );
     this.register = { ...filteredDefaultTypes, ...additions };
   }
@@ -614,9 +550,9 @@ export class AminoTypes {
     const converter = this.register[typeUrl];
     if (!converter) {
       throw new Error(
-        "Type URL does not exist in the Amino message type register. " +
-          "If you need support for this message type, you can pass in additional entries to the AminoTypes constructor. " +
-          "If you think this message type should be included by default, please open an issue at https://github.com/cosmos/cosmjs/issues."
+        'Type URL does not exist in the Amino message type register. ' +
+          'If you need support for this message type, you can pass in additional entries to the AminoTypes constructor. ' +
+          'If you think this message type should be included by default, please open an issue at https://github.com/cosmos/cosmjs/issues.',
       );
     }
     return {
@@ -627,13 +563,13 @@ export class AminoTypes {
 
   public fromAmino({ type, value }: AminoMsg): EncodeObject {
     const result = Object.entries(this.register).find(
-      ([_typeUrl, { aminoType }]) => aminoType === type
+      ([_typeUrl, { aminoType }]) => aminoType === type,
     );
     if (!result) {
       throw new Error(
-        "Type does not exist in the Amino message type register. " +
-          "If you need support for this message type, you can pass in additional entries to the AminoTypes constructor. " +
-          "If you think this message type should be included by default, please open an issue at https://github.com/cosmos/cosmjs/issues."
+        'Type does not exist in the Amino message type register. ' +
+          'If you need support for this message type, you can pass in additional entries to the AminoTypes constructor. ' +
+          'If you think this message type should be included by default, please open an issue at https://github.com/cosmos/cosmjs/issues.',
       );
     }
     const [typeUrl, converter] = result;

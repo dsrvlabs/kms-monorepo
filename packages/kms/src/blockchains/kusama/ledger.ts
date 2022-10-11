@@ -1,6 +1,6 @@
-import Transport from "@ledgerhq/hw-transport";
-import { newKusamaApp } from "@zondax/ledger-polkadot";
-import { Account, BIP44 } from "../../types";
+import Transport from '@ledgerhq/hw-transport';
+import { newKusamaApp } from '@zondax/ledger-polkadot';
+import { Account, BIP44 } from '../../types';
 
 // LEDGER
 export class LEDGER {
@@ -9,7 +9,7 @@ export class LEDGER {
     const response = await instance.getAddress(
       0x80000000 + path.account,
       0x80000000,
-      0x80000000 + path.index
+      0x80000000 + path.index,
     );
     return { address: response.address, publicKey: response.pubKey };
   }

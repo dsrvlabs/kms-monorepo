@@ -18,7 +18,7 @@
 // TODO use bip32-path library
 export function splitPath(path: string): number[] {
   const result: number[] = [];
-  const components = path.split("/");
+  const components = path.split('/');
   components.forEach((element) => {
     let number = parseInt(element, 10);
     if (Number.isNaN(number)) {
@@ -36,7 +36,7 @@ export function splitPath(path: string): number[] {
 export async function foreach<T, A>(
   arr: T[],
   // eslint-disable-next-line no-unused-vars
-  callback: (t: T, n: number) => Promise<A>
+  callback: (t: T, n: number) => Promise<A>,
 ): Promise<A[]> {
   function iterate(index: number, array: any[], result: any[]): any {
     if (index >= array.length) {

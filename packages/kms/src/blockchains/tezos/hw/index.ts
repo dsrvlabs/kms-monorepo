@@ -1,7 +1,7 @@
 // https://github.com/LedgerHQ/ledgerjs/blob/master/packages/hw-app-tezos/src/Tezos.ts
-import bs58check from "bs58check";
+import bs58check from 'bs58check';
 
-const blake2b = require("blake2b");
+const blake2b = require('blake2b');
 
 export const encodeAddress = (publicKey: Buffer) => {
   const pkhB58Prefix = Buffer.from([6, 161, 159]);

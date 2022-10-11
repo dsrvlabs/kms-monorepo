@@ -1,18 +1,18 @@
-import Transport from "@ledgerhq/hw-transport";
-import { CHAIN, Account, BIP44, SignedTx, SignedMsg, Message } from "./types";
-import { LEDGER as eth } from "./blockchains/ethereum/ledger";
-import { LEDGER as terra } from "./blockchains/cosmos/ledger/terra";
-import { LEDGER as flow } from "./blockchains/flow/ledger";
-import { LEDGER as solana } from "./blockchains/solana/ledger";
-import { LEDGER as near } from "./blockchains/near/ledger";
-import { LEDGER as kusama } from "./blockchains/kusama/ledger";
-import { LEDGER as polkadot } from "./blockchains/polkadot/ledger";
-import { LEDGER as cosmos } from "./blockchains/cosmos/ledger/cosmos";
-import { LEDGER as tezos } from "./blockchains/tezos/ledger";
+import Transport from '@ledgerhq/hw-transport';
+import { CHAIN, Account, BIP44, SignedTx, SignedMsg, Message } from './types';
+import { LEDGER as eth } from './blockchains/ethereum/ledger';
+import { LEDGER as terra } from './blockchains/cosmos/ledger/terra';
+import { LEDGER as flow } from './blockchains/flow/ledger';
+import { LEDGER as solana } from './blockchains/solana/ledger';
+import { LEDGER as near } from './blockchains/near/ledger';
+import { LEDGER as kusama } from './blockchains/kusama/ledger';
+import { LEDGER as polkadot } from './blockchains/polkadot/ledger';
+import { LEDGER as cosmos } from './blockchains/cosmos/ledger/cosmos';
+import { LEDGER as tezos } from './blockchains/tezos/ledger';
 
 export async function getAccountFromLedger(
   path: BIP44,
-  transport: Transport
+  transport: Transport,
 ): Promise<Account | null> {
   try {
     switch (path.type) {
@@ -24,19 +24,15 @@ export async function getAccountFromLedger(
       */
       // blockchains
       case CHAIN.COSMOS: {
-        const account = await cosmos.getAccount(
-          path,
-          transport,
-          path.prefix || "cosmos"
-        );
+        const account = await cosmos.getAccount(path, transport, path.prefix || 'cosmos');
         return account;
       }
       case CHAIN.PERSISTENCE: {
-        const account = await cosmos.getAccount(path, transport, "persistence");
+        const account = await cosmos.getAccount(path, transport, 'persistence');
         return account;
       }
       case CHAIN.AGORIC: {
-        const account = await cosmos.getAccount(path, transport, "agoric");
+        const account = await cosmos.getAccount(path, transport, 'agoric');
         return account;
       }
       case CHAIN.TERRA: {
@@ -88,7 +84,7 @@ export async function getAccountFromLedger(
 export async function signTxFromLedger(
   path: BIP44,
   transport: Transport,
-  unsignedTx: string
+  unsignedTx: string,
 ): Promise<SignedTx> {
   try {
     switch (path.type) {
@@ -100,21 +96,11 @@ export async function signTxFromLedger(
       */
       // blockchains
       case CHAIN.COSMOS: {
-        const response = await cosmos.signTx(
-          path,
-          transport,
-          unsignedTx,
-          "cosmos"
-        );
+        const response = await cosmos.signTx(path, transport, unsignedTx, 'cosmos');
         return { ...response };
       }
       case CHAIN.PERSISTENCE: {
-        const response = await cosmos.signTx(
-          path,
-          transport,
-          unsignedTx,
-          "persistence"
-        );
+        const response = await cosmos.signTx(path, transport, unsignedTx, 'persistence');
         return { ...response };
       }
       case CHAIN.TERRA: {
@@ -150,7 +136,7 @@ export async function signTxFromLedger(
 export async function signMsgFromLedger(
   path: BIP44,
   _transport: Transport,
-  msg: Message
+  msg: Message,
 ): Promise<SignedMsg> {
   try {
     switch (path.type) {

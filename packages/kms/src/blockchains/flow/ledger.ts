@@ -1,8 +1,8 @@
-import Transport from "@ledgerhq/hw-transport";
-import { Account, BIP44 } from "../../types";
-import { getDerivePath } from "../getDerivePath";
+import Transport from '@ledgerhq/hw-transport';
+import { Account, BIP44 } from '../../types';
+import { getDerivePath } from '../getDerivePath';
 
-const FlowApp = require("@onflow/ledger").default;
+const FlowApp = require('@onflow/ledger').default;
 
 // LEDGER
 export class LEDGER {
@@ -12,7 +12,7 @@ export class LEDGER {
     // console.log(response);
     return {
       address: response.address,
-      publicKey: (response.publicKey as Buffer).toString("hex"),
+      publicKey: (response.publicKey as Buffer).toString('hex'),
     };
   }
 
