@@ -1,7 +1,7 @@
 const TransportNodeHid = require("@ledgerhq/hw-transport-node-hid").default;
 const BN = require("bn.js");
 const { providers, utils, transactions } = require("near-api-js");
-const { KMS, CHAIN } = require("../../lib");
+const { KMS, CHAIN } = require("kms/lib");
 const { getAccount } = require("./_getAccount");
 
 const TYPE = CHAIN.NEAR;
@@ -41,10 +41,7 @@ async function signTx(transport, type, index, account) {
     const signerId = accountIds[Object.keys(accountIds).length - 1];
     const rpc = "https://rpc.testnet.near.org";
     const provider = new providers.JsonRpcProvider(rpc);
-    const accessKey = await provider.query(
-      `access_key/${signerId}/${account}`,
-      ""
-    );
+    const accessKey = await provider.query(`access_key/${signerId}/${account}`, "");
     const nonce = accessKey.nonce + 1;
     const recentBlockHash = utils.serialize.base_decode(accessKey.block_hash);
 
@@ -56,7 +53,7 @@ async function signTx(transport, type, index, account) {
       signerId,
       nonce,
       actions,
-      recentBlockHash
+      recentBlockHash,
     );
 
     const bytes = transaction.encode();
@@ -71,7 +68,7 @@ async function signTx(transport, type, index, account) {
       },
       {
         serializedTx: Buffer.from(bytes).toString("base64"),
-      }
+      },
     );
 
     // eslint-disable-next-line no-console

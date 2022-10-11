@@ -10,6 +10,20 @@
   "workspaces": [
     "packages/*"
   ],
+  "keywords": [
+    "dsrv",
+    "blockchain",
+    "ledger",
+    "signer",
+    "kms",
+    "key management system",
+    "keystore",
+    "store",
+    "mnemonic",
+    "bip39",
+    "bip32",
+    "bip44"
+  ],
   "contributors": [
     {
       "name": "sunny0529",
@@ -23,5 +37,11 @@
       "name": "Nahee-Park",
       "url": "https://github.com/Nahee-Park"
     }
-  ]
+  ],
+  "scripts": {
+    "build:kms": "cd packages/kms && tsc",
+    "prettier": "prettier --write --config ./.prettierrc \"**/*.{ts,tsx}\"",
+    "lint": "eslint './src/**/*.{ts,tsx}'",
+    "lint:fix": "eslint --fix './src/**/*.{ts,tsx}'"
+  }
 }

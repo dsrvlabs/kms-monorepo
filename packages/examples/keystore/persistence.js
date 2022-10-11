@@ -1,6 +1,6 @@
 const { TxRaw } = require("cosmjs-types/cosmos/tx/v1beta1/tx");
 const { StargateClient } = require("@cosmjs/stargate");
-const { KMS, CHAIN } = require("../../lib");
+const { KMS, CHAIN } = require("kms/lib");
 
 const { createKeyStore, getAccount } = require("./_getAccount");
 
@@ -9,15 +9,7 @@ const MNEMONIC = require("../mnemonic.json");
 const TYPE = CHAIN.PERSISTENCE;
 const INDEX = 0;
 
-async function signTx(
-  path,
-  keyStore,
-  password,
-  account,
-  accountNumber,
-  sequence,
-  chainId
-) {
+async function signTx(path, keyStore, password, account, accountNumber, sequence, chainId) {
   const kms = new KMS({
     keyStore,
     transport: null,
@@ -54,7 +46,7 @@ async function signTx(
           },
         ],
         sequence: `${sequence}`,
-      }
+      },
     );
     // eslint-disable-next-line no-console
     console.log("response - ", response);
@@ -70,11 +62,7 @@ async function run() {
 
   const PASSWORD = MNEMONIC.password;
   const keyStore = await createKeyStore(PASSWORD);
-  const account = await getAccount(
-    { type: TYPE, account: 0, index: INDEX },
-    keyStore,
-    PASSWORD
-  );
+  const account = await getAccount({ type: TYPE, account: 0, index: INDEX }, keyStore, PASSWORD);
 
   const client = await StargateClient.connect(rpcUrl);
 
@@ -95,14 +83,13 @@ async function run() {
     account.address,
     sequence.accountNumber,
     sequence.sequence,
-    chainId
+    chainId,
   );
   const txRawCall = signing.signedTx.txRaw;
   const txBytes = TxRaw.encode(txRawCall).finish();
   const testing = await client.broadcastTx(txBytes);
-   // eslint-disable-next-line no-console
+  // eslint-disable-next-line no-console
   console.log(testing);
-
 }
 
 run();

@@ -1,6 +1,6 @@
 const TransportNodeHid = require("@ledgerhq/hw-transport-node-hid").default;
+const { CHAIN } = require("kms/lib");
 const { getAccount } = require("./ledger/_getAccount");
-const { CHAIN } = require("../lib");
 
 const TYPE = CHAIN.CELO;
 const INDEX = 0;

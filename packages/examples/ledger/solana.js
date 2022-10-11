@@ -11,7 +11,7 @@ const {
   // sendAndConfirmRawTransaction,
 } = require("@solana/web3.js");
 
-const { KMS, CHAIN } = require("../../lib");
+const { KMS, CHAIN } = require("kms/lib");
 const { getAccount } = require("./_getAccount");
 
 const TYPE = CHAIN.SOLANA;
@@ -77,7 +77,7 @@ async function signTx(transport, type, index, account) {
         fromPubkey: ACCOUNTPUBKEY,
         lamports: Number(0.1) * LAMPORTS_PER_SOL,
         toPubkey: ACCOUNTPUBKEY,
-      })
+      }),
     );
 
     const response = await kms.signTx(
@@ -87,10 +87,8 @@ async function signTx(transport, type, index, account) {
         index,
       },
       {
-        serializedTx: transaction
-          .serialize({ verifySignatures: false })
-          .toString("hex"),
-      }
+        serializedTx: transaction.serialize({ verifySignatures: false }).toString("hex"),
+      },
     );
     // eslint-disable-next-line no-console
     console.log("response - ", response);

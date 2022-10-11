@@ -2,7 +2,7 @@
 
 // eslint-disable-next-line import/no-extraneous-dependencies
 const TransportNodeHid = require("@ledgerhq/hw-transport-node-hid").default;
-const { KMS, CHAIN } = require("../../lib");
+const { KMS, CHAIN } = require("kms/lib");
 const { getAccount } = require("./_getAccount");
 
 const TYPE = CHAIN.CELO;
@@ -40,7 +40,7 @@ async function signTx(transport, type, index, to) {
         to,
         value: "0x01",
         chainId: 44787,
-      }
+      },
     );
     // eslint-disable-next-line no-console
     console.log("response - ", response);

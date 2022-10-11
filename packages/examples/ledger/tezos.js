@@ -1,6 +1,6 @@
 const TransportNodeHid = require("@ledgerhq/hw-transport-node-hid").default;
 
-const { CHAIN } = require("../../lib");
+const { CHAIN } = require("kms/lib");
 const { getAccount } = require("./_getAccount");
 
 const TYPE = CHAIN.TEZOS;

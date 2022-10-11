@@ -1,20 +1,12 @@
 const TransportNodeHid = require("@ledgerhq/hw-transport-node-hid").default;
 const { StargateClient } = require("@cosmjs/stargate");
-const { KMS, CHAIN } = require("../../lib");
+const { KMS, CHAIN } = require("kms/lib");
 const { getAccount } = require("./_getAccount");
 
 const TYPE = CHAIN.COSMOS;
 const INDEX = 0;
 
-async function signTx(
-  transport,
-  type,
-  index,
-  account,
-  accountNumber,
-  sequence,
-  chainId
-) {
+async function signTx(transport, type, index, account, accountNumber, sequence, chainId) {
   const kms = new KMS({
     keyStore: null,
     transport,
@@ -56,7 +48,7 @@ async function signTx(
           },
         ],
         sequence: `${sequence}`,
-      }
+      },
     );
     // eslint-disable-next-line no-console
     console.log("response - ", response);
@@ -90,11 +82,11 @@ async function run() {
     account,
     sequence.accountNumber,
     sequence.sequence,
-    chainId
+    chainId,
   );
 
   const testing = await client.broadcastTx(
-    Uint8Array.from(Buffer.from(signedTx.serializedTx.replace("0x", ""), "hex"))
+    Uint8Array.from(Buffer.from(signedTx.serializedTx.replace("0x", ""), "hex")),
   );
   // eslint-disable-next-line no-console
   console.log(testing);

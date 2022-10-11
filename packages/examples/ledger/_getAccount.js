@@ -1,4 +1,4 @@
-const { KMS } = require("../../lib");
+const { KMS } = require("kms/lib");
 
 exports.getAccount = async function getAccount(transport, type, index) {
   const kms = new KMS({
