@@ -1,0 +1,8 @@
+{
+  "exclude": ["packages/**/tests/**", "packages/**/dist/**"],
+  "references": [
+    {
+      "path": "./packages/kms"
+    }
+  ]
+}

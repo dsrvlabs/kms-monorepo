@@ -41,6 +41,7 @@
   "scripts": {
     "build:kms": "cd packages/kms && tsc",
     "prettier": "prettier --write --config ./.prettierrc \"**/*.{ts,tsx}\"",
+    "test": "cd packages/examples && node",
     "lint": "eslint './src/**/*.{ts,tsx}'",
     "lint:fix": "eslint --fix './src/**/*.{ts,tsx}'"
   }
