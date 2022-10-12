@@ -1,4 +1,4 @@
-/node_modules
-packages/*/node_modules
-packages/*/mnemonic.json
-packages/*/lib
+**/node_modules
+**/lib
+**/mnemonic.json
+**/*.tsbuildinfo
