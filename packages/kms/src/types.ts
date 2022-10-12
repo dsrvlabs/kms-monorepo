@@ -1,39 +1,4 @@
-export interface BIP44 {
-  type: number;
-  account: number;
-  index: number;
-  password?: string;
-  prefix?: string;
-}
-
-export interface KeyStore {
-  t: number;
-  m: number;
-  s: string;
-  j: string[];
-}
-
-export interface Account {
-  address: string;
-  publicKey: string;
-}
-
-export interface SignedTx {
-  hash?: string;
-  signature?: string;
-  serializedTx?: string;
-}
-
-export interface Message {
-  type: string;
-  data: string;
-}
-
-export interface SignedMsg {
-  msg: Message;
-  signedMsg?: any;
-}
-
+// https://github.com/satoshilabs/slips/blob/master/slip-0044.md
 export const CHAIN = {
   DSRV: 8080,
   TERRA: 330,
@@ -52,3 +17,52 @@ export const CHAIN = {
   SUI: 784,
   APTOS: 637,
 } as const;
+
+export interface KeyStore {
+  t: number;
+  m: number;
+  s: string;
+  j: string[];
+}
+
+export interface SimpleKeypair {
+  publicKey: string;
+  privateKey: string;
+}
+
+export interface BIP44 {
+  type: number;
+  account: number;
+  index: number;
+  password?: string;
+
+  // Cosmos
+  prefix?: string;
+
+  // EIP-2334 specifies following derivation paths:
+  // m/12381/3600/0/0   for withdrawal
+  // m/12381/3600/0/0/0 for signing
+  keyType?: 'withdrawal' | 'signing';
+}
+
+export interface PathOption {
+  path: BIP44;
+  mnemonic: string;
+}
+
+export interface Account {
+  address: string;
+  publicKey: string;
+}
+
+export interface SignedTx {
+  hash?: string;
+  signature?: string;
+  serializedTx?: string;
+}
+
+export interface SignedMsg {
+  message: string;
+  signature?: string;
+  publicKey?: string;
+}
