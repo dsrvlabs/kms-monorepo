@@ -1,22 +1,23 @@
 {
-  "compilerOptions": {
-    "lib": ["dom", "es2015", "es2016"],
-    "target": "es5",
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "jsx": "preserve",
-    "composite": true,
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "strict": true,
-    "declaration": true,
-    "sourceMap": true,
-    "skipLibCheck": true,
-    "noImplicitAny": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "rootDir": "src",
-    "outDir": "lib"
-  },
-  "include": ["src", "types/"]
+    "compilerOptions": {
+        "lib": ["dom", "es2020"],
+        "target": "es2020",
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "jsx": "preserve",
+        "composite": true,
+        "allowSyntheticDefaultImports": true,
+        "esModuleInterop": true,
+        "strict": true,
+        "declaration": true,
+        "sourceMap": true,
+        "skipLibCheck": true,
+        "noImplicitAny": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "rootDir": "src",
+        "outDir": "lib"
+    },
+    "include": ["src"],
+    "exclude": ["**/__tests__"]
 }

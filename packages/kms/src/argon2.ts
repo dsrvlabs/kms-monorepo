@@ -1,10 +1,8 @@
 import { JWK, JWE, util } from 'node-jose';
 import { encode, decode } from 'bs58';
 import { randomBytes } from 'crypto';
-// import { hash } from "argon2-browser";
+import { hash } from 'argon2-browser';
 import { KeyStore } from './types';
-
-const { hash } = require('argon2-browser');
 
 const LENGTH = 32;
 
