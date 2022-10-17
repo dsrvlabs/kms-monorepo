@@ -19,5 +19,9 @@
     "import/extensions": "off",
     "import/prefer-default-export": "off",
     "prettier/prettier": "error"
+  },
+  "ignorePatterns": ["**/__tests__", "**/lib"],
+  "env": {
+    "es2020": true
   }
 }

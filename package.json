@@ -1,6 +1,6 @@
 {
-  "name": "kms-monorepo",
-  "version": "1.0.0",
+  "name": "@dsrv/kms-monorepo",
+  "version": "0.0.4",
   "description": "blockchain key managament system",
   "main": "index.js",
   "repository": "https://github.com/dsrvlabs/kms-monorepo",
@@ -41,8 +41,13 @@
   "scripts": {
     "build:kms": "cd packages/kms && tsc",
     "prettier": "prettier --write --config ./.prettierrc \"**/*.{ts,tsx}\"",
-    "test": "cd packages/examples && node",
+    "test:example": "cd packages/examples && node",
+    "test:kms": "cd packages/kms && jest",
     "lint": "eslint './packages/**/*.{ts,tsx}'",
-    "lint:fix": "eslint --fix './packages/**/*.{ts,tsx}'"
+    "lint:fix": "eslint --fix './packages/**/*.{ts,tsx}'",
+    "prepare": "husky install"
+  },
+  "devDependencies": {
+    "husky": "^8.0.0"
   }
 }
