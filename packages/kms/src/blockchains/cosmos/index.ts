@@ -3,8 +3,8 @@ import * as ecc from 'tiny-secp256k1';
 import { sha256 } from '@noble/hashes/sha256';
 import { ripemd160 } from '@noble/hashes/ripemd160';
 import { bech32 } from 'bech32';
-import { addHexPrefix, stripHexPrefix } from '../utils';
-import { Account, PathOption, SignedTx, SimpleKeypair } from '../../types';
+import { addHexPrefix, isHexString, stripHexPrefix } from '../utils';
+import { Account, PathOption, SignedMsg, SignedTx, SimpleKeypair } from '../../types';
 import { Signer } from '../signer';
 
 export { CHAIN } from '../../types';
@@ -44,16 +44,28 @@ export class Cosmos extends Signer {
   }
 
   static signTx(pk: string | PathOption, serializedTx: string): SignedTx {
+    const { signature } = Cosmos.signMsg(pk, serializedTx);
+    return {
+      serializedTx,
+      signature: Buffer.from(stripHexPrefix(signature || ''), 'hex').toString('base64'),
+    };
+  }
+
+  static signMsg(pk: string | PathOption, message: string): SignedMsg {
     const keyPair = Cosmos.getKeyPair(pk);
-    const hash = sha256(Buffer.from(stripHexPrefix(serializedTx), 'hex'));
+    const hash = sha256(
+      isHexString(message)
+        ? Buffer.from(stripHexPrefix(message), 'hex')
+        : Buffer.from(message, 'utf8'),
+    );
     const { signature } = ecc.signRecoverable(
       hash,
       Buffer.from(stripHexPrefix(keyPair.privateKey), 'hex'),
     );
-
     return {
-      serializedTx,
-      signature: Buffer.from(signature).toString('base64'),
+      message,
+      signature: addHexPrefix(Buffer.from(signature).toString('hex')),
+      publicKey: keyPair.publicKey,
     };
   }
 }
