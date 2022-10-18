@@ -4,7 +4,10 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
-    "@dsrv/kms": "0.4.0"
+    "@cosmjs/stargate": "^0.29.2",
+    "@dsrv/kms": "0.4.0",
+    "aptos": "^1.3.16",
+    "js-sha3": "^0.8.0"
   },
   "devDependencies": {}
 }
