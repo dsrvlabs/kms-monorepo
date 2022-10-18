@@ -11,6 +11,7 @@ import { getAptosSerializedTx } from './signTransaction/getAptosSerializedTx';
 import { getCosmosSerializedTx } from './signTransaction/getCosmosSerializedTx';
 import { getEthereumSerializedTx } from './signTransaction/getEthereumSerializedTx';
 import { getCeloSerializedTx } from './signTransaction/getCeleSerializedTx';
+import { getNearSerializedTx } from './signTransaction/getNearSerializedTx';
 
 const MNEMONIC = require('./mnemonic.json');
 
@@ -89,16 +90,35 @@ const getCeloSignedTx = () => {
   return celoSignedTx;
 };
 
+const getNearSignedTx = async () => {
+  const nearAccount = Near.getAccount({
+    mnemonic,
+    path: { type: CHAIN.NEAR, account: 0, index: 1 },
+  });
+  const serializedTx = await getNearSerializedTx(nearAccount);
+  const nearSignedTx = Near.signTx(
+    {
+      mnemonic,
+      path: { type: CHAIN.NEAR, account: 0, index: 0 },
+    },
+    serializedTx,
+  );
+
+  return nearSignedTx;
+};
+
 const main = async () => {
   const aptosSignedTx = await getAptosSignedTx();
   const cosmosSignedTx = await getCosmosSignedTx();
   const ethereumSignedTx = getEthereumSignedTx();
   const celoSignedTx = getCeloSignedTx();
+  const nearSignedTx = await getNearSignedTx();
 
   console.log('Aptos SignedTx : ', aptosSignedTx);
   console.log('Cosmos SignedTx : ', cosmosSignedTx);
   console.log('Ethereum SignedTx : ', ethereumSignedTx);
   console.log('Celo SignedTx : ', celoSignedTx);
+  console.log('Near SignedTx : ', nearSignedTx);
 };
 
 main();

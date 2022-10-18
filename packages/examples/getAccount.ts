@@ -72,7 +72,7 @@ const getEth2AccountSign = () => {
 const getNearAccount = () => {
   const nearAccount = Near.getAccount({
     mnemonic,
-    path: { type: CHAIN.NEAR, account: 0, index: 0 },
+    path: { type: CHAIN.NEAR, account: 0, index: 1 },
   });
   return nearAccount;
 };
