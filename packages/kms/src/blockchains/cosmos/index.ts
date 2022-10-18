@@ -47,7 +47,7 @@ export class Cosmos extends Signer {
     const { signature } = Cosmos.signMsg(pk, serializedTx);
     return {
       serializedTx,
-      signature: Buffer.from(stripHexPrefix(signature || ''), 'hex').toString('base64'),
+      signature,
     };
   }
 
