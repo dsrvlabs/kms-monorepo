@@ -57,7 +57,7 @@ test('Cosmos - signTx', () => {
   ).toEqual({
     serializedTx: signDoc,
     signature:
-      'cKA8uaPLmDU7wMuPaO7vHT1q1xEfDF6uksWyw5R+26xHTsDn7ukgU566AqXp2rh5/wbei/USz9/iV7tzoPSbew==',
+      '0x70a03cb9a3cb98353bc0cb8f68eeef1d3d6ad7111f0c5eae92c5b2c3947edbac474ec0e7eee920539eba02a5e9dab879ff06de8bf512cfdfe257bb73a0f49b7b',
   });
 });
 
