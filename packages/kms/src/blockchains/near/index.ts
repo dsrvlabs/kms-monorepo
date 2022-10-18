@@ -1,5 +1,5 @@
 import { decode, encode } from 'bs58';
-import nacl from 'tweetnacl';
+import { SignKeyPair, sign as naclSign } from 'tweetnacl';
 import { sha256 } from '@noble/hashes/sha256';
 import { derivePath } from 'ed25519-hd-key';
 import { baseEncode } from 'borsh';
@@ -9,9 +9,9 @@ import { getDerivePath, Signer } from '../signer';
 
 export { CHAIN } from '../../types';
 
-function sign(keyPair: nacl.SignKeyPair, message: Uint8Array): { hash: string; signature: string } {
+function sign(keyPair: SignKeyPair, message: Uint8Array): { hash: string; signature: string } {
   const hash = sha256(message);
-  const signature = nacl.sign.detached(
+  const signature = naclSign.detached(
     sha256(message),
     decode(encode(Buffer.from(keyPair.secretKey))),
   );
@@ -28,13 +28,13 @@ export class Near extends Signer {
     }
     const { seed } = Signer.getChild(pk);
     const { key } = derivePath(getDerivePath(pk.path)[0], seed.toString('hex'));
-    const keyPair = nacl.sign.keyPair.fromSeed(key);
+    const keyPair = naclSign.keyPair.fromSeed(key);
     return `${encode(Buffer.from(keyPair.secretKey))}`;
   }
 
-  protected static getKeyPair(pk: string | PathOption): nacl.SignKeyPair {
+  protected static getKeyPair(pk: string | PathOption): SignKeyPair {
     const secretKey = decode(Near.getPrivateKey(pk));
-    const keyPair = nacl.sign.keyPair.fromSecretKey(secretKey);
+    const keyPair = naclSign.keyPair.fromSecretKey(secretKey);
     return keyPair;
   }
 

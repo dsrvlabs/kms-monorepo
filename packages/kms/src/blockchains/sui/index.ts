@@ -1,7 +1,7 @@
 import { decode, encode } from 'bs58';
 // eslint-disable-next-line camelcase
 import { sha3_256 } from '@noble/hashes/sha3';
-import nacl from 'tweetnacl';
+import { SignKeyPair, sign as naclSign } from 'tweetnacl';
 import { derivePath } from 'ed25519-hd-key';
 import { addHexPrefix } from '../utils';
 import { Account, PathOption, SignedTx } from '../../types';
@@ -22,13 +22,13 @@ export class Sui extends Signer {
     }
     const { seed } = Signer.getChild(pk);
     const { key } = derivePath(getDerivePath(pk.path)[0], seed.toString('hex'));
-    const keyPair = nacl.sign.keyPair.fromSeed(key);
+    const keyPair = naclSign.keyPair.fromSeed(key);
     return `${encode(Buffer.from(keyPair.secretKey))}`;
   }
 
-  protected static getKeyPair(pk: string | PathOption): nacl.SignKeyPair {
+  protected static getKeyPair(pk: string | PathOption): SignKeyPair {
     const secretKey = decode(Sui.getPrivateKey(pk));
-    const keyPair = nacl.sign.keyPair.fromSecretKey(secretKey);
+    const keyPair = naclSign.keyPair.fromSecretKey(secretKey);
     return keyPair;
   }
 
@@ -49,7 +49,7 @@ export class Sui extends Signer {
     const temp = Buffer.from(serializedTx, 'base64');
     const hash = Buffer.from(sha3_256(temp)).toString('base64');
     const signature = Buffer.from(
-      nacl.sign.detached(Buffer.from(serializedTx, 'base64'), keyPair.secretKey),
+      naclSign.detached(Buffer.from(serializedTx, 'base64'), keyPair.secretKey),
     ).toString('base64');
     return {
       serializedTx,
