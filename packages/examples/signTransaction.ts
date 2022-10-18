@@ -10,6 +10,7 @@ import { Aptos } from '@dsrv/kms/lib/blockchains/aptos';
 import { getAptosSerializedTx } from './signTransaction/getAptosSerializedTx';
 import { getCosmosSerializedTx } from './signTransaction/getCosmosSerializedTx';
 import { getEthereumSerializedTx } from './signTransaction/getEthereumSerializedTx';
+import { getCeloSerializedTx } from './signTransaction/getCeleSerializedTx';
 
 const MNEMONIC = require('./mnemonic.json');
 
@@ -70,14 +71,34 @@ const getEthereumSignedTx = () => {
   return ethereumSignedTx;
 };
 
+/* Celo signTx */
+const getCeloSignedTx = () => {
+  const celoAccount = Ethereum.getAccount({
+    mnemonic,
+    path: { type: CHAIN.CELO, account: 0, index: 0 },
+  });
+  const serializedTx = getCeloSerializedTx(celoAccount);
+  const celoSignedTx = Ethereum.signTx(
+    {
+      mnemonic,
+      path: { type: CHAIN.ETHEREUM, account: 0, index: 0 },
+    },
+    serializedTx,
+  );
+
+  return celoSignedTx;
+};
+
 const main = async () => {
   const aptosSignedTx = await getAptosSignedTx();
   const cosmosSignedTx = await getCosmosSignedTx();
   const ethereumSignedTx = getEthereumSignedTx();
+  const celoSignedTx = getCeloSignedTx();
 
   console.log('Aptos SignedTx : ', aptosSignedTx);
   console.log('Cosmos SignedTx : ', cosmosSignedTx);
   console.log('Ethereum SignedTx : ', ethereumSignedTx);
+  console.log('Celo SignedTx : ', celoSignedTx);
 };
 
 main();
