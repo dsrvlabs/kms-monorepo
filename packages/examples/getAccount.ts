@@ -6,8 +6,7 @@ import { Eth2 } from '@dsrv/kms/lib/blockchains/eth2';
 import { Near } from '@dsrv/kms/lib/blockchains/near';
 import { Solana } from '@dsrv/kms/lib/blockchains/solana';
 import { Sui } from '@dsrv/kms/lib/blockchains/sui';
-
-const { Aptos } = require('@dsrv/kms');
+import { Aptos } from '@dsrv/kms/lib/blockchains/aptos';
 
 const MNEMONIC = require('./mnemonic.json');
 

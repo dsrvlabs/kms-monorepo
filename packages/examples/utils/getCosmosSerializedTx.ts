@@ -1,9 +1,10 @@
 import { Account } from '@dsrv/kms/src/types';
+import { RECEIVER_ADDRESS, RPC_URL } from '../constants';
 
 const { StargateClient } = require('@cosmjs/stargate');
 
 export const getCosmosSerializedTx = async (account: Account) => {
-  const rpcUrl = 'https://rpc.cosmos.network';
+  const rpcUrl = RPC_URL.COSMOS;
   const client = await StargateClient.connect(rpcUrl);
   const sequence = await client.getSequence(account.address);
   const chainId = await client.getChainId();
@@ -30,7 +31,7 @@ export const getCosmosSerializedTx = async (account: Account) => {
         typeUrl: '/cosmos.bank.v1beta1.MsgSend',
         value: {
           fromAddress: account,
-          toAddress: account,
+          toAddress: RECEIVER_ADDRESS.COSMOS,
           amount: [{ denom: 'uatom', amount: '10000' }],
         },
       },

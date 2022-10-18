@@ -1,9 +1,11 @@
 import { Account } from '@dsrv/kms/src/types';
+import { RECEIVER_ADDRESS } from '../constants';
 
-export const getCeloSerializedTx = (account: Account) => {
+export const getEthereumSerializedTx = (account: Account) => {
   const transactionParameters = {
     from: account.address,
-    to: '0xb700C3C7DfA7830b7943E2eE9F5e1cC359e5F9eA', // allthatnode
+    to: RECEIVER_ADDRESS.ETHEREUM,
+    value: '0x00',
     data: '0x6057361d000000000000000000000000000000000000000000000000000000000008a198',
   };
 

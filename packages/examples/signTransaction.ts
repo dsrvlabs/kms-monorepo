@@ -7,12 +7,12 @@ import { Near } from '@dsrv/kms/lib/blockchains/near';
 import { Solana } from '@dsrv/kms/lib/blockchains/solana';
 import { Sui } from '@dsrv/kms/lib/blockchains/sui';
 import { Aptos } from '@dsrv/kms/lib/blockchains/aptos';
-import { getAptosSerializedTx } from './signTransaction/getAptosSerializedTx';
-import { getCosmosSerializedTx } from './signTransaction/getCosmosSerializedTx';
-import { getEthereumSerializedTx } from './signTransaction/getEthereumSerializedTx';
-import { getCeloSerializedTx } from './signTransaction/getCeleSerializedTx';
-import { getNearSerializedTx } from './signTransaction/getNearSerializedTx';
-import { getSolanaSerializedTx } from './signTransaction/getSolanaSerializedTx';
+import { getAptosSerializedTx } from './utils/getAptosSerializedTx';
+import { getCosmosSerializedTx } from './utils/getCosmosSerializedTx';
+import { getEthereumSerializedTx } from './utils/getEthereumSerializedTx';
+import { getCeloSerializedTx } from './utils/getCeleSerializedTx';
+import { getNearSerializedTx } from './utils/getNearSerializedTx';
+import { getSolanaSerializedTx } from './utils/getSolanaSerializedTx';
 
 const MNEMONIC = require('./mnemonic.json');
 

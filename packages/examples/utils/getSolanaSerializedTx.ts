@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 import { Account } from '@dsrv/kms/src/types';
+import { RECEIVER_ADDRESS, RPC_URL } from '../constants';
 
 const {
   Connection,
@@ -10,20 +11,21 @@ const {
 } = require('@solana/web3.js');
 
 export const getSolanaSerializedTx = async (account: Account) => {
-  const RPC = 'https://api.devnet.solana.com'; // DEV NET
+  const RPC = RPC_URL.SOLANA;
   const CONNECTION = new Connection(RPC, 'confirmed');
-  const ACCOUNTPUBKEY = new PublicKey(account.address);
+  const FROMACCOUNTPUBKEY = new PublicKey(account.address);
+  const TOACCOUNTPUBKEY = new PublicKey(RECEIVER_ADDRESS.SOLANA);
   const RECENTBLOCKHASH = await CONNECTION.getLatestBlockhash();
 
   const transaction = new Transaction({
     recentBlockhash: RECENTBLOCKHASH.blockhash,
-    feePayer: ACCOUNTPUBKEY,
+    feePayer: FROMACCOUNTPUBKEY,
   });
   transaction.add(
     SystemProgram.transfer({
-      fromPubkey: ACCOUNTPUBKEY,
+      fromPubkey: FROMACCOUNTPUBKEY,
       lamports: Number(0.1) * LAMPORTS_PER_SOL,
-      toPubkey: ACCOUNTPUBKEY,
+      toPubkey: TOACCOUNTPUBKEY,
     }),
   );
 

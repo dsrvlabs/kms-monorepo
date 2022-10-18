@@ -1,11 +1,12 @@
 /* eslint-disable no-console */
 import { Account } from '@dsrv/kms/src/types';
+import { RPC_URL } from '../constants';
 
 const { AptosClient, TxnBuilderTypes, BCS, getAccountResources } = require('aptos');
 // eslint-disable-next-line camelcase
 const { sha3_256 } = require('js-sha3');
 
-const API = 'https://fullnode.devnet.aptoslabs.com/v1';
+const API = RPC_URL.APTOS;
 
 const aptos = new AptosClient(API);
 
@@ -14,7 +15,6 @@ const getAccountExists = async (address: string) => {
     await aptos.getAccountResources(address);
   } catch (error) {
     const chainId = await aptos.getChainId();
-    // const faucetClient = new FaucetClient(NODE_URL, FAUCET_URL); // TODO: 수정 필요
     const url = `https://faucet.${
       chainId === 2 ? 'testnet' : 'devnet'
     }.aptoslabs.com/mint?amount=0&address=${address.replace('0x', '')}`;
@@ -50,9 +50,6 @@ export const getAptosSerializedTx = async (account: Account) => {
     ),
   );
 
-  console.log('MAX_GAS_AMOUNT', MAX_GAS_AMOUNT);
-  console.log('GAS_UNIT_PRICE', GAS_UNIT_PRICE);
-
   const rawTxn = new TxnBuilderTypes.RawTransaction(
     TxnBuilderTypes.AccountAddress.fromHex(account.address),
     sequenceNumber,
@@ -68,6 +65,5 @@ export const getAptosSerializedTx = async (account: Account) => {
     Buffer.from(BCS.bcsToBytes(rawTxn)),
   ]).toString('hex')}`;
 
-  console.log('rawTxnWithSalt>>>', rawTxnWithSalt);
   return rawTxnWithSalt;
 };
