@@ -48,6 +48,14 @@
     "prepare": "husky install"
   },
   "devDependencies": {
-    "husky": "^8.0.0"
+    "husky": "^8.0.0",
+    "lint-staged": "^13.0.3"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "eslint",
+      "cd packages/kms && jest",
+      "git add"
+    ]
   }
 }
