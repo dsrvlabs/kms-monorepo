@@ -1,5 +1,5 @@
 import { Account } from '@dsrv/kms/src/types';
-import { RECEIVER_ADDRESS } from '../constants';
+import { RECEIVER_ADDRESS } from '../../constants';
 
 export const getCeloSerializedTx = (account: Account) => {
   const transactionParameters = {

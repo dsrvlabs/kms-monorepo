@@ -1,5 +1,5 @@
 import { Account } from '@dsrv/kms/src/types';
-import { RECEIVER_ADDRESS, RPC_URL } from '../constants';
+import { RPC_URL, RECEIVER_ADDRESS } from '../../constants';
 
 const { StargateClient } = require('@cosmjs/stargate');
 

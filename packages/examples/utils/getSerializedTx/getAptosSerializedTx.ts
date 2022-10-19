@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import { Account } from '@dsrv/kms/src/types';
-import { RPC_URL } from '../constants';
+import { RPC_URL } from '../../constants';
 
 const { AptosClient, TxnBuilderTypes, BCS, getAccountResources } = require('aptos');
 // eslint-disable-next-line camelcase
@@ -10,7 +10,7 @@ const API = RPC_URL.APTOS;
 
 const aptos = new AptosClient(API);
 
-const getAccountExists = async (address: string) => {
+export const getAccountExists = async (address: string) => {
   try {
     await aptos.getAccountResources(address);
   } catch (error) {

@@ -3,7 +3,7 @@ import { Account } from '@dsrv/kms/src/types';
 import { providers, transactions, utils } from 'near-api-js';
 
 import { AccessKeyView } from 'near-api-js/lib/providers/provider';
-import { RECEIVER_ADDRESS, RPC_URL } from '../constants';
+import { RPC_URL, RECEIVER_ADDRESS } from '../../constants';
 
 const BN = require('bn.js');
 

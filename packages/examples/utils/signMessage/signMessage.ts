@@ -3,13 +3,8 @@ import { CHAIN } from '@dsrv/kms/lib/types';
 import { Near } from '@dsrv/kms/lib/blockchains/near';
 import { Solana } from '@dsrv/kms/lib/blockchains/solana';
 
-const MNEMONIC = require('./mnemonic.json');
-
-const mnemonic = MNEMONIC.bip44;
-const message = 'Hello, world!';
-
 /* Near - signMsg */
-const getNearSignMsg = () => {
+export const getNearSignMsg = (mnemonic: string, message: string) => {
   const nearSignMsg = Near.signMsg(
     {
       mnemonic,
@@ -21,7 +16,7 @@ const getNearSignMsg = () => {
 };
 
 /* Solana - signMsg */
-const getSolanaSignMsg = () => {
+export const getSolanaSignMsg = (mnemonic: string, message: string) => {
   const solanaSignMsg = Solana.signMsg(
     {
       mnemonic,
@@ -31,13 +26,3 @@ const getSolanaSignMsg = () => {
   );
   return solanaSignMsg;
 };
-
-const main = () => {
-  const nearSignMsg = getNearSignMsg();
-  const solanaSignMsg = getSolanaSignMsg();
-
-  console.log('Naer SignMsg : ', nearSignMsg);
-  console.log('Solana SignMsg : ', solanaSignMsg);
-};
-
-main();

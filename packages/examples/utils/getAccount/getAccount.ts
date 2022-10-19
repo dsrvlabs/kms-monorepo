@@ -8,12 +8,8 @@ import { Solana } from '@dsrv/kms/lib/blockchains/solana';
 import { Sui } from '@dsrv/kms/lib/blockchains/sui';
 import { Aptos } from '@dsrv/kms/lib/blockchains/aptos';
 
-const MNEMONIC = require('./mnemonic.json');
-
-const mnemonic = MNEMONIC.bip44;
-
 /* Aptos getAccount */
-const getAptosAccount = () => {
+export const getAptosAccount = (mnemonic: string) => {
   const aptosAccount = Aptos.getAccount({
     mnemonic,
     path: { type: CHAIN.APTOS, account: 0, index: 0 },
@@ -22,7 +18,7 @@ const getAptosAccount = () => {
 };
 
 /* Cosmos getAccount */
-const getCosmosAccount = () => {
+export const getCosmosAccount = (mnemonic: string) => {
   const cosmosAccount = Cosmos.getAccount({
     mnemonic,
     path: { type: CHAIN.COSMOS, account: 0, index: 0 },
@@ -31,7 +27,7 @@ const getCosmosAccount = () => {
 };
 
 /* Ethereum getAccount */
-const getEthereumAccount = () => {
+export const getEthereumAccount = (mnemonic: string) => {
   const ethereumAccount = Ethereum.getAccount({
     mnemonic,
     path: { type: CHAIN.ETHEREUM, account: 0, index: 0 },
@@ -40,7 +36,7 @@ const getEthereumAccount = () => {
 };
 
 /* Eth2 getAccount (withdrawal)  */
-const getEth2AccountWithdrawal = () => {
+export const getEth2AccountWithdrawal = (mnemonic: string) => {
   const eth2AccountWithdrawal = Eth2.getAccount({
     mnemonic,
     path: {
@@ -54,7 +50,7 @@ const getEth2AccountWithdrawal = () => {
 };
 
 /* Eth2 getAccount (signing)  */
-const getEth2AccountSign = () => {
+export const getEth2AccountSign = (mnemonic: string) => {
   const eth2AccountSign = Eth2.getAccount({
     mnemonic,
     path: {
@@ -68,7 +64,7 @@ const getEth2AccountSign = () => {
 };
 
 /* Near getAccount */
-const getNearAccount = () => {
+export const getNearAccount = (mnemonic: string) => {
   const nearAccount = Near.getAccount({
     mnemonic,
     path: { type: CHAIN.NEAR, account: 0, index: 1 },
@@ -77,7 +73,7 @@ const getNearAccount = () => {
 };
 
 /* Solana getAccount */
-const getSolanaAccount = () => {
+export const getSolanaAccount = (mnemonic: string) => {
   const solanaAccount = Solana.getAccount({
     mnemonic,
     path: { type: CHAIN.SOLANA, account: 0, index: 0 },
@@ -86,32 +82,10 @@ const getSolanaAccount = () => {
 };
 
 /* Sui getAccount */
-const getSuiAccount = () => {
+export const getSuiAccount = (mnemonic: string) => {
   const suiAccount = Sui.getAccount({
     mnemonic,
     path: { type: CHAIN.SUI, account: 0, index: 0 },
   });
   return suiAccount;
 };
-
-const main = () => {
-  const aptosAccount = getAptosAccount();
-  const cosmosAccount = getCosmosAccount();
-  const ethereumAccount = getEthereumAccount();
-  const eth2AccountWithdrawal = getEth2AccountWithdrawal();
-  const eth2AccountSign = getEth2AccountSign();
-  const nearAccount = getNearAccount();
-  const solanaAccount = getSolanaAccount();
-  const suiAccount = getSuiAccount();
-
-  console.log('aptosAccount', aptosAccount);
-  console.log('cosmosAccount', cosmosAccount);
-  console.log('ethereumAccount', ethereumAccount);
-  console.log('eth2AccountWithdrawal', eth2AccountWithdrawal);
-  console.log('eth2AccountSign', eth2AccountSign);
-  console.log('nearAccount', nearAccount);
-  console.log('solanaAccount', solanaAccount);
-  console.log('suiAccount', suiAccount);
-};
-
-main();
