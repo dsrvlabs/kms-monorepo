@@ -1,16 +1,18 @@
+import { Transaction, providers } from 'ethers';
 import { RPC_URL } from '../../constants';
 
-const ethers = require('ethers');
-
-export const sendEthereumTransaction = async (serializedTx, hash) => {
+type Error = {
+  error: string;
+};
+export const sendEthereumTransaction = async (serializedTx): Promise<Transaction | Error> => {
   const rpcUrl = RPC_URL.ETHEREUM;
 
   if (!serializedTx) {
     return { error: 'transaction error' };
   }
 
-  const ethereum = new ethers.providers.JsonRpcProvider(rpcUrl);
+  const ethereum = new providers.JsonRpcProvider(rpcUrl);
 
-  await ethereum.sendTransaction(serializedTx);
-  return { hash };
+  const result = await ethereum.sendTransaction(serializedTx);
+  return result;
 };

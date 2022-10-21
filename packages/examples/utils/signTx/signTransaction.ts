@@ -7,12 +7,13 @@ import { Near } from '@dsrv/kms/lib/blockchains/near';
 import { Solana } from '@dsrv/kms/lib/blockchains/solana';
 import { Sui } from '@dsrv/kms/lib/blockchains/sui';
 import { Aptos } from '@dsrv/kms/lib/blockchains/aptos';
-import { getAptosSerializedTx } from '../getSerializedTx/getAptosSerializedTx';
-import { getCeloSerializedTx } from '../getSerializedTx/getCeleSerializedTx';
-import { getCosmosSerializedTx } from '../getSerializedTx/getCosmosSerializedTx';
-import { getEthereumSerializedTx } from '../getSerializedTx/getEthereumSerializedTx';
-import { getNearSerializedTx } from '../getSerializedTx/getNearSerializedTx';
-import { getSolanaSerializedTx } from '../getSerializedTx/getSolanaSerializedTx';
+import { getAptosSerializedTx } from '../getTx/getAptosSerializedTx';
+import { getCeloSerializedTx } from '../getTx/getCeloSerializedTx';
+import { getCosmosSerializedTx } from '../getTx/getCosmosSerializedTx';
+import { getEthereumTx } from '../getTx/getEthereumTx';
+import { getNearSerializedTx } from '../getTx/getNearSerializedTx';
+import { getSolanaSerializedTx } from '../getTx/getSolanaSerializedTx';
+import { createEthereumSignedTx } from '../createSignedTx';
 
 /* Aptos signTx */
 export const getAptosSignedTx = async (mnemonic: string) => {
@@ -53,18 +54,20 @@ export const getCosmosSignedTx = async (mnemonic: string) => {
 
 /* Ethereum signTx */
 export const getEthereumSignedTx = (mnemonic: string) => {
-  const ethereumAccount = Ethereum.getAccount({
-    mnemonic,
-    path: { type: CHAIN.ETHEREUM, account: 0, index: 0 },
-  });
-  const serializedTx = getEthereumSerializedTx(ethereumAccount);
-  const ethereumSignedTx = Ethereum.signTx(
+  const { serializedTx, unSignedTx } = getEthereumTx();
+
+  const ethereumSignature = Ethereum.signTx(
     {
       mnemonic,
       path: { type: CHAIN.ETHEREUM, account: 0, index: 0 },
     },
     serializedTx,
   );
+
+  const ethereumSignedTx = createEthereumSignedTx({
+    unSignedTx,
+    signatrue: ethereumSignature.signature,
+  });
 
   return ethereumSignedTx;
 };

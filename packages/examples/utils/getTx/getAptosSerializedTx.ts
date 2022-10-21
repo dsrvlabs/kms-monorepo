@@ -64,6 +64,5 @@ export const getAptosSerializedTx = async (account: Account) => {
     Buffer.from(sha3_256(Buffer.from('APTOS::RawTransaction', 'ascii')), 'hex'),
     Buffer.from(BCS.bcsToBytes(rawTxn)),
   ]).toString('hex')}`;
-
-  return rawTxnWithSalt;
+  return Buffer.from(BCS.bcsToBytes(rawTxnWithSalt)).toString('hex');
 };

@@ -3,6 +3,8 @@ export const RPC_URL = {
   COSMOS: 'https://cosmos-testnet-rpc.allthatnode.com:26657',
   SOLANA: 'https://solana-devnet-rpc.allthatnode.com',
   APTOS: 'https://aptos-devnet-rpc.allthatnode.com',
+  ETHEREUM: 'https://ethereum-goerli-rpc.allthatnode.com',
+  CELO: 'https://celo-alfajores-rpc.allthatnode.com',
 };
 
 export const RECEIVER_ADDRESS = {
