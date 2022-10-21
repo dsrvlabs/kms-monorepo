@@ -58,9 +58,8 @@ export interface Account {
 }
 
 export interface SignedTx {
-  hash?: string;
+  unsignedTx: string;
   signature?: string;
-  serializedTx?: string;
 }
 
 export interface SignedMsg {

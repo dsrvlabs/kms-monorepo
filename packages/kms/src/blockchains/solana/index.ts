@@ -7,12 +7,9 @@ import { addHexPrefix, isHexString, stripHexPrefix } from '../utils';
 
 export { CHAIN } from '../../types';
 
-function sign(keyPair: SignKeyPair, message: Uint8Array): { hash: string; signature: string } {
+function sign(keyPair: SignKeyPair, message: Uint8Array): string {
   const signature = naclSign.detached(message, keyPair.secretKey);
-  return {
-    hash: encode(signature),
-    signature: addHexPrefix(Buffer.from(signature).toString('hex')),
-  };
+  return addHexPrefix(Buffer.from(signature).toString('hex'));
 }
 
 export class Solana extends Signer {
@@ -41,19 +38,18 @@ export class Solana extends Signer {
     };
   }
 
-  static signTx(pk: string | PathOption, serializedTx: string): SignedTx {
+  static signTx(pk: string | PathOption, unsignedTx: string): SignedTx {
     const keyPair = Solana.getKeyPair(pk);
-    const { signature, hash } = sign(keyPair, Buffer.from(stripHexPrefix(serializedTx), 'hex'));
+    const signature = sign(keyPair, Buffer.from(stripHexPrefix(unsignedTx), 'hex'));
     return {
-      serializedTx,
-      hash,
+      unsignedTx,
       signature,
     };
   }
 
   static signMsg(pk: string | PathOption, message: string): SignedMsg {
     const keyPair = Solana.getKeyPair(pk);
-    const { signature } = sign(
+    const signature = sign(
       keyPair,
       isHexString(message)
         ? Buffer.from(stripHexPrefix(message), 'hex')

@@ -90,7 +90,7 @@ export abstract class Signer {
     throw new Error('not implemented!');
   }
 
-  static signTx(_pk: string | PathOption, _serializedTx: string, _option?: KeyOption): SignedTx {
+  static signTx(_pk: string | PathOption, _unsignedTx: string, _option?: KeyOption): SignedTx {
     throw new Error('not implemented!');
   }
 

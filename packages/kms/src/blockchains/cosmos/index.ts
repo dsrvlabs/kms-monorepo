@@ -47,20 +47,20 @@ export class Cosmos extends Signer {
     };
   }
 
-  static signTx(pk: string | PathOption, serializedTx: string, option?: KeyOption): SignedTx {
+  static signTx(pk: string | PathOption, unsignedTx: string, option?: KeyOption): SignedTx {
     if (option && option.prefix === 'inj') {
-      return Ethereum.signTx(pk, serializedTx);
+      return Ethereum.signTx(pk, unsignedTx);
     }
 
     const keyPair = Cosmos.getKeyPair(pk);
-    const hash = sha256(Buffer.from(stripHexPrefix(serializedTx), 'hex'));
+    const hash = sha256(Buffer.from(stripHexPrefix(unsignedTx), 'hex'));
     const { signature } = ecc.signRecoverable(
       hash,
       Buffer.from(stripHexPrefix(keyPair.privateKey), 'hex'),
     );
 
     return {
-      serializedTx,
+      unsignedTx,
       signature: addHexPrefix(Buffer.from(signature).toString('hex')),
     };
   }
