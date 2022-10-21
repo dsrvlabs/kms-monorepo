@@ -39,7 +39,7 @@ test('Cosmos - getAccount', () => {
     }),
   ).toEqual({
     address: 'cosmos142j9u5eaduzd7faumygud6ruhdwme98qsy2ekn',
-    publicKey: 'A8FWwWxFZ4g0nRzTBqaB3PQIzTpKEh6xg5btW+Wbm4Nw',
+    publicKey: '0x03c156c16c456788349d1cd306a681dcf408cd3a4a121eb18396ed5be59b9b8370',
   });
 });
 
@@ -58,6 +58,30 @@ test('Cosmos - signTx', () => {
     serializedTx: signDoc,
     signature:
       '0x70a03cb9a3cb98353bc0cb8f68eeef1d3d6ad7111f0c5eae92c5b2c3947edbac474ec0e7eee920539eba02a5e9dab879ff06de8bf512cfdfe257bb73a0f49b7b',
+  });
+});
+
+test('Injective - getAccount (60)', () => {
+  expect(
+    Ethereum.getAccount({
+      mnemonic,
+      path: { type: CHAIN.ETHEREUM, account: 0, index: 0 },
+    }, { prefix: 'inj' }),
+  ).toEqual({
+    address: 'inj13u6g7vqgw074mgmf2ze2cadzvkz9snlwcrtq8a',
+    publicKey: '0x035a0c6b83b8bd9827e507270cadb499b7e3a9095246f6a2213281f783d877c98b',
+  });
+});
+
+test('Injective - getAccount (118)', () => {
+  expect(
+    Cosmos.getAccount({
+      mnemonic,
+      path: { type: CHAIN.COSMOS, account: 0, index: 0 },
+    }, { prefix: 'inj'}),
+  ).toEqual({
+    address: 'inj1seqzn42dm7q3l7amgfswdheuhyvwwegqh2w8v0',
+    publicKey: '0x03c156c16c456788349d1cd306a681dcf408cd3a4a121eb18396ed5be59b9b8370',
   });
 });
 
@@ -197,9 +221,8 @@ test('Eth2 - getAccount (withdrawal)', () => {
         type: CHAIN.ETHEREUM,
         account: 0,
         index: 0,
-        keyType: 'withdrawal',
       },
-    }),
+    }, { keyType: "withdrawal" }),
   ).toEqual({
     address:
       '0xb2b1b76b034615ebc67c4ca8e6b0e65d8d9a9191d0ffd2d6884933d2e001617bfa420ad25d525c88034dfd51f58f6c43',
@@ -216,9 +239,8 @@ test('Eth2 - getAccount (signing)', () => {
         type: CHAIN.ETHEREUM,
         account: 0,
         index: 0,
-        keyType: 'signing',
       },
-    }),
+    }, { keyType: 'signing' }),
   ).toEqual({
     address:
       '0xb84d8ea3b5b8b0d7f483c384749291d9993de245c8370466121f8c29f815c45767ca1b732f18dea47a2eef46ac6631d9',
@@ -320,6 +342,6 @@ test('Sui - getAccount', () => {
     }),
   ).toEqual({
     address: '0x061ce2b2100a71bb7aa0da98998887ad82597948',
-    publicKey: 'MxHmoZrcHAalCeW/Rk6dTsxzA58xGslAuxGJb4L7ZTM=',
+    publicKey: '0x3311e6a19adc1c06a509e5bf464e9d4ecc73039f311ac940bb11896f82fb6533',
   });
 });

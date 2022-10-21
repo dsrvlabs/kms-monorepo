@@ -3,9 +3,10 @@ import * as ecc from 'tiny-secp256k1';
 import { sha256 } from '@noble/hashes/sha256';
 import { ripemd160 } from '@noble/hashes/ripemd160';
 import { bech32 } from 'bech32';
-import { addHexPrefix, isHexString, stripHexPrefix } from '../utils';
-import { Account, PathOption, SignedMsg, SignedTx, SimpleKeypair } from '../../types';
+import { addHexPrefix, stripHexPrefix } from '../utils';
+import { Account, KeyOption, PathOption, SignedTx, SimpleKeypair } from '../../types';
 import { Signer } from '../signer';
+import { Ethereum } from '../ethereum';
 
 export { CHAIN } from '../../types';
 
@@ -29,43 +30,38 @@ export class Cosmos extends Signer {
     };
   }
 
-  static getAccount(pk: string | PathOption, prefix?: string): Account {
-    const keyPair = Cosmos.getKeyPair(pk);
+  static getAccount(pk: string | PathOption, option?: KeyOption): Account {
+    if (option && option.prefix === 'inj') {
+      return Ethereum.getAccount(pk, option);
+    }
 
+    const keyPair = Cosmos.getKeyPair(pk);
     const temp = Buffer.from(stripHexPrefix(keyPair.publicKey), 'hex');
     const hash = ripemd160(sha256(temp));
     const words = bech32.toWords(hash);
-    const addressPrefix = typeof pk === 'string' ? prefix : pk.path.prefix;
+    const prefix = option && option.prefix ? option.prefix : 'cosmos';
 
     return {
-      address: bech32.encode(addressPrefix || 'cosmos', words),
-      publicKey: temp.toString('base64'),
+      address: bech32.encode(prefix, words),
+      publicKey: addHexPrefix(temp.toString('hex')),
     };
   }
 
-  static signTx(pk: string | PathOption, serializedTx: string): SignedTx {
-    const { signature } = Cosmos.signMsg(pk, serializedTx);
-    return {
-      serializedTx,
-      signature,
-    };
-  }
+  static signTx(pk: string | PathOption, serializedTx: string, option?: KeyOption): SignedTx {
+    if (option && option.prefix === 'inj') {
+      return Ethereum.signTx(pk, serializedTx);
+    }
 
-  static signMsg(pk: string | PathOption, message: string): SignedMsg {
     const keyPair = Cosmos.getKeyPair(pk);
-    const hash = sha256(
-      isHexString(message)
-        ? Buffer.from(stripHexPrefix(message), 'hex')
-        : Buffer.from(message, 'utf8'),
-    );
+    const hash = sha256(Buffer.from(stripHexPrefix(serializedTx), 'hex'));
     const { signature } = ecc.signRecoverable(
       hash,
       Buffer.from(stripHexPrefix(keyPair.privateKey), 'hex'),
     );
+
     return {
-      message,
+      serializedTx,
       signature: addHexPrefix(Buffer.from(signature).toString('hex')),
-      publicKey: keyPair.publicKey,
     };
   }
 }

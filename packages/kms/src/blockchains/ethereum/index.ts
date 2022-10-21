@@ -2,8 +2,9 @@ import BIP32Factory from 'bip32';
 import * as ecc from 'tiny-secp256k1';
 // eslint-disable-next-line camelcase
 import { keccak_256 } from '@noble/hashes/sha3';
+import { bech32 } from 'bech32';
 import { addHexPrefix, stripHexPrefix } from '../utils';
-import { Account, PathOption, SignedTx, SimpleKeypair } from '../../types';
+import { Account, KeyOption, PathOption, SignedTx, SimpleKeypair } from '../../types';
 import { Signer } from '../signer';
 
 export { CHAIN } from '../../types';
@@ -28,7 +29,7 @@ export class Ethereum extends Signer {
     };
   }
 
-  static getAccount(pk: string | PathOption): Account {
+  static getAccount(pk: string | PathOption, option?: KeyOption): Account {
     const keyPair = Ethereum.getKeyPair(pk);
     const temp = Buffer.from(
       ecc.pointCompress(Buffer.from(stripHexPrefix(keyPair.publicKey), 'hex'), false),
@@ -40,12 +41,25 @@ export class Ethereum extends Signer {
       throw new Error('Expected pubKey (hex) to be of length 128');
     }
 
-    return {
+    const account = {
       address: addHexPrefix(
         Buffer.from(keccak_256(Buffer.from(temp, 'hex')).slice(-20)).toString('hex'),
       ),
       publicKey: keyPair.publicKey,
     };
+
+    if (option && option.prefix === 'inj') {
+      const prefix = option && option.prefix ? option.prefix : 'cosmos';
+      return {
+        address: bech32.encode(
+          prefix,
+          bech32.toWords(Buffer.from(stripHexPrefix(account.address), 'hex')),
+        ),
+        publicKey: account.publicKey,
+      };
+    }
+
+    return account;
   }
 
   static signTx(pk: string | PathOption, serializedTx: string): SignedTx {

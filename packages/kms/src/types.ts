@@ -35,19 +35,21 @@ export interface BIP44 {
   account: number;
   index: number;
   password?: string;
-
-  // Cosmos
-  prefix?: string;
-
-  // EIP-2334 specifies following derivation paths:
-  // m/12381/3600/0/0   for withdrawal
-  // m/12381/3600/0/0/0 for signing
-  keyType?: 'withdrawal' | 'signing';
 }
 
 export interface PathOption {
   path: BIP44;
   mnemonic: string;
+}
+
+export interface KeyOption {
+  // EIP-2334 specifies following derivation paths:
+  // m/12381/3600/0/0   for withdrawal
+  // m/12381/3600/0/0/0 for signing
+  keyType?: 'withdrawal' | 'signing';
+
+  // cosmos
+  prefix?: string;
 }
 
 export interface Account {
