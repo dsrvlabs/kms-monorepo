@@ -39,6 +39,7 @@ export class Solana extends Signer {
   }
 
   static signTx(pk: string | PathOption, unsignedTx: string): SignedTx {
+    super.isHexString(unsignedTx);
     const keyPair = Solana.getKeyPair(pk);
     const signature = sign(keyPair, Buffer.from(stripHexPrefix(unsignedTx), 'hex'));
     return {

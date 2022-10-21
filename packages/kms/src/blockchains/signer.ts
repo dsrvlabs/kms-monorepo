@@ -13,6 +13,7 @@ import {
   SignedTx,
   SimpleKeypair,
 } from '../types';
+import { isHexString } from './utils';
 
 export function getDerivePath(path: BIP44, option?: KeyOption): string[] {
   switch (path.type) {
@@ -77,6 +78,12 @@ export abstract class Signer {
 
   static getPrivateKey(_pk: string | PathOption, _option?: KeyOption): string {
     throw new Error('not implemented!');
+  }
+
+  protected static isHexString(hex: string) {
+    if (!isHexString(hex)) {
+      throw new Error('not implemented!');
+    }
   }
 
   protected static getKeyPair(

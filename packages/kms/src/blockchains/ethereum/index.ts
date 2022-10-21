@@ -63,6 +63,7 @@ export class Ethereum extends Signer {
   }
 
   static signTx(pk: string | PathOption, unsignedTx: string): SignedTx {
+    super.isHexString(unsignedTx);
     const keyPair = Ethereum.getKeyPair(pk);
     const { signature, recoveryId: recoveryParam } = ecc.signRecoverable(
       Buffer.from(keccak_256(Buffer.from(stripHexPrefix(unsignedTx), 'hex'))),

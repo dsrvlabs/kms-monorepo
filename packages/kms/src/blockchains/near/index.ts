@@ -44,6 +44,7 @@ export class Near extends Signer {
   }
 
   static signTx(pk: string | PathOption, unsignedTx: string): SignedTx {
+    super.isHexString(unsignedTx);
     const keyPair = Near.getKeyPair(pk);
     const signature = sign(keyPair, Buffer.from(unsignedTx, 'hex'));
     return {

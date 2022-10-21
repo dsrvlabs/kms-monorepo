@@ -45,6 +45,7 @@ export class Sui extends Signer {
   }
 
   static signTx(pk: string | PathOption, unsignedTx: string): SignedTx {
+    super.isHexString(unsignedTx);
     const keyPair = Sui.getKeyPair(pk);
     const temp = Buffer.from(stripHexPrefix(unsignedTx), 'hex');
     const signature = addHexPrefix(

@@ -39,6 +39,7 @@ export class Aptos extends Signer {
   }
 
   static signTx(pk: string | PathOption, unsignedTx: string): SignedTx {
+    super.isHexString(unsignedTx);
     const keyPair = Aptos.getKeyPair(pk);
     const signature = Buffer.from(
       nacl.sign(Buffer.from(stripHexPrefix(unsignedTx), 'hex'), keyPair.secretKey),
