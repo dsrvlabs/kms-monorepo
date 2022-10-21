@@ -1,26 +1,30 @@
+/* eslint-disable no-unused-vars */
 import { Account } from '@dsrv/kms/src/types';
 import { ethers } from 'ethers';
 import { RECEIVER_ADDRESS, RPC_URL } from '../../constants';
 
-export const getEthereumTx = async (account: Account) => {
-  const provider = new ethers.providers.JsonRpcProvider(RPC_URL.ETHEREUM);
+export const getCeloTx = async (account: Account) => {
+  const provider = new ethers.providers.JsonRpcProvider(RPC_URL.CELO);
   const nonce = await provider.getTransactionCount(account.address);
+  const balance = await provider.getBalance(account.address);
+  // console.log('celo balance', balance.toString());
   const gasLimit = await provider.estimateGas({
     value: '0x1',
-    to: account.address,
+    to: RECEIVER_ADDRESS.CELO,
+    from: account.address,
   });
+  // console.log('gasLimit', gasLimit);
   const transactionParameters = {
-    to: RECEIVER_ADDRESS.ETHEREUM,
+    to: RECEIVER_ADDRESS.CELO,
     value: ethers.utils.parseEther('0.0005'),
     gasLimit: gasLimit.mul(10).toString(),
+    //  network
+    chainId: 44787,
+    type: 1,
     gasPrice: '0x07f9acf02',
-    type: 2,
-    nonce,
-    // goerli network
-    chainId: 5,
-    // EIP-1559; Type 2
     maxPriorityFeePerGas: '0x07f9acf02',
     maxFeePerGas: '0x07f9acf02',
+    nonce,
   };
 
   return {

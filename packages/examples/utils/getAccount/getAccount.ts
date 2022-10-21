@@ -35,6 +35,15 @@ export const getEthereumAccount = (mnemonic: string) => {
   return ethereumAccount;
 };
 
+/* Celo getAccount */
+export const getCeloAccount = (mnemonic: string) => {
+  const celoAccount = Ethereum.getAccount({
+    mnemonic,
+    path: { type: CHAIN.ETHEREUM, account: 0, index: 0 },
+  });
+  return celoAccount;
+};
+
 /* Eth2 getAccount (withdrawal)  */
 export const getEth2AccountWithdrawal = (mnemonic: string) => {
   const eth2AccountWithdrawal = Eth2.getAccount({

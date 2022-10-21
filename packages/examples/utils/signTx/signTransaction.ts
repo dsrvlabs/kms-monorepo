@@ -8,12 +8,13 @@ import { Solana } from '@dsrv/kms/lib/blockchains/solana';
 import { Sui } from '@dsrv/kms/lib/blockchains/sui';
 import { Aptos } from '@dsrv/kms/lib/blockchains/aptos';
 import { getAptosSerializedTx } from '../getTx/getAptosSerializedTx';
-import { getCeloSerializedTx } from '../getTx/getCeloSerializedTx';
+import { getCeloTx } from '../getTx/getCeloTx';
 import { getCosmosSerializedTx } from '../getTx/getCosmosSerializedTx';
 import { getEthereumTx } from '../getTx/getEthereumTx';
 import { getNearSerializedTx } from '../getTx/getNearSerializedTx';
 import { getSolanaSerializedTx } from '../getTx/getSolanaSerializedTx';
 import { createEthereumSignedTx } from '../createSignedTx';
+import { createCeloSignedTx } from '../createSignedTx/createCeloSignedTx';
 
 /* Aptos signTx */
 export const getAptosSignedTx = async (mnemonic: string) => {
@@ -53,8 +54,12 @@ export const getCosmosSignedTx = async (mnemonic: string) => {
 };
 
 /* Ethereum signTx */
-export const getEthereumSignedTx = (mnemonic: string) => {
-  const { serializedTx, unSignedTx } = getEthereumTx();
+export const getEthereumSignedTx = async (mnemonic: string) => {
+  const ethereumAccount = Ethereum.getAccount({
+    mnemonic,
+    path: { type: CHAIN.ETHEREUM, account: 0, index: 0 },
+  });
+  const { serializedTx, unSignedTx } = await getEthereumTx(ethereumAccount);
 
   const ethereumSignature = Ethereum.signTx(
     {
@@ -73,19 +78,23 @@ export const getEthereumSignedTx = (mnemonic: string) => {
 };
 
 /* Celo signTx */
-export const getCeloSignedTx = (mnemonic: string) => {
+export const getCeloSignedTx = async (mnemonic: string) => {
   const celoAccount = Ethereum.getAccount({
     mnemonic,
     path: { type: CHAIN.CELO, account: 0, index: 0 },
   });
-  const serializedTx = getCeloSerializedTx(celoAccount);
-  const celoSignedTx = Ethereum.signTx(
+  const { serializedTx, unSignedTx } = await getCeloTx(celoAccount);
+  const celoSignature = Ethereum.signTx(
     {
       mnemonic,
-      path: { type: CHAIN.ETHEREUM, account: 0, index: 0 },
+      path: { type: CHAIN.CELO, account: 0, index: 0 },
     },
     serializedTx,
   );
+  const celoSignedTx = createCeloSignedTx({
+    unSignedTx,
+    signatrue: celoSignature.signature,
+  });
 
   return celoSignedTx;
 };

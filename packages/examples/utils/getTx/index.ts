@@ -1,5 +1,5 @@
 export * from './getAptosSerializedTx';
-export * from './getCeloSerializedTx';
+export * from './getCeloTx';
 export * from './getCosmosSerializedTx';
 export * from './getEthereumTx';
 export * from './getNearSerializedTx';
