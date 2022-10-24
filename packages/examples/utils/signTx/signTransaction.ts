@@ -11,10 +11,11 @@ import { getAptosSerializedTx } from '../getTx/getAptosSerializedTx';
 import { getCeloTx } from '../getTx/getCeloTx';
 import { getCosmosSerializedTx } from '../getTx/getCosmosSerializedTx';
 import { getEthereumTx } from '../getTx/getEthereumTx';
-import { getNearSerializedTx } from '../getTx/getNearSerializedTx';
+import { getNearTx } from '../getTx/getNearTx';
 import { getSolanaSerializedTx } from '../getTx/getSolanaSerializedTx';
 import { createEthereumSignedTx } from '../createSignedTx';
 import { createCeloSignedTx } from '../createSignedTx/createCeloSignedTx';
+import { createNearSignedTx } from '../createSignedTx/createNearSignedTx';
 
 /* Aptos signTx */
 export const getAptosSignedTx = async (mnemonic: string) => {
@@ -71,8 +72,10 @@ export const getEthereumSignedTx = async (mnemonic: string) => {
 
   const ethereumSignedTx = createEthereumSignedTx({
     unSignedTx,
-    signatrue: ethereumSignature.signature,
+    signature: ethereumSignature.signature,
   });
+
+  console.log('ethereumSignature: ', ethereumSignature);
 
   return ethereumSignedTx;
 };
@@ -93,8 +96,10 @@ export const getCeloSignedTx = async (mnemonic: string) => {
   );
   const celoSignedTx = createCeloSignedTx({
     unSignedTx,
-    signatrue: celoSignature.signature,
+    signature: celoSignature.signature,
   });
+
+  console.log('celoSignature: ', celoSignature);
 
   return celoSignedTx;
 };
@@ -104,14 +109,16 @@ export const getNearSignedTx = async (mnemonic: string) => {
     mnemonic,
     path: { type: CHAIN.NEAR, account: 0, index: 1 },
   });
-  const serializedTx = await getNearSerializedTx(nearAccount);
-  const nearSignedTx = Near.signTx(
+  const { serializedTx, unSignedTx } = await getNearTx(nearAccount);
+  const nearSignature = Near.signTx(
     {
       mnemonic,
       path: { type: CHAIN.NEAR, account: 0, index: 0 },
     },
     serializedTx,
   );
+
+  const nearSignedTx = createNearSignedTx({ unSignedTx, signature: nearSignature.signature });
 
   return nearSignedTx;
 };

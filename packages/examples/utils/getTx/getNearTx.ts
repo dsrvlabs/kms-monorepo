@@ -7,7 +7,7 @@ import { RPC_URL, RECEIVER_ADDRESS } from '../../constants';
 
 const BN = require('bn.js');
 
-export const getNearSerializedTx = async (account: Account) => {
+export const getNearTx = async (account: Account) => {
   const rpc = RPC_URL.NEAR;
   const provider = new providers.JsonRpcProvider({ url: rpc });
   const helperURL = `https://near-utils.welldonestudio.io/accounts?address=${account.address}`;
@@ -36,7 +36,11 @@ export const getNearSerializedTx = async (account: Account) => {
     recentBlockHash,
   );
 
+  console.log('transaction11', transaction);
   const bytes = transaction.encode();
 
-  return Buffer.from(bytes).toString('base64');
+  return {
+    serializedTx: Buffer.from(bytes).toString('base64'),
+    unSignedTx: transaction,
+  };
 };
