@@ -9,13 +9,14 @@ import { Sui } from '@dsrv/kms/lib/blockchains/sui';
 import { Aptos } from '@dsrv/kms/lib/blockchains/aptos';
 import { getAptosSerializedTx } from '../getTx/getAptosSerializedTx';
 import { getCeloTx } from '../getTx/getCeloTx';
-import { getCosmosSerializedTx } from '../getTx/getCosmosSerializedTx';
+import { getCosmosTx } from '../getTx/getCosmosTx';
 import { getEthereumTx } from '../getTx/getEthereumTx';
 import { getNearTx } from '../getTx/getNearTx';
 import { getSolanaSerializedTx } from '../getTx/getSolanaSerializedTx';
 import { createEthereumSignedTx } from '../createSignedTx';
 import { createCeloSignedTx } from '../createSignedTx/createCeloSignedTx';
 import { createNearSignedTx } from '../createSignedTx/createNearSignedTx';
+import { createCosmosSignedTx } from '../createSignedTx/createCosmosSignedTx';
 
 /* Aptos signTx */
 export const getAptosSignedTx = async (mnemonic: string) => {
@@ -41,14 +42,19 @@ export const getCosmosSignedTx = async (mnemonic: string) => {
     mnemonic,
     path: { type: CHAIN.COSMOS, account: 0, index: 0 },
   });
-  const serializedTx = await getCosmosSerializedTx(cosmosAccount);
-  const cosmosSignedTx = Cosmos.signTx(
+  const { serializedTx, unSignedTx } = await getCosmosTx(cosmosAccount);
+  const cosmosSignature = Cosmos.signTx(
     {
       mnemonic,
       path: { type: CHAIN.COSMOS, account: 0, index: 0 },
     },
     serializedTx,
   );
+
+  const cosmosSignedTx = createCosmosSignedTx({
+    unSignedTx,
+    signature: cosmosSignature.signature,
+  });
 
   console.log('[cosmos] cosmosSignedTx', cosmosSignedTx);
   return cosmosSignedTx;
@@ -104,6 +110,7 @@ export const getCeloSignedTx = async (mnemonic: string) => {
   return celoSignedTx;
 };
 
+/* Near signTx */
 export const getNearSignedTx = async (mnemonic: string) => {
   const nearAccount = Near.getAccount({
     mnemonic,
