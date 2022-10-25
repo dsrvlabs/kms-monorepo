@@ -7,14 +7,20 @@ interface createNearSignedTxProps {
 }
 
 export const createNearSignedTx = ({ unSignedTx, signature }: createNearSignedTxProps) => {
+  const unSignedbytes = unSignedTx.encode();
+  const unSignedSerializedTx = Buffer.from(unSignedbytes).toString('base64');
+  const transaction = Transaction.decode(Buffer.from(unSignedSerializedTx, 'base64'));
+
   const signedTx = new SignedTransaction({
-    transaction: unSignedTx,
+    transaction,
     signature: new Signature({
-      keyType: unSignedTx.publicKey.keyType,
+      keyType: transaction.publicKey.keyType,
       data: Buffer.from(signature.replace('0x', ''), 'hex'),
     }),
   });
+
   const bytes = signedTx.encode();
   const serializedTx = Buffer.from(bytes).toString('base64');
+
   return serializedTx;
 };

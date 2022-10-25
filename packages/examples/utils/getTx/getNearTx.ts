@@ -3,7 +3,7 @@ import { Account } from '@dsrv/kms/src/types';
 import { providers, transactions, utils } from 'near-api-js';
 
 import { AccessKeyView } from 'near-api-js/lib/providers/provider';
-import { RPC_URL, RECEIVER_ADDRESS } from '../../constants';
+import { RPC_URL } from '../../constants';
 
 const BN = require('bn.js');
 
@@ -28,16 +28,16 @@ export const getNearTx = async (account: Account) => {
   const recentBlockHash = utils.serialize.base_decode(accessKey.block_hash);
 
   const transaction = transactions.createTransaction(
-    accountIds,
+    accountIds[1],
     utils.PublicKey.fromString(publicKey),
-    RECEIVER_ADDRESS.NEAR,
+    accountIds[1],
     accessKey.nonce + 1,
     actions,
     recentBlockHash,
   );
 
-  console.log('transaction11', transaction);
   const bytes = transaction.encode();
+  // const serializedTx = utils.serialize.serialize(transactions.SCHEMA, transaction);
 
   return {
     serializedTx: Buffer.from(bytes).toString('base64'),

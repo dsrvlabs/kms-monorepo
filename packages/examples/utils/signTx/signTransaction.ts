@@ -113,13 +113,13 @@ export const getNearSignedTx = async (mnemonic: string) => {
   const nearSignature = Near.signTx(
     {
       mnemonic,
-      path: { type: CHAIN.NEAR, account: 0, index: 0 },
+      path: { type: CHAIN.NEAR, account: 0, index: 1 },
     },
     serializedTx,
   );
 
   const nearSignedTx = createNearSignedTx({ unSignedTx, signature: nearSignature.signature });
-
+  console.log('near signedeTx', nearSignedTx);
   return nearSignedTx;
 };
 
