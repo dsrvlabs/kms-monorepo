@@ -7,6 +7,7 @@ interface createCosmosSignedTxProps {
 }
 
 export const createCosmosSignedTx = ({ unSignedTx, signature }: createCosmosSignedTxProps) => {
+  console.log('unSignedTx', unSignedTx);
   const txRaw = TxRaw.fromPartial({
     bodyBytes: unSignedTx.bodyBytes,
     authInfoBytes: unSignedTx.authInfoBytes,

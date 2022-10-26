@@ -18,7 +18,6 @@ const getTxBodyBytes = (transaction) => {
     typeUrl: '/cosmos.tx.v1beta1.TxBody',
     value: {
       messages: transaction.msgs,
-      memo: transaction.memo,
     },
   };
 
@@ -26,9 +25,14 @@ const getTxBodyBytes = (transaction) => {
   return txBodyBytes;
 };
 
+// const fromHexString = (hexString) =>
+//   Uint8Array.from(hexString.match(/.{1,2}/g).map((byte) => parseInt(byte, 16)));
+
 const getAuthInfoBytes = (transaction, account) => {
+  // @TODO pubkey type?
   const bufferPubkey = Buffer.from(account.publicKey, 'base64');
   const pubkey = encodePubkey(encodeSecp256k1Pubkey(bufferPubkey));
+  // console.log('pubkey', pubkey);
   const authInfoBytes = makeAuthInfoBytes(
     [
       {
@@ -41,21 +45,27 @@ const getAuthInfoBytes = (transaction, account) => {
     undefined,
     undefined,
   );
+  // console.log('>>', transaction.signerData.sequence);
+  // console.log('authInfoBytes', authInfoBytes);
   return authInfoBytes;
 };
 
 export const getCosmosTx = async (account: Account) => {
   /* create transaction */
   const rpcUrl = RPC_URL.COSMOS;
+  // const rpcUrl = 'https://rpc.cosmos.network';
   const client = await StargateClient.connect(rpcUrl);
   const sequence = await client.getSequence(account.address);
   const chainId = await client.getChainId();
 
+  console.log('chainId,', chainId);
+  console.log('sequence', sequence);
+
   const transaction = {
     signerData: {
-      accountNumber: `${sequence.accountNumber}`,
-      sequence,
-      chainId,
+      accountNumber: sequence.accountNumber,
+      sequence: sequence.sequence,
+      chainId: 'theta-testnet',
     },
     fee: {
       amount: [
@@ -66,7 +76,7 @@ export const getCosmosTx = async (account: Account) => {
       ],
       gas: '180000', // 180k
     },
-    memo: '',
+    // memo: '',
     msgs: [
       {
         typeUrl: '/cosmos.bank.v1beta1.MsgSend',
@@ -77,13 +87,14 @@ export const getCosmosTx = async (account: Account) => {
         },
       },
     ],
-    sequence: `${sequence}`,
+    sequence: sequence.sequence,
   };
 
   /* create signDoc */
   const txBodyBytes = getTxBodyBytes(transaction);
   const authInfoBytes = getAuthInfoBytes(transaction, account);
 
+  console.log('transaction.signerData.chainId', transaction.signerData.chainId);
   const signDoc = makeSignDoc(
     txBodyBytes,
     authInfoBytes,

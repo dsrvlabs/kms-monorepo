@@ -2,7 +2,12 @@
 /* eslint-disable no-unused-vars */
 
 import { ethers } from 'ethers';
-import { sendCeloTransaction, sendEthereumTransaction, sendNearTransaction } from './utils';
+import {
+  sendCeloTransaction,
+  sendCosmosTransaction,
+  sendEthereumTransaction,
+  sendNearTransaction,
+} from './utils';
 import { stringToHex } from './utils/common';
 import {
   getAptosSignedTx,
@@ -29,10 +34,15 @@ const main = async () => {
   // const celoTxResult = await sendCeloTransaction(celoSignedTx);
   // console.log('Celo TxHash : ', celoTxResult);
 
-  /* near sendtransaction */
-  const nearSignedTx = await getNearSignedTx(mnemonic);
-  console.log('>nearSignedTx', nearSignedTx);
-  const nearTxResult = await sendNearTransaction(nearSignedTx);
-  console.log('Near TxHash : ', nearTxResult);
+  // /* near sendtransaction */
+  // const nearSignedTx = await getNearSignedTx(mnemonic);
+  // console.log('>nearSignedTx', nearSignedTx);
+  // const nearTxResult = await sendNearTransaction(nearSignedTx);
+  // console.log('Near TxHash : ', nearTxResult);
+
+  const cosmosSignedTx = await getCosmosSignedTx(mnemonic);
+  console.log('>cosmosSignedTx', cosmosSignedTx);
+  const cosmosTxResult = await sendCosmosTransaction(cosmosSignedTx);
+  console.log('Cosmos TxHash', cosmosTxResult);
 };
 main();
