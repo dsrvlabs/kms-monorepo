@@ -7,16 +7,18 @@ import { Near } from '@dsrv/kms/lib/blockchains/near';
 import { Solana } from '@dsrv/kms/lib/blockchains/solana';
 import { Sui } from '@dsrv/kms/lib/blockchains/sui';
 import { Aptos } from '@dsrv/kms/lib/blockchains/aptos';
+import { Transaction } from '@solana/web3.js';
 import { getAptosSerializedTx } from '../getTx/getAptosSerializedTx';
 import { getCeloTx } from '../getTx/getCeloTx';
 import { getCosmosTx } from '../getTx/getCosmosTx';
 import { getEthereumTx } from '../getTx/getEthereumTx';
 import { getNearTx } from '../getTx/getNearTx';
-import { getSolanaSerializedTx } from '../getTx/getSolanaSerializedTx';
+import { getSolanaTx } from '../getTx/getSolanaTx';
 import { createEthereumSignedTx } from '../createSignedTx';
 import { createCeloSignedTx } from '../createSignedTx/createCeloSignedTx';
 import { createNearSignedTx } from '../createSignedTx/createNearSignedTx';
 import { createCosmosSignedTx } from '../createSignedTx/createCosmosSignedTx';
+import { createSolanaSignedTx } from '../createSignedTx/createSolanaSignedtx';
 
 /* Aptos signTx */
 export const getAptosSignedTx = async (mnemonic: string) => {
@@ -131,18 +133,21 @@ export const getNearSignedTx = async (mnemonic: string) => {
 };
 
 export const getSolanaSignedTx = async (mnemonic: string) => {
-  const solanaAccount = Solana.getAccount({
-    mnemonic,
-    path: { type: CHAIN.SOLANA, account: 0, index: 0 },
-  });
-  const serializedTx = await getSolanaSerializedTx(solanaAccount);
-  const solanaSignedTx = Solana.signTx(
+  const { serializedTx, unSignedTx } = await getSolanaTx(mnemonic);
+  console.log('serializedTx', serializedTx);
+  const solanaSignature = Solana.signTx(
     {
       mnemonic,
       path: { type: CHAIN.SOLANA, account: 0, index: 0 },
     },
     serializedTx,
   );
+
+  const solanaSignedTx = createSolanaSignedTx({
+    unSignedTx,
+    signature: solanaSignature.signature,
+    mnemonic,
+  });
 
   return solanaSignedTx;
 };

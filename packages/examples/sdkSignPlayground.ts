@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
-import { cosmosSdkSignedTx } from './utils/sdkSignedTx';
+import { cosmosSdkSignedTx, solanaSdkSignedTx } from './utils/sdkSignedTx';
 import { celoSdkSignedTx } from './utils/sdkSignedTx/celoSdkSignedTx';
 import { ethereumSdkSignedTx } from './utils/sdkSignedTx/ethereumSdkSignedTx';
 import { nearSdkSignedTx } from './utils/sdkSignedTx/nearSdkSignedTx';
@@ -18,8 +18,11 @@ const main = async () => {
   // const nearSignedTx = await nearSdkSignedTx(mnemonic);
   // console.log('[By SDK] Near Tx : ', nearSignedTx);
 
-  const cosmosSignedTx = await cosmosSdkSignedTx(mnemonic);
-  console.log('[By SDK] Cosmos Tx : ', cosmosSignedTx);
+  // const cosmosSignedTx = await cosmosSdkSignedTx(mnemonic);
+  // console.log('[By SDK] Cosmos Tx : ', cosmosSignedTx);
+
+  const solanaSignedTx = await solanaSdkSignedTx(mnemonic);
+  console.log('[By SDK] Solana Tx : ', solanaSignedTx);
 };
 
 main();
