@@ -3,26 +3,20 @@ import { Transaction } from '@solana/web3.js';
 import { RPC_URL } from '../../constants';
 
 // eslint-disable-next-line import/prefer-default-export
-export const sendSolanaTransaction = async (serializedTx, signature, hash) => {
+export const sendSolanaTransaction = async (serializedTx) => {
   const rpcUrl = RPC_URL.SOLANA;
 
   if (!serializedTx) {
     return { error: 'transaction error' };
   }
 
-  const transaction = Transaction.from(Buffer.from(serializedTx.replace('0x', ''), 'hex'));
+  const transaction = Transaction.from(Buffer.from(serializedTx, 'hex'));
 
   if (!transaction.feePayer) {
     return { error: 'account error' };
   }
 
-  if (!signature) {
-    return { error: 'signature error' };
-  }
-
-  transaction.addSignature(transaction.feePayer, Buffer.from(signature.replace('0x', ''), 'hex'));
-
-  await fetch(rpcUrl, {
+  const result = await fetch(rpcUrl, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -37,6 +31,7 @@ export const sendSolanaTransaction = async (serializedTx, signature, hash) => {
       id: 999,
     }),
   });
+  const resultJson = await result.json();
 
-  return { hash };
+  return resultJson.result;
 };

@@ -24,11 +24,11 @@ export const getSolanaTx = async (mnemonic: string) => {
 
   const transaction = new Transaction({
     /* blockHash for test */
-    blockhash: 'HmJjk8gdw4t8jae256JqGZF7cnNRvuaUMi3DcU78dtip',
-    lastValidBlockHeight: 161671223,
+    // blockhash: 'HmJjk8gdw4t8jae256JqGZF7cnNRvuaUMi3DcU78dtip',
+    // lastValidBlockHeight: 161671223,
     /* new blockHash */
-    // blockhash: RECENTBLOCKHASH.blockhash,
-    // lastValidBlockHeight: RECENTBLOCKHASH.lastValidBlockHeight,
+    blockhash: RECENTBLOCKHASH.blockhash,
+    lastValidBlockHeight: RECENTBLOCKHASH.lastValidBlockHeight,
     feePayer: signer.publicKey,
   });
   transaction.add(
