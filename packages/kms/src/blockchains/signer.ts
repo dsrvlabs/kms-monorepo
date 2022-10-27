@@ -3,13 +3,27 @@ import { mnemonicToSeedSync } from 'bip39';
 import BIP32Factory from 'bip32';
 import * as ecc from 'tiny-secp256k1';
 import { SignKeyPair } from 'tweetnacl';
-import { Account, BIP44, CHAIN, PathOption, SignedMsg, SignedTx, SimpleKeypair } from '../types';
+import {
+  Account,
+  BIP44,
+  CHAIN,
+  KeyOption,
+  PathOption,
+  SignedMsg,
+  SignedTx,
+  SimpleKeypair,
+} from '../types';
+import { isHexString } from './utils';
 
-export function getDerivePath(path: BIP44): string[] {
+export function getDerivePath(path: BIP44, option?: KeyOption): string[] {
   switch (path.type) {
     case CHAIN.ETHEREUM:
-      if (path.keyType === 'withdrawal' || path.keyType === 'signing') {
-        return path.keyType === 'withdrawal'
+      if (
+        option &&
+        option.keyType &&
+        (option.keyType === 'withdrawal' || option.keyType === 'signing')
+      ) {
+        return option.keyType === 'withdrawal'
           ? [`m/12381/3600/${path.index}/0`, `m/12381/3600/[INDEX]/0`]
           : [`m/12381/3600/${path.index}/0/0`, `m/12381/3600/[INDEX]/0/0`];
       }
@@ -62,23 +76,32 @@ export abstract class Signer {
     return { seed, child };
   }
 
-  static getPrivateKey(_pk: string | PathOption): string {
+  static getPrivateKey(_pk: string | PathOption, _option?: KeyOption): string {
     throw new Error('not implemented!');
   }
 
-  protected static getKeyPair(_pk: string | PathOption): SimpleKeypair | SignKeyPair {
+  static isHexString(hex: string) {
+    if (!isHexString(hex)) {
+      throw new Error('not implemented!');
+    }
+  }
+
+  protected static getKeyPair(
+    _pk: string | PathOption,
+    _option?: KeyOption,
+  ): SimpleKeypair | SignKeyPair {
     throw new Error('not implemented!');
   }
 
-  static getAccount(_pk: string | PathOption, _prefix?: string): Account {
+  static getAccount(_pk: string | PathOption, _option?: KeyOption): Account {
     throw new Error('not implemented!');
   }
 
-  static signTx(_pk: string | PathOption, _serializedTx: string): SignedTx {
+  static signTx(_pk: string | PathOption, _unsignedTx: string, _option?: KeyOption): SignedTx {
     throw new Error('not implemented!');
   }
 
-  static signMsg(_pk: string | PathOption, _message: string): SignedMsg {
+  static signMsg(_pk: string | PathOption, _message: string, _option?: KeyOption): SignedMsg {
     throw new Error('not implemented!');
   }
 }

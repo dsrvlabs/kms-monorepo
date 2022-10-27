@@ -38,25 +38,16 @@ export class Aptos extends Signer {
     };
   }
 
-  static signTx(pk: string | PathOption, serializedTx: string): SignedTx {
+  static signTx(pk: string | PathOption, unsignedTx: string): SignedTx {
+    super.isHexString(unsignedTx);
     const keyPair = Aptos.getKeyPair(pk);
     const signature = Buffer.from(
-      naclSign(Buffer.from(stripHexPrefix(serializedTx), 'hex'), keyPair.secretKey),
+      naclSign(Buffer.from(stripHexPrefix(unsignedTx), 'hex'), keyPair.secretKey),
     )
       .toString('hex')
       .slice(0, 128);
-    const hash = sha3_256(
-      Buffer.from(
-        // sha3_256(Buffer.from("APTOS::Transaction", "utf8"))
-        `fa210a9417ef3e7fa45bfa1d17a8dbd4d883711910a550d265fee189e9266dd400${stripHexPrefix(
-          serializedTx,
-        ).slice(64)}0020${Buffer.from(keyPair.publicKey).toString('hex')}40${signature}`,
-        'hex',
-      ),
-    );
     return {
-      serializedTx,
-      hash: addHexPrefix(Buffer.from(hash).toString('hex')),
+      unsignedTx,
       signature: addHexPrefix(signature),
     };
   }

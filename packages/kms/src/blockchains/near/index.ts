@@ -9,16 +9,12 @@ import { getDerivePath, Signer } from '../signer';
 
 export { CHAIN } from '../../types';
 
-function sign(keyPair: SignKeyPair, message: Uint8Array): { hash: string; signature: string } {
-  const hash = sha256(message);
+function sign(keyPair: SignKeyPair, message: Uint8Array): string {
   const signature = naclSign.detached(
     sha256(message),
     decode(encode(Buffer.from(keyPair.secretKey))),
   );
-  return {
-    hash: encode(hash),
-    signature: addHexPrefix(Buffer.from(signature).toString('hex')),
-  };
+  return addHexPrefix(Buffer.from(signature).toString('hex'));
 }
 
 export class Near extends Signer {
@@ -47,19 +43,19 @@ export class Near extends Signer {
     };
   }
 
-  static signTx(pk: string | PathOption, serializedTx: string): SignedTx {
+  static signTx(pk: string | PathOption, unsignedTx: string): SignedTx {
+    super.isHexString(unsignedTx);
     const keyPair = Near.getKeyPair(pk);
-    const { hash, signature } = sign(keyPair, Buffer.from(serializedTx, 'base64'));
+    const signature = sign(keyPair, Buffer.from(unsignedTx, 'hex'));
     return {
-      serializedTx,
-      hash,
+      unsignedTx,
       signature,
     };
   }
 
   static signMsg(pk: string | PathOption, message: string): SignedMsg {
     const keyPair = Near.getKeyPair(pk);
-    const { signature } = sign(
+    const signature = sign(
       keyPair,
       isHexString(message)
         ? Buffer.from(stripHexPrefix(message), 'hex')

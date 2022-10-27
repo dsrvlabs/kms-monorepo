@@ -3,7 +3,7 @@ import { decode, encode } from 'bs58';
 import { sha3_256 } from '@noble/hashes/sha3';
 import { SignKeyPair, sign as naclSign } from 'tweetnacl';
 import { derivePath } from 'ed25519-hd-key';
-import { addHexPrefix } from '../utils';
+import { addHexPrefix, stripHexPrefix } from '../utils';
 import { Account, PathOption, SignedTx } from '../../types';
 import { getDerivePath, Signer } from '../signer';
 
@@ -40,20 +40,19 @@ export class Sui extends Signer {
     sha3_256(temp).slice(0, 40);
     return {
       address: addHexPrefix(Buffer.from(sha3_256(temp).slice(0, 20)).toString('hex')),
-      publicKey: Buffer.from(keyPair.publicKey).toString('base64'),
+      publicKey: addHexPrefix(Buffer.from(keyPair.publicKey).toString('hex')),
     };
   }
 
-  static signTx(pk: string | PathOption, serializedTx: string): SignedTx {
+  static signTx(pk: string | PathOption, unsignedTx: string): SignedTx {
+    super.isHexString(unsignedTx);
     const keyPair = Sui.getKeyPair(pk);
-    const temp = Buffer.from(serializedTx, 'base64');
-    const hash = Buffer.from(sha3_256(temp)).toString('base64');
-    const signature = Buffer.from(
-      naclSign.detached(Buffer.from(serializedTx, 'base64'), keyPair.secretKey),
-    ).toString('base64');
+    const temp = Buffer.from(stripHexPrefix(unsignedTx), 'hex');
+    const signature = addHexPrefix(
+      Buffer.from(naclSign.detached(temp, keyPair.secretKey)).toString('hex'),
+    );
     return {
-      serializedTx,
-      hash,
+      unsignedTx,
       signature: signature.toString(),
     };
   }
