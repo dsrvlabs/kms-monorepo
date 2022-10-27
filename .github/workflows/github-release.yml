@@ -1,6 +1,9 @@
 name: Main
 
-on: push
+on:
+  push:
+    branches:
+      - main
 
 jobs:
   build:
@@ -24,8 +27,8 @@ jobs:
       - name: make zip file
         uses: vimtor/action-zip@v1
         with:
-          files: packages/kms/lib
-          dest: packages/kms/@dsrv-kms.zip
+          files: packages/kms
+          dest: packages/@dsrv-kms.zip
       - id: get_version
         uses: battila7/get-version-action@v2
       - name: Release
@@ -35,4 +38,4 @@ jobs:
           prerelease: false
           name: ${{ steps.version.outputs.version }}
           tag_name: ${{ github.ref }}
-          files: packages/kms/@dsrv-kms.zip
+          files: packages/@dsrv-kms.zip
