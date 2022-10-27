@@ -2,7 +2,7 @@ export const RPC_URL = {
   NEAR: 'https://near-testnet-rpc.allthatnode.com:3030',
   COSMOS: 'https://cosmos-testnet-rpc.allthatnode.com:26657',
   SOLANA: 'https://solana-devnet-rpc.allthatnode.com',
-  APTOS: 'https://aptos-devnet-rpc.allthatnode.com',
+  APTOS: 'https://fullnode.devnet.aptoslabs.com/v1',
   ETHEREUM: 'https://ethereum-goerli-rpc.allthatnode.com',
   CELO: 'https://celo-alfajores-rpc.allthatnode.com',
 };

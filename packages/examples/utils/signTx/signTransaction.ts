@@ -26,17 +26,23 @@ import {
   getEthereumAccount,
   getNearAccount,
 } from '../getAccount';
+import { createAptosSignedTx } from '../createSignedTx/createAptosSignedTx';
 
 /* Aptos signTx */
 export const getAptosSignedTx = async (mnemonic: string) => {
   const { serializedTx, unSignedTx } = await getAptosTx(mnemonic);
-  const aptosSignedTx = Aptos.signTx(
+  const aptosSignature = Aptos.signTx(
     {
       mnemonic,
       path: { type: CHAIN.APTOS, account: 0, index: 0 },
     },
     serializedTx,
   );
+  const aptosSignedTx = createAptosSignedTx({
+    serializedTx,
+    signature: aptosSignature.signature,
+    mnemonic,
+  });
 
   return aptosSignedTx;
 };
