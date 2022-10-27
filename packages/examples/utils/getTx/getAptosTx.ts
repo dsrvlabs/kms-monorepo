@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
-import { Account } from '@dsrv/kms/src/types';
 import { RPC_URL } from '../../constants';
+import { getAptosAccount } from '../getAccount';
 
 const { AptosClient, TxnBuilderTypes, BCS, getAccountResources } = require('aptos');
 // eslint-disable-next-line camelcase
@@ -24,10 +24,12 @@ export const getAccountExists = async (address: string) => {
   }
 };
 
-export const getAptosSerializedTx = async (account: Account) => {
+export const getAptosTx = async (mnemonic: string) => {
   const MAX_GAS_AMOUNT = 150;
   const GAS_UNIT_PRICE = 1;
   const amount = 10;
+
+  const account = getAptosAccount(mnemonic);
 
   await getAccountExists(account.address);
   const { sequence_number: sequenceNumber } = await aptos.getAccount(account.address);
@@ -64,5 +66,9 @@ export const getAptosSerializedTx = async (account: Account) => {
     Buffer.from(sha3_256(Buffer.from('APTOS::RawTransaction', 'ascii')), 'hex'),
     Buffer.from(BCS.bcsToBytes(rawTxn)),
   ]).toString('hex')}`;
-  return Buffer.from(BCS.bcsToBytes(rawTxnWithSalt)).toString('hex');
+
+  return {
+    serializedTx: rawTxnWithSalt,
+    unSignedTx: rawTxn,
+  };
 };

@@ -8,7 +8,7 @@ import { Solana } from '@dsrv/kms/lib/blockchains/solana';
 import { Sui } from '@dsrv/kms/lib/blockchains/sui';
 import { Aptos } from '@dsrv/kms/lib/blockchains/aptos';
 import { Transaction } from '@solana/web3.js';
-import { getAptosSerializedTx } from '../getTx/getAptosSerializedTx';
+import { getAptosTx } from '../getTx/getAptosTx';
 import { getCeloTx } from '../getTx/getCeloTx';
 import { getCosmosTx } from '../getTx/getCosmosTx';
 import { getEthereumTx } from '../getTx/getEthereumTx';
@@ -19,14 +19,17 @@ import { createCeloSignedTx } from '../createSignedTx/createCeloSignedTx';
 import { createNearSignedTx } from '../createSignedTx/createNearSignedTx';
 import { createCosmosSignedTx } from '../createSignedTx/createCosmosSignedTx';
 import { createSolanaSignedTx } from '../createSignedTx/createSolanaSignedtx';
+import {
+  getAptosAccount,
+  getCeloAccount,
+  getCosmosAccount,
+  getEthereumAccount,
+  getNearAccount,
+} from '../getAccount';
 
 /* Aptos signTx */
 export const getAptosSignedTx = async (mnemonic: string) => {
-  const aptosAccount = Aptos.getAccount({
-    mnemonic,
-    path: { type: CHAIN.APTOS, account: 0, index: 0 },
-  });
-  const serializedTx = await getAptosSerializedTx(aptosAccount);
+  const { serializedTx, unSignedTx } = await getAptosTx(mnemonic);
   const aptosSignedTx = Aptos.signTx(
     {
       mnemonic,
@@ -40,10 +43,7 @@ export const getAptosSignedTx = async (mnemonic: string) => {
 
 /* Cosmos signTx */
 export const getCosmosSignedTx = async (mnemonic: string) => {
-  const cosmosAccount = Cosmos.getAccount({
-    mnemonic,
-    path: { type: CHAIN.COSMOS, account: 0, index: 0 },
-  });
+  const cosmosAccount = getCosmosAccount(mnemonic);
   const { serializedTx, unSignedTx } = await getCosmosTx(cosmosAccount);
   const cosmosSignature = Cosmos.signTx(
     {
@@ -64,10 +64,7 @@ export const getCosmosSignedTx = async (mnemonic: string) => {
 
 /* Ethereum signTx */
 export const getEthereumSignedTx = async (mnemonic: string) => {
-  const ethereumAccount = Ethereum.getAccount({
-    mnemonic,
-    path: { type: CHAIN.ETHEREUM, account: 0, index: 0 },
-  });
+  const ethereumAccount = getEthereumAccount(mnemonic);
   const { serializedTx, unSignedTx } = await getEthereumTx(ethereumAccount);
 
   const ethereumSignature = Ethereum.signTx(
@@ -90,10 +87,7 @@ export const getEthereumSignedTx = async (mnemonic: string) => {
 
 /* Celo signTx */
 export const getCeloSignedTx = async (mnemonic: string) => {
-  const celoAccount = Ethereum.getAccount({
-    mnemonic,
-    path: { type: CHAIN.CELO, account: 0, index: 0 },
-  });
+  const celoAccount = getCeloAccount(mnemonic);
   const { serializedTx, unSignedTx } = await getCeloTx(celoAccount);
   const celoSignature = Ethereum.signTx(
     {
@@ -114,10 +108,7 @@ export const getCeloSignedTx = async (mnemonic: string) => {
 
 /* Near signTx */
 export const getNearSignedTx = async (mnemonic: string) => {
-  const nearAccount = Near.getAccount({
-    mnemonic,
-    path: { type: CHAIN.NEAR, account: 0, index: 1 },
-  });
+  const nearAccount = getNearAccount(mnemonic);
   const { serializedTx, unSignedTx } = await getNearTx(nearAccount);
   const nearSignature = Near.signTx(
     {
@@ -134,7 +125,6 @@ export const getNearSignedTx = async (mnemonic: string) => {
 
 export const getSolanaSignedTx = async (mnemonic: string) => {
   const { serializedTx, unSignedTx } = await getSolanaTx(mnemonic);
-  console.log('serializedTx', serializedTx);
   const solanaSignature = Solana.signTx(
     {
       mnemonic,

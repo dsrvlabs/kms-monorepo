@@ -1,4 +1,4 @@
-export * from './getAptosSerializedTx';
+export * from './getAptosTx';
 export * from './getCeloTx';
 export * from './getCosmosTx';
 export * from './getEthereumTx';
