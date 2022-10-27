@@ -38,13 +38,13 @@ export const getAptosSignedTx = async (mnemonic: string) => {
     },
     serializedTx,
   );
-  const aptosSignedTx = createAptosSignedTx({
+  const aptosSignedTx = await createAptosSignedTx({
     serializedTx,
     signature: aptosSignature.signature,
     mnemonic,
   });
 
-  return aptosSignedTx;
+  return { aptosSignedTx, signature: aptosSignature.signature };
 };
 
 /* Cosmos signTx */
@@ -65,7 +65,7 @@ export const getCosmosSignedTx = async (mnemonic: string) => {
   });
 
   console.log('[cosmos] cosmosSignedTx', cosmosSignedTx);
-  return cosmosSignedTx;
+  return { cosmosSignedTx, signature: cosmosSignature.signature };
 };
 
 /* Ethereum signTx */
@@ -88,7 +88,7 @@ export const getEthereumSignedTx = async (mnemonic: string) => {
 
   console.log('ethereumSignature: ', ethereumSignature);
 
-  return ethereumSignedTx;
+  return { ethereumSignedTx, signature: ethereumSignature.signature };
 };
 
 /* Celo signTx */
@@ -109,7 +109,7 @@ export const getCeloSignedTx = async (mnemonic: string) => {
 
   console.log('celoSignature: ', celoSignature);
 
-  return celoSignedTx;
+  return { celoSignedTx, signature: celoSignature.signature };
 };
 
 /* Near signTx */
@@ -126,7 +126,7 @@ export const getNearSignedTx = async (mnemonic: string) => {
 
   const nearSignedTx = createNearSignedTx({ unSignedTx, signature: nearSignature.signature });
   console.log('near signedeTx', nearSignedTx);
-  return nearSignedTx;
+  return { nearSignedTx, signature: nearSignature.signature };
 };
 
 export const getSolanaSignedTx = async (mnemonic: string) => {
@@ -139,11 +139,11 @@ export const getSolanaSignedTx = async (mnemonic: string) => {
     serializedTx,
   );
 
-  const solanaSignedTx = createSolanaSignedTx({
+  const solanaSignedTx = await createSolanaSignedTx({
     unSignedTx,
     signature: solanaSignature.signature,
     mnemonic,
   });
 
-  return solanaSignedTx;
+  return { solanaSignedTx, signature: solanaSignature.signature };
 };

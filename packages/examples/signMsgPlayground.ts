@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { getNearSignMsg, getSolanaSignMsg } from './utils/signMessage';
 
 const MNEMONIC = require('./mnemonic.json');

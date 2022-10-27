@@ -66,7 +66,6 @@ export const getEth2AccountSign = (mnemonic: string) => {
       type: CHAIN.ETHEREUM,
       account: 0,
       index: 0,
-      keyType: 'signing',
     },
   });
   return eth2AccountSign;
