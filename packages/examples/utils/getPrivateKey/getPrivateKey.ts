@@ -46,29 +46,37 @@ export const getCeloPrivateKey = (mnemonic: string) => {
 
 /* Eth2 getPrivateKey (withdrawal)  */
 export const getEth2PrivateKeyWithdrawal = (mnemonic: string) => {
-  const eth2PrivateKeyWithdrawal = Eth2.getPrivateKey({
-    mnemonic,
-    path: {
-      type: CHAIN.ETHEREUM,
-      account: 0,
-      index: 0,
+  const eth2PrivateKeyWithdrawal = Eth2.getPrivateKey(
+    {
+      mnemonic,
+      path: {
+        type: CHAIN.ETHEREUM,
+        account: 0,
+        index: 0,
+      },
+    },
+    {
       keyType: 'withdrawal',
     },
-  });
+  );
   return eth2PrivateKeyWithdrawal;
 };
 
 /* Eth2 getPrivateKey (signing)  */
 export const getEth2PrivateKeySign = (mnemonic: string) => {
-  const eth2PrivateKeySign = Eth2.getPrivateKey({
-    mnemonic,
-    path: {
-      type: CHAIN.ETHEREUM,
-      account: 0,
-      index: 0,
+  const eth2PrivateKeySign = Eth2.getPrivateKey(
+    {
+      mnemonic,
+      path: {
+        type: CHAIN.ETHEREUM,
+        account: 0,
+        index: 0,
+      },
+    },
+    {
       keyType: 'signing',
     },
-  });
+  );
   return eth2PrivateKeySign;
 };
 

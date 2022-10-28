@@ -49,8 +49,8 @@ export const getAptosSignedTx = async (mnemonic: string) => {
 
 /* Cosmos signTx */
 export const getCosmosSignedTx = async (mnemonic: string) => {
-  const cosmosAccount = getCosmosAccount(mnemonic);
-  const { serializedTx, unSignedTx } = await getCosmosTx(cosmosAccount);
+  const { serializedTx, unSignedTx } = await getCosmosTx(mnemonic);
+
   const cosmosSignature = Cosmos.signTx(
     {
       mnemonic,
@@ -64,7 +64,6 @@ export const getCosmosSignedTx = async (mnemonic: string) => {
     signature: cosmosSignature.signature,
   });
 
-  console.log('[cosmos] cosmosSignedTx', cosmosSignedTx);
   return { cosmosSignedTx, signature: cosmosSignature.signature };
 };
 
@@ -85,8 +84,6 @@ export const getEthereumSignedTx = async (mnemonic: string) => {
     unSignedTx,
     signature: ethereumSignature.signature,
   });
-
-  console.log('ethereumSignature: ', ethereumSignature);
 
   return { ethereumSignedTx, signature: ethereumSignature.signature };
 };
@@ -144,6 +141,7 @@ export const getSolanaSignedTx = async (mnemonic: string) => {
     signature: solanaSignature.signature,
     mnemonic,
   });
+  console.log('이게 실행이 되나요?..');
 
   return { solanaSignedTx, signature: solanaSignature.signature };
 };

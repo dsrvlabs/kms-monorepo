@@ -46,28 +46,37 @@ export const getCeloAccount = (mnemonic: string) => {
 
 /* Eth2 getAccount (withdrawal)  */
 export const getEth2AccountWithdrawal = (mnemonic: string) => {
-  const eth2AccountWithdrawal = Eth2.getAccount({
-    mnemonic,
-    path: {
-      type: CHAIN.ETHEREUM,
-      account: 0,
-      index: 0,
+  const eth2AccountWithdrawal = Eth2.getAccount(
+    {
+      mnemonic,
+      path: {
+        type: CHAIN.ETHEREUM,
+        account: 0,
+        index: 0,
+      },
+    },
+    {
       keyType: 'withdrawal',
     },
-  });
+  );
   return eth2AccountWithdrawal;
 };
 
 /* Eth2 getAccount (signing)  */
 export const getEth2AccountSign = (mnemonic: string) => {
-  const eth2AccountSign = Eth2.getAccount({
-    mnemonic,
-    path: {
-      type: CHAIN.ETHEREUM,
-      account: 0,
-      index: 0,
+  const eth2AccountSign = Eth2.getAccount(
+    {
+      mnemonic,
+      path: {
+        type: CHAIN.ETHEREUM,
+        account: 0,
+        index: 0,
+      },
     },
-  });
+    {
+      keyType: 'signing',
+    },
+  );
   return eth2AccountSign;
 };
 

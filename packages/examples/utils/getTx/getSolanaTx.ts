@@ -24,8 +24,8 @@ export const getSolanaTx = async (mnemonic: string) => {
 
   const transaction = new Transaction({
     /* blockHash for test */
-    // blockhash: 'HmJjk8gdw4t8jae256JqGZF7cnNRvuaUMi3DcU78dtip',
-    // lastValidBlockHeight: 161671223,
+    // blockhash: '852CyQC94LPugTAsv8jeBqMR5WxTGpXb5hJdWBpz6pfr',
+    // lastValidBlockHeight: 161918865,
     /* new blockHash */
     blockhash: RECENTBLOCKHASH.blockhash,
     lastValidBlockHeight: RECENTBLOCKHASH.lastValidBlockHeight,
@@ -43,7 +43,7 @@ export const getSolanaTx = async (mnemonic: string) => {
   // console.log('result', result);
 
   return {
-    serializedTx: transaction.compileMessage().serialize().toString('hex'),
+    serializedTx: `0x${transaction.compileMessage().serialize().toString('hex')}`,
     unSignedTx: transaction,
   };
 };

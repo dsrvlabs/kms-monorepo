@@ -9,7 +9,7 @@ export const cosmosSdkSignedTx = async (mnemonic: string) => {
     mnemonic,
     path: { type: CHAIN.COSMOS, account: 0, index: 0 },
   });
-  const { unSignedTx } = await getCosmosTx(cosmosAccount);
+  const { unSignedTx } = await getCosmosTx(mnemonic);
 
   const privateKey = Cosmos.getPrivateKey({
     mnemonic,

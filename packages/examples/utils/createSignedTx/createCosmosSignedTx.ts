@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
+import { sendCosmosTransaction } from '../sendTransaction';
 
 interface createCosmosSignedTxProps {
   unSignedTx: any;
@@ -7,7 +8,6 @@ interface createCosmosSignedTxProps {
 }
 
 export const createCosmosSignedTx = ({ unSignedTx, signature }: createCosmosSignedTxProps) => {
-  console.log('unSignedTx', unSignedTx);
   const txRaw = TxRaw.fromPartial({
     bodyBytes: unSignedTx.bodyBytes,
     authInfoBytes: unSignedTx.authInfoBytes,
@@ -16,5 +16,6 @@ export const createCosmosSignedTx = ({ unSignedTx, signature }: createCosmosSign
 
   const txByte = TxRaw.encode(txRaw).finish();
   const signedTx = `0x${Buffer.from(txByte).toString('hex')}`;
+
   return signedTx;
 };

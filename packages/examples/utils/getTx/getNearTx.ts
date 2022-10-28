@@ -31,7 +31,7 @@ export const getNearTx = async (account: Account) => {
     accountIds[1],
     utils.PublicKey.fromString(publicKey),
     accountIds[1],
-    accessKey.nonce + 1000,
+    accessKey.nonce,
     actions,
     recentBlockHash,
   );

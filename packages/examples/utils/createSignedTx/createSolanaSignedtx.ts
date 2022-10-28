@@ -11,10 +11,6 @@ export const createSolanaSignedTx = async ({
   signature,
 }: createSolanaSignedTxProps) => {
   const bufferSig = Buffer.from(signature.replace('0x', ''), 'hex');
-  // const sdkSig = await solanaSdkSignedTx(mnemonic, unSignedTx);
-
-  // console.log('sdksig', sdkSig);
-  // unSignedTx.addSignature(unSignedTx.feePayer, sdkSig);
   unSignedTx.addSignature(unSignedTx.feePayer, bufferSig);
   const serializedTx = unSignedTx.serialize().toString('hex');
   return serializedTx;
