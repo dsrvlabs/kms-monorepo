@@ -9,12 +9,10 @@ export const sendCosmosTransaction = async (serializedTx) => {
     return { error: 'transaction error' };
   }
 
-  console.log('serializedTx', serializedTx);
   const client = await StargateClient.connect(rpcUrl);
   const txResult = await client.broadcastTx(
     // serializedTx,
     Uint8Array.from(Buffer.from(serializedTx.replace('0x', ''), 'hex')),
   );
-  console.log('txResult', txResult);
   return txResult;
 };

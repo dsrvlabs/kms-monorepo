@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { Account } from '@dsrv/kms/src/types';
 import {
   Registry,
@@ -5,8 +6,11 @@ import {
   makeSignDoc,
   encodePubkey,
   makeSignBytes,
+  DirectSecp256k1HdWallet,
+  TxBodyEncodeObject,
 } from '@cosmjs/proto-signing';
 import { encodeSecp256k1Pubkey } from '@cosmjs/amino';
+import { Int53 } from '@cosmjs/math';
 import { RPC_URL, RECEIVER_ADDRESS } from '../../constants';
 
 const { StargateClient, defaultRegistryTypes } = require('@cosmjs/stargate');
@@ -14,10 +18,11 @@ const { StargateClient, defaultRegistryTypes } = require('@cosmjs/stargate');
 const getTxBodyBytes = (transaction) => {
   const registry = new Registry(defaultRegistryTypes);
 
-  const txBodyEncodeObject = {
+  const txBodyEncodeObject: TxBodyEncodeObject = {
     typeUrl: '/cosmos.tx.v1beta1.TxBody',
     value: {
       messages: transaction.msgs,
+      memo: transaction.memo,
     },
   };
 
@@ -25,47 +30,40 @@ const getTxBodyBytes = (transaction) => {
   return txBodyBytes;
 };
 
-// const fromHexString = (hexString) =>
-//   Uint8Array.from(hexString.match(/.{1,2}/g).map((byte) => parseInt(byte, 16)));
-
-const getAuthInfoBytes = (transaction, account) => {
-  // @TODO pubkey type?
-  const bufferPubkey = Buffer.from(account.publicKey, 'base64');
-  const pubkey = encodePubkey(encodeSecp256k1Pubkey(bufferPubkey));
-  // console.log('pubkey', pubkey);
+const getAuthInfoBytes = (transaction, pubkey) => {
+  const gasLimit = Int53.fromString(transaction.fee.gas).toNumber();
   const authInfoBytes = makeAuthInfoBytes(
     [
       {
-        pubkey,
+        pubkey: encodePubkey(encodeSecp256k1Pubkey(pubkey)),
         sequence: transaction.signerData.sequence,
       },
     ],
     transaction.fee.amount,
-    Number(transaction.fee.gas),
+    gasLimit,
     undefined,
     undefined,
+    // 1,
   );
-  // console.log('>>', transaction.signerData.sequence);
-  // console.log('authInfoBytes', authInfoBytes);
+
   return authInfoBytes;
 };
 
-export const getCosmosTx = async (account: Account) => {
+export const getCosmosTx = async (mnemonic: string) => {
+  const wallet = await DirectSecp256k1HdWallet.fromMnemonic(mnemonic);
+  const [{ address, pubkey }] = await wallet.getAccounts();
   /* create transaction */
   const rpcUrl = RPC_URL.COSMOS;
   // const rpcUrl = 'https://rpc.cosmos.network';
   const client = await StargateClient.connect(rpcUrl);
-  const sequence = await client.getSequence(account.address);
+  const sequence = await client.getSequence(address);
   const chainId = await client.getChainId();
-
-  console.log('chainId,', chainId);
-  console.log('sequence', sequence);
 
   const transaction = {
     signerData: {
       accountNumber: sequence.accountNumber,
       sequence: sequence.sequence,
-      chainId: 'theta-testnet',
+      chainId,
     },
     fee: {
       amount: [
@@ -76,12 +74,12 @@ export const getCosmosTx = async (account: Account) => {
       ],
       gas: '180000', // 180k
     },
-    // memo: '',
+    memo: 'dsrv/kms',
     msgs: [
       {
         typeUrl: '/cosmos.bank.v1beta1.MsgSend',
         value: {
-          fromAddress: account.address,
+          fromAddress: address,
           toAddress: RECEIVER_ADDRESS.COSMOS,
           amount: [{ denom: 'uatom', amount: '10000' }],
         },
@@ -92,9 +90,8 @@ export const getCosmosTx = async (account: Account) => {
 
   /* create signDoc */
   const txBodyBytes = getTxBodyBytes(transaction);
-  const authInfoBytes = getAuthInfoBytes(transaction, account);
+  const authInfoBytes = getAuthInfoBytes(transaction, pubkey);
 
-  console.log('transaction.signerData.chainId', transaction.signerData.chainId);
   const signDoc = makeSignDoc(
     txBodyBytes,
     authInfoBytes,
@@ -105,7 +102,7 @@ export const getCosmosTx = async (account: Account) => {
   /* serialized singDoc */
 
   const uint8SignDoc = makeSignBytes(signDoc);
-  const serializedTx = Buffer.from(uint8SignDoc).toString('hex');
+  const serializedTx = `0x${Buffer.from(uint8SignDoc).toString('hex')}`;
 
   return {
     unSignedTx: signDoc,
