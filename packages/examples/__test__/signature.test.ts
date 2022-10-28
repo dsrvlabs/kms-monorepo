@@ -1,36 +1,14 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
-import { createKeyStore, getMnemonic } from '@dsrv/kms/src/argon2';
-import { CHAIN } from '@dsrv/kms/src/types';
-import { Aptos } from '@dsrv/kms/src/blockchains/aptos';
-import { Cosmos } from '@dsrv/kms/src/blockchains/cosmos';
-import { Ethereum } from '@dsrv/kms/src/blockchains/ethereum';
-import { Eth2 } from '@dsrv/kms/src/blockchains/eth2';
-import { Near } from '@dsrv/kms/src/blockchains/near';
-import { Solana } from '@dsrv/kms/src/blockchains/solana';
-import { Sui } from '@dsrv/kms/src/blockchains/sui';
-import {
-  celoSdkSignedTx,
-  cosmosSdkSignedTx,
-  ethereumSdkSignedTx,
-  nearSdkSignedTx,
-} from '../utils/sdkSignedTx';
-import {
-  getCeloSignedTx,
-  getCosmosSignedTx,
-  getEthereumSignedTx,
-  getNearAccount,
-  getNearSignedTx,
-  getNearTx,
-} from '../utils';
+import { celoSdkSignedTx, cosmosSdkSignedTx, ethereumSdkSignedTx } from '../utils/sdkSignedTx';
+import { getCeloSignedTx, getCosmosSignedTx, getEthereumSignedTx } from '../utils';
 import { getNearSignature } from '../utils/signatureTest/getNearSignature';
 import { getSolanaSignature } from '../utils/signatureTest/getSolanaSignature';
+import { getAptosSignature } from '../utils/signatureTest';
 
 // const mnemonic = 'shoot island position soft burden budget tooth cruel issue economy destroy above';
 const MNEMONIC = require('../mnemonic.json');
 
 const mnemonic = MNEMONIC.bip44;
-const { password } = MNEMONIC;
 
 test('ethereum - signature test', async () => {
   const ethereumSdkSignature = await ethereumSdkSignedTx(mnemonic);
@@ -61,8 +39,8 @@ test('solana - signature test', async () => {
   expect(signature).toEqual(solanaSdkSignature);
 });
 
-// test('aptos - signature test', async () => {
-//   const { signature, nearSdkSignature } = await getNearSignature();
+test('aptos - signature test', async () => {
+  const { signature, aptosSdkSignature } = await getAptosSignature();
 
-//   expect(signature).toEqual(nearSdkSignature);
-// });
+  expect({ hexString: signature }).toEqual(aptosSdkSignature);
+});
