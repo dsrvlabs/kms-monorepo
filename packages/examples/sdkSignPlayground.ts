@@ -10,23 +10,23 @@ const MNEMONIC = require('./mnemonic.json');
 
 const main = async () => {
   const mnemonic = MNEMONIC.bip44;
-  // const ethereumSingedTx = await ethereumSdkSignedTx(mnemonic);
-  // console.log('[By SDK] Ethereum Tx : ', ethereumSingedTx);
+  const ethereumSignedTxSignature = await ethereumSdkSignedTx(mnemonic);
+  console.log('[By SDK] Ethereum Tx : ', ethereumSignedTxSignature);
 
-  // const celoSignedTx = await celoSdkSignedTx(mnemonic);
-  // console.log('[By SDK] Celo Tx : ', celoSignedTx);
+  const celoSignedTxSignature = await celoSdkSignedTx(mnemonic);
+  console.log('[By SDK] Celo Tx : ', celoSignedTxSignature);
 
-  // const nearSignedTx = await nearSdkSignedTx(mnemonic);
-  // console.log('[By SDK] Near Tx : ', nearSignedTx);
+  const nearSignedTxSignature = await nearSdkSignedTx(mnemonic);
+  console.log('[By SDK] Near Tx : ', nearSignedTxSignature);
 
-  // const cosmosSignedTx = await cosmosSdkSignedTx(mnemonic);
-  // console.log('[By SDK] Cosmos Tx : ', cosmosSignedTx);
+  const cosmosSignedTxSignature = await cosmosSdkSignedTx(mnemonic);
+  console.log('[By SDK] Cosmos Tx : ', cosmosSignedTxSignature);
 
-  const solanaSignedTx = await solanaSdkSignedTx(mnemonic);
-  console.log('[By SDK] Solana Tx : ', solanaSignedTx);
+  const solanaSignedTxSignature = await solanaSdkSignedTx(mnemonic);
+  console.log('[By SDK] Solana Tx : ', solanaSignedTxSignature);
 
-  // const aptosSignedTx = await aptosSdkSignedTx(mnemonic);
-  // console.log('[By SDK] aptos Tx : ', aptosSignedTx);
+  const aptosSignedTxSignature = await aptosSdkSignedTx(mnemonic);
+  console.log('[By SDK] aptos Tx : ', aptosSignedTxSignature);
 };
 
 main();

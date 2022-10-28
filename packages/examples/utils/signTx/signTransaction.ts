@@ -104,8 +104,6 @@ export const getCeloSignedTx = async (mnemonic: string) => {
     signature: celoSignature.signature,
   });
 
-  console.log('celoSignature: ', celoSignature);
-
   return { celoSignedTx, signature: celoSignature.signature };
 };
 
@@ -122,7 +120,7 @@ export const getNearSignedTx = async (mnemonic: string) => {
   );
 
   const nearSignedTx = createNearSignedTx({ unSignedTx, signature: nearSignature.signature });
-  console.log('near signedeTx', nearSignedTx);
+
   return { nearSignedTx, signature: nearSignature.signature };
 };
 
@@ -141,7 +139,6 @@ export const getSolanaSignedTx = async (mnemonic: string) => {
     signature: solanaSignature.signature,
     mnemonic,
   });
-  console.log('이게 실행이 되나요?..');
 
   return { solanaSignedTx, signature: solanaSignature.signature };
 };

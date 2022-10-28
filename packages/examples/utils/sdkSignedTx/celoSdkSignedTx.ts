@@ -26,7 +26,7 @@ export const celoSdkSignedTx = async (mnemonic: string) => {
     s: transaction.s,
     v: transaction.v,
   });
-  // console.log('sig', sig);
+
   // const sentTx = await celo.sendTransaction(signedTx);
 
   return sigature;

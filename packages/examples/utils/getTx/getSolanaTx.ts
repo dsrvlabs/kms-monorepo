@@ -40,7 +40,6 @@ export const getSolanaTx = async (mnemonic: string) => {
   );
 
   // const result = await sendAndConfirmTransaction(CONNECTION, transaction, [keyPair]);
-  // console.log('result', result);
 
   return {
     serializedTx: `0x${transaction.compileMessage().serialize().toString('hex')}`,
