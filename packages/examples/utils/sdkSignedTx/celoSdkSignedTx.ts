@@ -21,6 +21,7 @@ export const celoSdkSignedTx = async (mnemonic: string) => {
 
   const signedTx = await wallet.signTransaction(unSignedTx);
   const transaction = ethers.utils.parseTransaction(signedTx);
+  console.log('transaction', transaction);
   const sigature = ethers.utils.joinSignature({
     r: transaction.r,
     s: transaction.s,

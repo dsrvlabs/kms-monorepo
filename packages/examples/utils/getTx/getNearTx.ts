@@ -26,21 +26,25 @@ export const getNearTx = async (account: Account) => {
   const accessKey = await provider.query<AccessKeyView>(param);
   const actions = [transactions.transfer(new BN(10))];
   const recentBlockHash = utils.serialize.base_decode(accessKey.block_hash);
+  // console.log('accessKey.block_hash', accessKey.block_hash);
+  console.log('accountIds', accountIds);
 
   const transaction = transactions.createTransaction(
     accountIds[1],
     utils.PublicKey.fromString(publicKey),
-    accountIds[1],
+    accountIds[2],
     accessKey.nonce,
     actions,
+    // utils.serialize.base_decode('B1PSZitfHMpybsD4cZseKYvmhGyQwuAFb6FmBSXckZ2R'),
     recentBlockHash,
   );
 
   const bytes = transaction.encode();
+
   // const serializedTx = utils.serialize.serialize(transactions.SCHEMA, transaction);
 
   return {
-    serializedTx: Buffer.from(bytes).toString('base64'),
+    serializedTx: `0x${Buffer.from(bytes).toString('hex')}`,
     unSignedTx: transaction,
   };
 };

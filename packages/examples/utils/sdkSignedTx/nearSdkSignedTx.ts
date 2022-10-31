@@ -12,7 +12,6 @@ import { sendNearTransaction } from '../sendTransaction';
 export const nearSdkSignedTx = async (mnemonic: string, unSignedTx?: any) => {
   const nearAccount = getNearAccount(mnemonic);
   const transaction = unSignedTx ? { unSignedTx } : await getNearTx(nearAccount);
-  console.log('transaction', transaction);
 
   /* get serializedTx */
   // const { unSignedTx } = await getNearTx(nearAccount);

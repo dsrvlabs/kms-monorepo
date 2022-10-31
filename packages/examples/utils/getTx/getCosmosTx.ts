@@ -1,5 +1,4 @@
 /* eslint-disable no-unused-vars */
-import { Account } from '@dsrv/kms/src/types';
 import {
   Registry,
   makeAuthInfoBytes,
@@ -54,15 +53,14 @@ export const getCosmosTx = async (mnemonic: string) => {
   const [{ address, pubkey }] = await wallet.getAccounts();
   /* create transaction */
   const rpcUrl = RPC_URL.COSMOS;
-  // const rpcUrl = 'https://rpc.cosmos.network';
   const client = await StargateClient.connect(rpcUrl);
-  const sequence = await client.getSequence(address);
+  // const sequence = await client.getSequence(address);
   const chainId = await client.getChainId();
 
   const transaction = {
     signerData: {
-      accountNumber: sequence.accountNumber,
-      sequence: sequence.sequence,
+      accountNumber: 1, // sequence.accountNumber,
+      sequence: 2, // sequence.sequence,
       chainId,
     },
     fee: {
@@ -85,7 +83,7 @@ export const getCosmosTx = async (mnemonic: string) => {
         },
       },
     ],
-    sequence: sequence.sequence,
+    sequence: 2, // sequence.sequence,
   };
 
   /* create signDoc */

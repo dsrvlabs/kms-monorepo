@@ -111,6 +111,7 @@ export const getCeloSignedTx = async (mnemonic: string) => {
 export const getNearSignedTx = async (mnemonic: string) => {
   const nearAccount = getNearAccount(mnemonic);
   const { serializedTx, unSignedTx } = await getNearTx(nearAccount);
+  console.log('serializedTx>>>>>>to kms', serializedTx);
   const nearSignature = Near.signTx(
     {
       mnemonic,
@@ -118,6 +119,7 @@ export const getNearSignedTx = async (mnemonic: string) => {
     },
     serializedTx,
   );
+  console.log('nearSignature', nearSignature);
 
   const nearSignedTx = createNearSignedTx({ unSignedTx, signature: nearSignature.signature });
 

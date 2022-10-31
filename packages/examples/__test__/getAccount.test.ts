@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import { createKeyStore, getMnemonic } from '@dsrv/kms/src/argon2';
+// import { createKeyStore, getMnemonic } from '@dsrv/kms/src/argon2';
 import { CHAIN } from '@dsrv/kms/src/types';
 import { Aptos } from '@dsrv/kms/src/blockchains/aptos';
 import { Cosmos } from '@dsrv/kms/src/blockchains/cosmos';
@@ -10,14 +10,7 @@ import { Solana } from '@dsrv/kms/src/blockchains/solana';
 import { Sui } from '@dsrv/kms/src/blockchains/sui';
 
 const mnemonic = 'shoot island position soft burden budget tooth cruel issue economy destroy above';
-const password = 'strong password';
-
-test('Argon2', async () => {
-  const keystore = await createKeyStore(mnemonic.split(' '), password);
-  const result = keystore && (await getMnemonic(password, keystore));
-
-  expect(result).toEqual(mnemonic);
-});
+// const password = 'strong password';
 
 test('Aptos - getAccount', () => {
   expect(

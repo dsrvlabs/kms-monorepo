@@ -43,6 +43,7 @@
     "prettier": "prettier --write --config ./.prettierrc \"**/*.{ts,tsx}\"",
     "start:example": "cd packages/examples && ts-node",
     "test:kms": "cd packages/kms && jest",
+    "test:utils": "cd packages/examples && jest",
     "lint": "eslint './packages/**/*.{ts,tsx}'",
     "lint:fix": "eslint --fix './packages/**/*.{ts,tsx}'",
     "prepare": "husky install"
