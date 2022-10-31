@@ -1,10 +1,13 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
-import { cosmosSdkSignedTx, solanaSdkSignedTx } from './utils/sdkSignedTx';
-import { aptosSdkSignedTx } from './utils/sdkSignedTx/aptosSdkSignedTx';
-import { celoSdkSignedTx } from './utils/sdkSignedTx/celoSdkSignedTx';
-import { ethereumSdkSignedTx } from './utils/sdkSignedTx/ethereumSdkSignedTx';
-import { nearSdkSignedTx } from './utils/sdkSignedTx/nearSdkSignedTx';
+import {
+  cosmosSdkSignedTx,
+  solanaSdkSignedTx,
+  aptosSdkSignedTx,
+  celoSdkSignedTx,
+  ethereumSdkSignedTx,
+  nearSdkSignedTx,
+} from './utils/sdkSignedTx';
 
 const MNEMONIC = require('./mnemonic.json');
 

@@ -1,7 +1,4 @@
 /* eslint-disable no-console */
-/* eslint-disable no-unused-vars */
-
-import { ethers } from 'ethers';
 import {
   sendAptosTransaction,
   sendCeloTransaction,
@@ -10,7 +7,6 @@ import {
   sendNearTransaction,
   sendSolanaTransaction,
 } from './utils';
-import { stringToHex } from './utils/common';
 import {
   getAptosSignedTx,
   getCosmosSignedTx,

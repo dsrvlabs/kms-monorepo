@@ -3,7 +3,6 @@ import { Transaction } from '@solana/web3.js';
 interface createSolanaSignedTxProps {
   unSignedTx: Transaction;
   signature: string;
-  mnemonic?: string;
 }
 
 export const createSolanaSignedTx = async ({

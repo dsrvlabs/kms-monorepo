@@ -1,4 +1,3 @@
-// TODO
 export * from './sendEthereumTransaction';
 export * from './sendAptosTransaction';
 export * from './sendCeloTransaction';
