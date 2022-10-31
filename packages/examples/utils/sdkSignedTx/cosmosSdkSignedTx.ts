@@ -4,11 +4,11 @@ import { Cosmos } from '@dsrv/kms';
 import { CHAIN } from '@dsrv/kms/src/types';
 import { getCosmosAccount } from '../getAccount';
 import { getCosmosPrivateKey } from '../getPrivateKey';
-import { getCosmosTx } from '../getTx';
+import { getCosmosOfflineTx, getCosmosTx } from '../getTx';
 
 export const cosmosSdkSignedTx = async (mnemonic: string) => {
   const cosmosAccount = getCosmosAccount(mnemonic);
-  const { unSignedTx } = await getCosmosTx(mnemonic);
+  const { unSignedTx } = await getCosmosOfflineTx(mnemonic);
 
   const privateKey = getCosmosPrivateKey(mnemonic);
 

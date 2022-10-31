@@ -25,12 +25,12 @@ const MNEMONIC = require('./mnemonic.json');
 const main = async () => {
   const mnemonic = MNEMONIC.bip44;
   /* ethereum sendtransaction */
-  // const { ethereumSignedTx } = await getEthereumSignedTx(mnemonic);
-  // console.log('>ethSignedTx', ethereumSignedTx);
-  // const ethereumTxResult = await sendEthereumTransaction(ethereumSignedTx);
-  // console.log('Ethereum TxHash : ', ethereumTxResult);
+  const { ethereumSignedTx } = await getEthereumSignedTx(mnemonic);
+  console.log('>ethSignedTx', ethereumSignedTx);
+  const ethereumTxResult = await sendEthereumTransaction(ethereumSignedTx);
+  console.log('Ethereum TxHash : ', ethereumTxResult);
 
-  // /* celo sendtransaction */
+  /* celo sendtransaction */
   const { celoSignedTx } = await getCeloSignedTx(mnemonic);
   console.log('>celoSignedTx', celoSignedTx);
   const celoTxResult = await sendCeloTransaction(celoSignedTx);

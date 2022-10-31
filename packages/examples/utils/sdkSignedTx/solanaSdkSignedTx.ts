@@ -1,11 +1,11 @@
-import { Keypair, Transaction } from '@solana/web3.js';
+import { Keypair } from '@solana/web3.js';
 import { base58 } from 'ethers/lib/utils';
 import { getSolanaPrivateKey } from '../getPrivateKey';
-import { getSolanaTx } from '../getTx';
+import { getSolanaOfflineTx } from '../getTx';
 
-export const solanaSdkSignedTx = async (mnemonic: string, unSignedTx?: Transaction) => {
+export const solanaSdkSignedTx = async (mnemonic: string) => {
   const privateKey = getSolanaPrivateKey(mnemonic);
-  const transaction = unSignedTx ? { unSignedTx } : await getSolanaTx(mnemonic);
+  const transaction = await getSolanaOfflineTx(mnemonic);
 
   const keyPair = Keypair.fromSecretKey(base58.decode(privateKey));
 

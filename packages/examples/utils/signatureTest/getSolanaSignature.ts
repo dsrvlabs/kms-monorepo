@@ -1,11 +1,11 @@
 /* eslint-disable no-unused-vars */
 import { Solana } from '@dsrv/kms';
 import { CHAIN } from '@dsrv/kms/src/types';
-import { getSolanaTx } from '../getTx';
+import { getSolanaOfflineTx, getSolanaTx } from '../getTx';
 import { solanaSdkSignedTx } from '../sdkSignedTx';
 
 export const getSolanaSignature = async (mnemonic: string) => {
-  const { serializedTx, unSignedTx } = await getSolanaTx(mnemonic);
+  const { serializedTx, unSignedTx } = await getSolanaOfflineTx(mnemonic);
   const { signature } = Solana.signTx(
     {
       mnemonic,
@@ -14,7 +14,7 @@ export const getSolanaSignature = async (mnemonic: string) => {
     serializedTx,
   );
 
-  const solanaSdkSignature = await solanaSdkSignedTx(mnemonic, unSignedTx);
+  const solanaSdkSignature = await solanaSdkSignedTx(mnemonic);
 
   return {
     signature,

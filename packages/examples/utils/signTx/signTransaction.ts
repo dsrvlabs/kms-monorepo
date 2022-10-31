@@ -19,13 +19,6 @@ import { createCeloSignedTx } from '../createSignedTx/createCeloSignedTx';
 import { createNearSignedTx } from '../createSignedTx/createNearSignedTx';
 import { createCosmosSignedTx } from '../createSignedTx/createCosmosSignedTx';
 import { createSolanaSignedTx } from '../createSignedTx/createSolanaSignedtx';
-import {
-  getAptosAccount,
-  getCeloAccount,
-  getCosmosAccount,
-  getEthereumAccount,
-  getNearAccount,
-} from '../getAccount';
 import { createAptosSignedTx } from '../createSignedTx/createAptosSignedTx';
 
 /* Aptos signTx */
@@ -69,8 +62,7 @@ export const getCosmosSignedTx = async (mnemonic: string) => {
 
 /* Ethereum signTx */
 export const getEthereumSignedTx = async (mnemonic: string) => {
-  const ethereumAccount = getEthereumAccount(mnemonic);
-  const { serializedTx, unSignedTx } = await getEthereumTx(ethereumAccount);
+  const { serializedTx, unSignedTx } = await getEthereumTx(mnemonic);
 
   const ethereumSignature = Ethereum.signTx(
     {
@@ -90,8 +82,7 @@ export const getEthereumSignedTx = async (mnemonic: string) => {
 
 /* Celo signTx */
 export const getCeloSignedTx = async (mnemonic: string) => {
-  const celoAccount = getCeloAccount(mnemonic);
-  const { serializedTx, unSignedTx } = await getCeloTx(celoAccount);
+  const { serializedTx, unSignedTx } = await getCeloTx(mnemonic);
   const celoSignature = Ethereum.signTx(
     {
       mnemonic,
@@ -109,9 +100,7 @@ export const getCeloSignedTx = async (mnemonic: string) => {
 
 /* Near signTx */
 export const getNearSignedTx = async (mnemonic: string) => {
-  const nearAccount = getNearAccount(mnemonic);
-  const { serializedTx, unSignedTx } = await getNearTx(nearAccount);
-  console.log('serializedTx>>>>>>to kms', serializedTx);
+  const { serializedTx, unSignedTx } = await getNearTx(mnemonic);
   const nearSignature = Near.signTx(
     {
       mnemonic,

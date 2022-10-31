@@ -1,16 +1,15 @@
 /* eslint-disable no-undef */
-import { cosmosSdkSignedTx, ethereumSdkSignedTx } from '../utils/sdkSignedTx';
-import { getCosmosSignedTx, getEthereumSignedTx } from '../utils';
 import { getNearSignature } from '../utils/signatureTest/getNearSignature';
 import { getSolanaSignature } from '../utils/signatureTest/getSolanaSignature';
 import { getAptosSignature } from '../utils/signatureTest';
 import { getCeloSignature } from '../utils/signatureTest/getCeloSignature';
+import { getCosmosSignature } from '../utils/signatureTest/getCosmosSignature';
+import { getEthereumSignature } from '../utils/signatureTest/getEthereumSignature';
 
 const mnemonic = 'shoot island position soft burden budget tooth cruel issue economy destroy above';
 
 test('ethereum - signature test', async () => {
-  const ethereumSdkSignature = await ethereumSdkSignedTx(mnemonic);
-  const { signature } = await getEthereumSignedTx(mnemonic);
+  const { ethereumSdkSignature, signature } = await getEthereumSignature(mnemonic);
   expect(signature?.slice(0, 128)).toEqual(ethereumSdkSignature?.slice(0, 128));
 });
 
@@ -19,8 +18,7 @@ test('celo - signature test', async () => {
   expect(signature?.slice(0, 128)).toEqual(celoSdkSignature?.slice(0, 128));
 });
 test('cosmos - signature test', async () => {
-  const cosmosSdkSignature = await cosmosSdkSignedTx(mnemonic);
-  const { signature } = await getCosmosSignedTx(mnemonic);
+  const { cosmosSdkSignature, signature } = await getCosmosSignature(mnemonic);
   expect(signature).toEqual(cosmosSdkSignature);
 });
 

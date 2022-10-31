@@ -54,13 +54,13 @@ export const getCosmosTx = async (mnemonic: string) => {
   /* create transaction */
   const rpcUrl = RPC_URL.COSMOS;
   const client = await StargateClient.connect(rpcUrl);
-  // const sequence = await client.getSequence(address);
+  const sequence = await client.getSequence(address);
   const chainId = await client.getChainId();
 
   const transaction = {
     signerData: {
-      accountNumber: 1, // sequence.accountNumber,
-      sequence: 2, // sequence.sequence,
+      accountNumber: sequence.accountNumber,
+      sequence: sequence.sequence,
       chainId,
     },
     fee: {
@@ -83,7 +83,66 @@ export const getCosmosTx = async (mnemonic: string) => {
         },
       },
     ],
-    sequence: 2, // sequence.sequence,
+    sequence: sequence.sequence,
+  };
+
+  /* create signDoc */
+  const txBodyBytes = getTxBodyBytes(transaction);
+  const authInfoBytes = getAuthInfoBytes(transaction, pubkey);
+
+  const signDoc = makeSignDoc(
+    txBodyBytes,
+    authInfoBytes,
+    transaction.signerData.chainId,
+    Number(transaction.signerData.accountNumber),
+  );
+
+  /* serialized singDoc */
+
+  const uint8SignDoc = makeSignBytes(signDoc);
+  const serializedTx = `0x${Buffer.from(uint8SignDoc).toString('hex')}`;
+
+  return {
+    unSignedTx: signDoc,
+    serializedTx,
+  };
+};
+
+export const getCosmosOfflineTx = async (mnemonic: string) => {
+  const wallet = await DirectSecp256k1HdWallet.fromMnemonic(mnemonic);
+  const [{ address, pubkey }] = await wallet.getAccounts();
+  /* create transaction */
+  const rpcUrl = RPC_URL.COSMOS;
+  const client = await StargateClient.connect(rpcUrl);
+  const chainId = await client.getChainId();
+
+  const transaction = {
+    signerData: {
+      accountNumber: 1,
+      sequence: 2,
+      chainId,
+    },
+    fee: {
+      amount: [
+        {
+          denom: 'uatom',
+          amount: '10000',
+        },
+      ],
+      gas: '180000', // 180k
+    },
+    memo: 'dsrv/kms',
+    msgs: [
+      {
+        typeUrl: '/cosmos.bank.v1beta1.MsgSend',
+        value: {
+          fromAddress: address,
+          toAddress: RECEIVER_ADDRESS.COSMOS,
+          amount: [{ denom: 'uatom', amount: '10000' }],
+        },
+      },
+    ],
+    sequence: 2,
   };
 
   /* create signDoc */

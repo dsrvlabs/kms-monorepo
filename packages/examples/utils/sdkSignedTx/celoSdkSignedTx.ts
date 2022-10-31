@@ -5,7 +5,7 @@ import { CHAIN } from '@dsrv/kms/src/types';
 import { ethers, Wallet } from 'ethers';
 import { RPC_URL } from '../../constants';
 import { getCeloAccount } from '../getAccount';
-import { getCeloTx } from '../getTx';
+import { getCeloOfflineTx, getCeloTx } from '../getTx';
 
 /* Create singedTx and sen by using ethers */
 export const celoSdkSignedTx = async (mnemonic: string) => {
@@ -15,9 +15,8 @@ export const celoSdkSignedTx = async (mnemonic: string) => {
     mnemonic,
     path: { type: CHAIN.CELO, account: 0, index: 0 },
   });
-  const account = getCeloAccount(mnemonic);
   const wallet = new Wallet(privateKey);
-  const { unSignedTx } = await getCeloTx(account);
+  const { unSignedTx } = await getCeloOfflineTx(mnemonic);
 
   const signedTx = await wallet.signTransaction(unSignedTx);
   const transaction = ethers.utils.parseTransaction(signedTx);

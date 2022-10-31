@@ -5,13 +5,10 @@ import { Near } from '@dsrv/kms';
 import { CHAIN } from '@dsrv/kms/src/types';
 import { sha256 } from 'js-sha256';
 import { transactions, utils } from 'near-api-js';
-import { getNearAccount } from '../getAccount';
-import { getNearTx } from '../getTx';
-import { sendNearTransaction } from '../sendTransaction';
+import { getNearOfflineTx, getNearTx } from '../getTx';
 
-export const nearSdkSignedTx = async (mnemonic: string, unSignedTx?: any) => {
-  const nearAccount = getNearAccount(mnemonic);
-  const transaction = unSignedTx ? { unSignedTx } : await getNearTx(nearAccount);
+export const nearSdkSignedTx = async (mnemonic: string) => {
+  const transaction = await getNearOfflineTx(mnemonic);
 
   /* get serializedTx */
   // const { unSignedTx } = await getNearTx(nearAccount);
