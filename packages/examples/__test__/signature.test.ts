@@ -15,7 +15,7 @@ test('ethereum - signature test', async () => {
 });
 
 test('celo - signature test', async () => {
-  const { celoSdkSignature, signature } = await getCeloSignature();
+  const { celoSdkSignature, signature } = await getCeloSignature(mnemonic);
   expect(signature?.slice(0, 128)).toEqual(celoSdkSignature?.slice(0, 128));
 });
 test('cosmos - signature test', async () => {
@@ -25,19 +25,19 @@ test('cosmos - signature test', async () => {
 });
 
 test('near - signature test', async () => {
-  const { signature, nearSdkSignature } = await getNearSignature();
+  const { signature, nearSdkSignature } = await getNearSignature(mnemonic);
 
   expect(signature).toEqual(nearSdkSignature);
 });
 
 test('solana - signature test', async () => {
-  const { signature, solanaSdkSignature } = await getSolanaSignature();
+  const { signature, solanaSdkSignature } = await getSolanaSignature(mnemonic);
 
   expect(signature).toEqual(solanaSdkSignature);
 });
 
 test('aptos - signature test', async () => {
-  const { signature, aptosSdkSignature } = await getAptosSignature();
+  const { signature, aptosSdkSignature } = await getAptosSignature(mnemonic);
 
   expect({ hexString: signature }).toEqual(aptosSdkSignature);
 });

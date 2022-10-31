@@ -5,12 +5,7 @@ import { getNearAccount } from '../getAccount';
 import { getNearTx } from '../getTx';
 import { nearSdkSignedTx } from '../sdkSignedTx';
 
-const MNEMONIC = require('../../mnemonic.json');
-
-const mnemonic = MNEMONIC.bip44;
-// const mnemonic = 'shoot island position soft burden budget tooth cruel issue economy destroy above';
-
-export const getNearSignature = async () => {
+export const getNearSignature = async (mnemonic: string) => {
   const nearAccount = getNearAccount(mnemonic);
   const { serializedTx, unSignedTx } = await getNearTx(nearAccount);
 

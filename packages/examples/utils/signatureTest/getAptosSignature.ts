@@ -3,11 +3,7 @@ import { CHAIN } from '@dsrv/kms/src/types';
 import { getAptosTx } from '../getTx';
 import { aptosSdkSignedTx } from '../sdkSignedTx/aptosSdkSignedTx';
 
-const MNEMONIC = require('../../mnemonic.json');
-
-const mnemonic = MNEMONIC.bip44;
-
-export const getAptosSignature = async () => {
+export const getAptosSignature = async (mnemonic: string) => {
   const { serializedTx } = await getAptosTx(mnemonic);
   const { signature } = Aptos.signTx(
     {

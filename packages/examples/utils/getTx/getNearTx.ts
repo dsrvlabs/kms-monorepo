@@ -13,7 +13,12 @@ export const getNearTx = async (account: Account) => {
   const helperURL = `https://near-utils.welldonestudio.io/accounts?address=${account.address}`;
   const accountIds = await fetch(helperURL).then((res) => res.json());
 
-  const signerId = accountIds[Object.keys(accountIds).length - 1];
+  const testnetAccountIds = accountIds.filter((el) => {
+    const splitAccount = el.split('.');
+    return splitAccount[1] === 'testnet';
+  });
+
+  const signerId = testnetAccountIds[Object.keys(testnetAccountIds).length - 1];
   const { publicKey } = account;
 
   const param = {
@@ -26,12 +31,11 @@ export const getNearTx = async (account: Account) => {
   const accessKey = await provider.query<AccessKeyView>(param);
   const actions = [transactions.transfer(new BN(10))];
   const recentBlockHash = utils.serialize.base_decode(accessKey.block_hash);
-  // console.log('accessKey.block_hash', accessKey.block_hash);
 
   const transaction = transactions.createTransaction(
-    accountIds[1],
+    testnetAccountIds[0],
     utils.PublicKey.fromString(publicKey),
-    accountIds[2],
+    testnetAccountIds[0],
     accessKey.nonce,
     actions,
     // utils.serialize.base_decode('B1PSZitfHMpybsD4cZseKYvmhGyQwuAFb6FmBSXckZ2R'),
