@@ -80,7 +80,7 @@ export abstract class Signer {
     throw new Error('not implemented!');
   }
 
-  protected static isHexString(hex: string) {
+  static isHexString(hex: string) {
     if (!isHexString(hex)) {
       throw new Error('not implemented!');
     }

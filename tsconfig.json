@@ -2,7 +2,7 @@
   "exclude": ["packages/**/tests/**", "packages/**/dist/**"],
   "references": [
     {
-      "path": "./packages/kms"
+      "path": ["./packages/kms", "./packages/examples"]
     }
   ]
 }

@@ -1,7 +1,7 @@
 import { decode, encode } from 'bs58';
 // eslint-disable-next-line camelcase
 import { sha3_256 } from '@noble/hashes/sha3';
-import nacl from 'tweetnacl';
+import { SignKeyPair, sign as naclSign } from 'tweetnacl';
 import { derivePath } from 'ed25519-hd-key';
 import { addHexPrefix, stripHexPrefix } from '../utils';
 import { Account, PathOption, SignedTx } from '../../types';
@@ -16,13 +16,13 @@ export class Aptos extends Signer {
     }
     const { seed } = Signer.getChild(pk);
     const { key } = derivePath(getDerivePath(pk.path)[0], seed.toString('hex'));
-    const keyPair = nacl.sign.keyPair.fromSeed(key);
+    const keyPair = naclSign.keyPair.fromSeed(key);
     return `${encode(Buffer.from(keyPair.secretKey))}`;
   }
 
-  protected static getKeyPair(pk: string | PathOption): nacl.SignKeyPair {
+  protected static getKeyPair(pk: string | PathOption): SignKeyPair {
     const secretKey = decode(Aptos.getPrivateKey(pk));
-    const keyPair = nacl.sign.keyPair.fromSecretKey(secretKey);
+    const keyPair = naclSign.keyPair.fromSecretKey(secretKey);
     return keyPair;
   }
 
@@ -42,7 +42,7 @@ export class Aptos extends Signer {
     super.isHexString(unsignedTx);
     const keyPair = Aptos.getKeyPair(pk);
     const signature = Buffer.from(
-      nacl.sign(Buffer.from(stripHexPrefix(unsignedTx), 'hex'), keyPair.secretKey),
+      naclSign(Buffer.from(stripHexPrefix(unsignedTx), 'hex'), keyPair.secretKey),
     )
       .toString('hex')
       .slice(0, 128);

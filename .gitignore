@@ -2,3 +2,4 @@
 **/lib
 **/mnemonic.json
 **/*.tsbuildinfo
+**/.DS_Store

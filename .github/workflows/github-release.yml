@@ -1,6 +1,9 @@
 name: Main
 
-on: push
+on:
+  push:
+    branches:
+      - main
 
 jobs:
   build:
@@ -24,16 +27,15 @@ jobs:
       - name: make zip file
         uses: vimtor/action-zip@v1
         with:
-          files: packages/kms/lib
-          dest: packages/kms/kms.zip
+          files: packages/kms
+          dest: packages/@dsrv-kms.zip
+      - id: get_version
+        uses: battila7/get-version-action@v2
       - name: Release
         uses: softprops/action-gh-release@v1
-        # if: startsWith(github.ref, 'refs/tags/')
         with:
           draft: false
           prerelease: false
           name: ${{ steps.version.outputs.version }}
           tag_name: ${{ github.ref }}
-          files: packages/kms/kms.zip
-          # @TODO 토큰 설정 권한 받은 이후
-          # token: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
+          files: packages/@dsrv-kms.zip
