@@ -31,10 +31,10 @@ const main = async () => {
   // console.log('Ethereum TxHash : ', ethereumTxResult);
 
   // /* celo sendtransaction */
-  // const { celoSignedTx } = await getCeloSignedTx(mnemonic);
-  // console.log('>celoSignedTx', celoSignedTx);
-  // const celoTxResult = await sendCeloTransaction(celoSignedTx);
-  // console.log('Celo TxHash : ', celoTxResult);
+  const { celoSignedTx } = await getCeloSignedTx(mnemonic);
+  console.log('>celoSignedTx', celoSignedTx);
+  const celoTxResult = await sendCeloTransaction(celoSignedTx);
+  console.log('Celo TxHash : ', celoTxResult);
 
   /* near sendtransaction */
   const { nearSignedTx } = await getNearSignedTx(mnemonic);
@@ -42,22 +42,22 @@ const main = async () => {
   const nearTxResult = await sendNearTransaction(nearSignedTx);
   console.log('Near TxHash : ', nearTxResult);
 
-  // /* cosmos sendtransaction */
-  // const { cosmosSignedTx } = await getCosmosSignedTx(mnemonic);
-  // console.log('>cosmosSignedTx', cosmosSignedTx);
-  // const cosmosTxResult = await sendCosmosTransaction(cosmosSignedTx);
-  // console.log('Cosmos TxHash', cosmosTxResult);
+  /* cosmos sendtransaction */
+  const { cosmosSignedTx } = await getCosmosSignedTx(mnemonic);
+  console.log('>cosmosSignedTx', cosmosSignedTx);
+  const cosmosTxResult = await sendCosmosTransaction(cosmosSignedTx);
+  console.log('Cosmos TxHash', cosmosTxResult);
 
-  // /* solana sendtransaction */
-  // const { solanaSignedTx } = await getSolanaSignedTx(mnemonic);
-  // console.log('>solanaSignedTx', solanaSignedTx);
-  // const solanaTxResult = await sendSolanaTransaction(solanaSignedTx);
-  // console.log('Solana TxHash', solanaTxResult);
+  /* solana sendtransaction */
+  const { solanaSignedTx } = await getSolanaSignedTx(mnemonic);
+  console.log('>solanaSignedTx', solanaSignedTx);
+  const solanaTxResult = await sendSolanaTransaction(solanaSignedTx);
+  console.log('Solana TxHash', solanaTxResult);
 
-  // /* aptos sendtransaction */
-  // const { aptosSignedTx } = await getAptosSignedTx(mnemonic);
-  // console.log('>aptosSignedTx', aptosSignedTx);
-  // const aptosTxResult = await sendAptosTransaction(aptosSignedTx);
-  // console.log('Aptos TxHash', aptosTxResult);
+  /* aptos sendtransaction */
+  const { aptosSignedTx } = await getAptosSignedTx(mnemonic);
+  console.log('>aptosSignedTx', aptosSignedTx);
+  const aptosTxResult = await sendAptosTransaction(aptosSignedTx);
+  console.log('Aptos TxHash', aptosTxResult);
 };
 main();

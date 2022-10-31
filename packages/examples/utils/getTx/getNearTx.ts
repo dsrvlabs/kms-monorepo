@@ -27,7 +27,6 @@ export const getNearTx = async (account: Account) => {
   const actions = [transactions.transfer(new BN(10))];
   const recentBlockHash = utils.serialize.base_decode(accessKey.block_hash);
   // console.log('accessKey.block_hash', accessKey.block_hash);
-  console.log('accountIds', accountIds);
 
   const transaction = transactions.createTransaction(
     accountIds[1],
