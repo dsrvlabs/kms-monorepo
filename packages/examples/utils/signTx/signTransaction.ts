@@ -5,9 +5,7 @@ import { Cosmos } from '@dsrv/kms/lib/blockchains/cosmos';
 import { Ethereum } from '@dsrv/kms/lib/blockchains/ethereum';
 import { Near } from '@dsrv/kms/lib/blockchains/near';
 import { Solana } from '@dsrv/kms/lib/blockchains/solana';
-import { Sui } from '@dsrv/kms/lib/blockchains/sui';
 import { Aptos } from '@dsrv/kms/lib/blockchains/aptos';
-import { Transaction } from '@solana/web3.js';
 import { getAptosTx } from '../getTx/getAptosTx';
 import { getCeloTx } from '../getTx/getCeloTx';
 import { getCosmosTx } from '../getTx/getCosmosTx';
@@ -114,6 +112,7 @@ export const getNearSignedTx = async (mnemonic: string) => {
   return { nearSignedTx, signature: nearSignature.signature };
 };
 
+/* Solana signTx */
 export const getSolanaSignedTx = async (mnemonic: string) => {
   const { serializedTx, unSignedTx } = await getSolanaTx(mnemonic);
   const solanaSignature = Solana.signTx(
