@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { CHAIN } from '@dsrv/kms/lib/types';
+import { Account, CHAIN } from '@dsrv/kms/lib/types';
 import { Cosmos } from '@dsrv/kms/lib/blockchains/cosmos';
 import { Ethereum } from '@dsrv/kms/lib/blockchains/ethereum';
 import { Eth2 } from '@dsrv/kms/lib/blockchains/eth2';
@@ -9,7 +9,7 @@ import { Sui } from '@dsrv/kms/lib/blockchains/sui';
 import { Aptos } from '@dsrv/kms/lib/blockchains/aptos';
 
 /* Aptos getAccount */
-export const getAptosAccount = (mnemonic: string) => {
+export const getAptosAccount = (mnemonic: string): Account => {
   const aptosAccount = Aptos.getAccount({
     mnemonic,
     path: { type: CHAIN.APTOS, account: 0, index: 0 },
@@ -18,7 +18,7 @@ export const getAptosAccount = (mnemonic: string) => {
 };
 
 /* Cosmos getAccount */
-export const getCosmosAccount = (mnemonic: string) => {
+export const getCosmosAccount = (mnemonic: string): Account => {
   const cosmosAccount = Cosmos.getAccount({
     mnemonic,
     path: { type: CHAIN.COSMOS, account: 0, index: 0 },
@@ -27,7 +27,7 @@ export const getCosmosAccount = (mnemonic: string) => {
 };
 
 /* Ethereum getAccount */
-export const getEthereumAccount = (mnemonic: string) => {
+export const getEthereumAccount = (mnemonic: string): Account => {
   const ethereumAccount = Ethereum.getAccount({
     mnemonic,
     path: { type: CHAIN.ETHEREUM, account: 0, index: 0 },
@@ -36,16 +36,16 @@ export const getEthereumAccount = (mnemonic: string) => {
 };
 
 /* Celo getAccount */
-export const getCeloAccount = (mnemonic: string) => {
+export const getCeloAccount = (mnemonic: string): Account => {
   const celoAccount = Ethereum.getAccount({
     mnemonic,
-    path: { type: CHAIN.ETHEREUM, account: 0, index: 0 },
+    path: { type: CHAIN.CELO, account: 0, index: 0 },
   });
   return celoAccount;
 };
 
 /* Eth2 getAccount (withdrawal)  */
-export const getEth2AccountWithdrawal = (mnemonic: string) => {
+export const getEth2AccountWithdrawal = (mnemonic: string): Account => {
   const eth2AccountWithdrawal = Eth2.getAccount(
     {
       mnemonic,
@@ -63,7 +63,7 @@ export const getEth2AccountWithdrawal = (mnemonic: string) => {
 };
 
 /* Eth2 getAccount (signing)  */
-export const getEth2AccountSign = (mnemonic: string) => {
+export const getEth2AccountSign = (mnemonic: string): Account => {
   const eth2AccountSign = Eth2.getAccount(
     {
       mnemonic,
@@ -81,7 +81,7 @@ export const getEth2AccountSign = (mnemonic: string) => {
 };
 
 /* Near getAccount */
-export const getNearAccount = (mnemonic: string) => {
+export const getNearAccount = (mnemonic: string): Account => {
   const nearAccount = Near.getAccount({
     mnemonic,
     path: { type: CHAIN.NEAR, account: 0, index: 1 },
@@ -90,7 +90,7 @@ export const getNearAccount = (mnemonic: string) => {
 };
 
 /* Solana getAccount */
-export const getSolanaAccount = (mnemonic: string) => {
+export const getSolanaAccount = (mnemonic: string): Account => {
   const solanaAccount = Solana.getAccount({
     mnemonic,
     path: { type: CHAIN.SOLANA, account: 0, index: 0 },
@@ -99,7 +99,7 @@ export const getSolanaAccount = (mnemonic: string) => {
 };
 
 /* Sui getAccount */
-export const getSuiAccount = (mnemonic: string) => {
+export const getSuiAccount = (mnemonic: string): Account => {
   const suiAccount = Sui.getAccount({
     mnemonic,
     path: { type: CHAIN.SUI, account: 0, index: 0 },

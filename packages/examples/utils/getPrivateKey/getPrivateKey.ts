@@ -9,7 +9,7 @@ import { Sui } from '@dsrv/kms/lib/blockchains/sui';
 import { Aptos } from '@dsrv/kms/lib/blockchains/aptos';
 
 /* Aptos getPrivateKey */
-export const getAptosPrivateKey = (mnemonic: string) => {
+export const getAptosPrivateKey = (mnemonic: string): string => {
   const aptosPrivateKey = Aptos.getPrivateKey({
     mnemonic,
     path: { type: CHAIN.APTOS, account: 0, index: 0 },
@@ -18,7 +18,7 @@ export const getAptosPrivateKey = (mnemonic: string) => {
 };
 
 /* Cosmos getPrivateKey */
-export const getCosmosPrivateKey = (mnemonic: string) => {
+export const getCosmosPrivateKey = (mnemonic: string): string => {
   const cosmosPrivateKey = Cosmos.getPrivateKey({
     mnemonic,
     path: { type: CHAIN.COSMOS, account: 0, index: 0 },
@@ -27,7 +27,7 @@ export const getCosmosPrivateKey = (mnemonic: string) => {
 };
 
 /* Ethereum getPrivateKey */
-export const getEthereumPrivateKey = (mnemonic: string) => {
+export const getEthereumPrivateKey = (mnemonic: string): string => {
   const ethereumPrivateKey = Ethereum.getPrivateKey({
     mnemonic,
     path: { type: CHAIN.ETHEREUM, account: 0, index: 0 },
@@ -36,7 +36,7 @@ export const getEthereumPrivateKey = (mnemonic: string) => {
 };
 
 /* Celo getPrivateKey */
-export const getCeloPrivateKey = (mnemonic: string) => {
+export const getCeloPrivateKey = (mnemonic: string): string => {
   const celoPrivateKey = Ethereum.getPrivateKey({
     mnemonic,
     path: { type: CHAIN.ETHEREUM, account: 0, index: 0 },
@@ -45,7 +45,7 @@ export const getCeloPrivateKey = (mnemonic: string) => {
 };
 
 /* Eth2 getPrivateKey (withdrawal)  */
-export const getEth2PrivateKeyWithdrawal = (mnemonic: string) => {
+export const getEth2PrivateKeyWithdrawal = (mnemonic: string): string => {
   const eth2PrivateKeyWithdrawal = Eth2.getPrivateKey(
     {
       mnemonic,
@@ -63,7 +63,7 @@ export const getEth2PrivateKeyWithdrawal = (mnemonic: string) => {
 };
 
 /* Eth2 getPrivateKey (signing)  */
-export const getEth2PrivateKeySign = (mnemonic: string) => {
+export const getEth2PrivateKeySign = (mnemonic: string): string => {
   const eth2PrivateKeySign = Eth2.getPrivateKey(
     {
       mnemonic,
@@ -81,7 +81,7 @@ export const getEth2PrivateKeySign = (mnemonic: string) => {
 };
 
 /* Near getPrivateKey */
-export const getNearPrivateKey = (mnemonic: string) => {
+export const getNearPrivateKey = (mnemonic: string): string => {
   const nearPrivateKey = Near.getPrivateKey({
     mnemonic,
     path: { type: CHAIN.NEAR, account: 0, index: 1 },
@@ -90,7 +90,7 @@ export const getNearPrivateKey = (mnemonic: string) => {
 };
 
 /* Solana getPrivateKey */
-export const getSolanaPrivateKey = (mnemonic: string) => {
+export const getSolanaPrivateKey = (mnemonic: string): string => {
   const solanaPrivateKey = Solana.getPrivateKey({
     mnemonic,
     path: { type: CHAIN.SOLANA, account: 0, index: 0 },
@@ -99,7 +99,7 @@ export const getSolanaPrivateKey = (mnemonic: string) => {
 };
 
 /* Sui getPrivateKey */
-export const getSuiPrivateKey = (mnemonic: string) => {
+export const getSuiPrivateKey = (mnemonic: string): string => {
   const suiPrivateKey = Sui.getPrivateKey({
     mnemonic,
     path: { type: CHAIN.SUI, account: 0, index: 0 },

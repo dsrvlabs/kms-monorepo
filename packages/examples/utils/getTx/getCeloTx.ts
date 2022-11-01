@@ -8,12 +8,13 @@ export const getCeloTx = async (mnemonic: string) => {
   const account = getCeloAccount(mnemonic);
   const provider = new ethers.providers.JsonRpcProvider(RPC_URL.CELO);
   const nonce = await provider.getTransactionCount(account.address);
-  const balance = await provider.getBalance(account.address);
+  // const balance = await provider.getBalance(account.address);
   const gasLimit = await provider.estimateGas({
     value: '0x1',
     to: RECEIVER_ADDRESS.CELO,
     from: account.address,
   });
+
   const transactionParameters = {
     to: RECEIVER_ADDRESS.CELO,
     value: ethers.utils.parseEther('0.0005'),
