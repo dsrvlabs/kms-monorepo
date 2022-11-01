@@ -20,7 +20,7 @@ export const getEthereumAccount = (mnemonic: string): Account => {
 };
 ```
 
-### 1. Returns
+#### A. Returns
 
 ```typescript
 interface Account {
@@ -29,19 +29,19 @@ interface Account {
 }
 ```
 
-### 2. Params
+#### B. Params
 
 ```typescript
 typeof mnemonic === string; // "your private mnemonic"
 ```
 
-### 3. Examples
+#### C. Examples
 
 - By following [this link](https://github.com/dsrvlabs/kms-monorepo/blob/develop/packages/examples/utils/getAccount/getAccount.ts), you can see the example code.
 - You can execute the example code through the command below.
 
   1. `git clone https://github.com/dsrvlabs/kms-monorepo`
-  2. Create the mnemonic.json file inside the packages/examples (follow the format of [this link](https://github.com/dsrvlabs/kms-monorepo/blob/develop/packages/examples/mnemonic.example.json))
+  2. Create the `mnemonic.json` file inside the `packages/examples` (follow the format of [this link](https://github.com/dsrvlabs/kms-monorepo/blob/develop/packages/examples/mnemonic.example.json))
   3. `yarn && yarn build`
   4. `yarn start:example getAccountPlayground.ts`
 
@@ -63,25 +63,25 @@ export const getEthereumPrivateKey = (mnemonic: string): string => {
 };
 ```
 
-### 1. Returns
+#### A. Returns
 
 ```typescript
 typeof privateKey === string;
 ```
 
-### 2. Params
+#### B. Params
 
 ```typescript
 typeof mnemonic === string; // "your private mnemonic"
 ```
 
-### 3. Examples
+#### C. Examples
 
 - By following [this link](https://github.com/dsrvlabs/kms-monorepo/blob/develop/packages/examples/utils/getPrivateKey/getPrivateKey.ts), you can see the example code.
 - You can execute the example code through the command below.
 
   1. `git clone https://github.com/dsrvlabs/kms-monorepo`
-  2. Create the mnemonic.json file inside the packages/examples (follow the format of [this link](https://github.com/dsrvlabs/kms-monorepo/blob/develop/packages/examples/mnemonic.example.json))
+  2. Create the `mnemonic.json` file inside the `packages/examples` (follow the format of [this link](https://github.com/dsrvlabs/kms-monorepo/blob/develop/packages/examples/mnemonic.example.json))
   3. `yarn && yarn build`
   4. `yarn start:example getPrivateKeyPlayground.ts`
 
@@ -102,7 +102,7 @@ const { signature } = Ethereum.signTx(
 );
 ```
 
-### 1. Returns
+#### A. Returns
 
 ```typescript
 interface SignedTx {
@@ -111,13 +111,13 @@ interface SignedTx {
 }
 ```
 
-### 2. Params
+#### B. Params
 
 ```typescript
 typeof serializedTx === string; // must be hex string
 ```
 
-### 3. Useage
+#### C. Useage
 
 Through kms, you can get a signature for the transaction. The steps listed below should be followed in order to sign the transaction through kms.
 
@@ -153,13 +153,13 @@ export const getEthereumSignedTx = async (mnemonic: string) => {
 };
 ```
 
-### 4. Example
+#### D. Example
 
 - By following [this link](https://github.com/dsrvlabs/kms-monorepo/blob/develop/packages/examples/utils/signTx/signTransaction.ts), you can see the example code.
 - You can execute the example code through the command below.
 
   1. `git clone https://github.com/dsrvlabs/kms-monorepo`
-  2. Create the mnemonic.json file inside the packages/examples (follow the format of [this link](https://github.com/dsrvlabs/kms-monorepo/blob/develop/packages/examples/mnemonic.example.json))
+  2. Create the `mnemonic.json` file inside the `packages/examples` (follow the format of [this link](https://github.com/dsrvlabs/kms-monorepo/blob/develop/packages/examples/mnemonic.example.json))
   3. `yarn && yarn build`
   4. `yarn start:example signTxPlayground.ts`
 
@@ -171,7 +171,7 @@ export const getEthereumSignedTx = async (mnemonic: string) => {
 - You can execute the example code through the command below.
 
   1. `git clone https://github.com/dsrvlabs/kms-monorepo`
-  2. Create the mnemonic.json file inside the packages/examples (follow the format of [this link](https://github.com/dsrvlabs/kms-monorepo/blob/develop/packages/examples/mnemonic.example.json))
+  2. Create the `mnemonic.json` file inside the `packages/examples` (follow the format of [this link](https://github.com/dsrvlabs/kms-monorepo/blob/develop/packages/examples/mnemonic.example.json))
   3. `yarn && yarn build`
   4. `yarn start:example sendTransactionPlayground.ts`
 
