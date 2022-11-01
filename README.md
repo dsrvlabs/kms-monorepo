@@ -1,14 +1,10 @@
 # @dsrv/kms
 
-dsrv key management store
+> dsrv key management store. @dsrv/kms provides the following methods for Ethereum, Celo, Near, Solana, Cosmos, Aptos, Sui
 
-## Method
+## 1. getAccount
 
-> @dsrv/kms provides the following methods for Ethereum, Celo, Near, Solana, Cosmos, Aptos, Sui
-
-### 1. getAccount
-
-Through getAccount method, you can get account of your mnemonic.
+> Through getAccount method, you can get account of your mnemonic.
 
 ```typescript
 import { Account, CHAIN } from '@dsrv/kms/lib/types';
@@ -24,7 +20,7 @@ export const getEthereumAccount = (mnemonic: string): Account => {
 };
 ```
 
-#### 1. Returns
+### 1. Returns
 
 ```typescript
 interface Account {
@@ -33,13 +29,13 @@ interface Account {
 }
 ```
 
-#### 2. Params
+### 2. Params
 
 ```typescript
 typeof mnemonic === string; // "your private mnemonic"
 ```
 
-#### 3. Examples
+### 3. Examples
 
 - By following [this link](https://github.com/dsrvlabs/kms-monorepo/blob/develop/packages/examples/utils/getAccount/getAccount.ts), you can see the example code.
 - You can execute the example code through the command below.
@@ -49,9 +45,9 @@ typeof mnemonic === string; // "your private mnemonic"
   3. `yarn && yarn build`
   4. `yarn start:example getAccountPlayground.ts`
 
-### 2. getPrivateKey
+## 2. getPrivateKey
 
-Through getPrivateKey method, you can get a private key of your mnemonic.
+> Through getPrivateKey method, you can get a private key of your mnemonic.
 
 ```typescript
 import { CHAIN } from '@dsrv/kms/lib/types';
@@ -67,19 +63,19 @@ export const getEthereumPrivateKey = (mnemonic: string): string => {
 };
 ```
 
-#### 1. Returns
+### 1. Returns
 
 ```typescript
 typeof privateKey === string;
 ```
 
-#### 2. Params
+### 2. Params
 
 ```typescript
 typeof mnemonic === string; // "your private mnemonic"
 ```
 
-#### 3. Examples
+### 3. Examples
 
 - By following [this link](https://github.com/dsrvlabs/kms-monorepo/blob/develop/packages/examples/utils/getPrivateKey/getPrivateKey.ts), you can see the example code.
 - You can execute the example code through the command below.
@@ -89,9 +85,9 @@ typeof mnemonic === string; // "your private mnemonic"
   3. `yarn && yarn build`
   4. `yarn start:example getPrivateKeyPlayground.ts`
 
-### 3. signTx (getSignature)
+## 3. signTx (getSignature)
 
-Through signTx method, you can get a signature for the transaction.
+> Through signTx method, you can get a signature for the transaction.
 
 ```typescript
 import { CHAIN } from '@dsrv/kms/lib/types';
@@ -106,7 +102,7 @@ const { signature } = Ethereum.signTx(
 );
 ```
 
-#### 1. Returns
+### 1. Returns
 
 ```typescript
 interface SignedTx {
@@ -115,13 +111,13 @@ interface SignedTx {
 }
 ```
 
-#### 2. Params
+### 2. Params
 
 ```typescript
 typeof serializedTx === string; // must be hex string
 ```
 
-#### 3. Useage
+### 3. Useage
 
 Through kms, you can get a signature for the transaction. The steps listed below should be followed in order to sign the transaction through kms.
 
@@ -157,7 +153,7 @@ export const getEthereumSignedTx = async (mnemonic: string) => {
 };
 ```
 
-#### 4. Example
+### 4. Example
 
 - By following [this link](https://github.com/dsrvlabs/kms-monorepo/blob/develop/packages/examples/utils/signTx/signTransaction.ts), you can see the example code.
 - You can execute the example code through the command below.
@@ -167,7 +163,7 @@ export const getEthereumSignedTx = async (mnemonic: string) => {
   3. `yarn && yarn build`
   4. `yarn start:example signTxPlayground.ts`
 
-### 4. sendTransaction
+## 4. sendTransaction
 
 > Transactions can be transferred via the signedTransaction created above. However, a faucet is required to transmit the transaction.
 
@@ -181,5 +177,5 @@ export const getEthereumSignedTx = async (mnemonic: string) => {
 
 ## Test getAccount, signature
 
-1. yarn && yarn build:kms
-2. yarn test:examples
+1. `yarn && yarn build:kms`
+2. `yarn test:examples`
