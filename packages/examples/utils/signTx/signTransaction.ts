@@ -108,7 +108,6 @@ export const getNearSignedTx = async (mnemonic: string) => {
     },
     serializedTx,
   );
-  console.log('nearSignature', nearSignature);
 
   const nearSignedTx = createNearSignedTx({ unSignedTx, signature: nearSignature.signature });
 
@@ -128,7 +127,6 @@ export const getSolanaSignedTx = async (mnemonic: string) => {
   const solanaSignedTx = await createSolanaSignedTx({
     unSignedTx,
     signature: solanaSignature.signature,
-    mnemonic,
   });
 
   return { solanaSignedTx, signature: solanaSignature.signature };

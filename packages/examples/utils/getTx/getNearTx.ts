@@ -37,9 +37,8 @@ export const getNearTx = async (mnemonic: string) => {
     testnetAccountIds[0],
     utils.PublicKey.fromString(publicKey),
     testnetAccountIds[0],
-    accessKey.nonce,
+    Number(accessKey.nonce) + Math.floor(Number(accessKey.nonce) / 500),
     actions,
-    // utils.serialize.base_decode('B1PSZitfHMpybsD4cZseKYvmhGyQwuAFb6FmBSXckZ2R'),
     recentBlockHash,
   );
 

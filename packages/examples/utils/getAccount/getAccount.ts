@@ -39,7 +39,7 @@ export const getEthereumAccount = (mnemonic: string) => {
 export const getCeloAccount = (mnemonic: string) => {
   const celoAccount = Ethereum.getAccount({
     mnemonic,
-    path: { type: CHAIN.ETHEREUM, account: 0, index: 0 },
+    path: { type: CHAIN.CELO, account: 0, index: 0 },
   });
   return celoAccount;
 };
