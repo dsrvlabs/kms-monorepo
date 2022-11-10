@@ -37,7 +37,7 @@ export const getNearTx = async (mnemonic: string) => {
     testnetAccountIds[0],
     utils.PublicKey.fromString(publicKey),
     testnetAccountIds[0],
-    Number(accessKey.nonce) + Math.floor(Number(accessKey.nonce) / 500),
+    Number(accessKey.nonce) + Math.floor(Math.random() * 10) + 224643000032,
     actions,
     recentBlockHash,
   );

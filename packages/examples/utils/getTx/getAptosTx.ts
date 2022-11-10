@@ -1,10 +1,9 @@
+/* eslint-disable camelcase */
 /* eslint-disable no-console */
 import { AptosClient, TxnBuilderTypes, BCS } from 'aptos';
+import { sha3_256 } from 'js-sha3';
 import { RPC_URL } from '../../constants';
 import { getAptosAccount } from '../getAccount';
-
-// eslint-disable-next-line camelcase
-const { sha3_256 } = require('js-sha3');
 
 const API = RPC_URL.APTOS;
 
@@ -69,6 +68,6 @@ export const getAptosTx = async (mnemonic: string) => {
 
   return {
     serializedTx: rawTxnWithSalt,
-    unSignedTx: rawTxn,
+    unSignedTx: rawTxn as TxnBuilderTypes.RawTransaction,
   };
 };

@@ -1,13 +1,10 @@
-import { StargateClient } from '@cosmjs/stargate';
+import { StargateClient, DeliverTxResponse } from '@cosmjs/stargate';
 
 import { RPC_URL } from '../../constants';
 
 // eslint-disable-next-line import/prefer-default-export
-export const sendCosmosTransaction = async (serializedTx) => {
+export const sendCosmosTransaction = async (serializedTx): Promise<DeliverTxResponse> => {
   const rpcUrl = RPC_URL.COSMOS;
-  if (!serializedTx) {
-    return { error: 'transaction error' };
-  }
 
   const client = await StargateClient.connect(rpcUrl);
   const txResult = await client.broadcastTx(
