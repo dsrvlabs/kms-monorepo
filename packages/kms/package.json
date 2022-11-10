@@ -2,8 +2,8 @@
   "name": "@dsrv/kms",
   "version": "0.4.0",
   "description": "blockchain key managament system",
-  "main": "./lib/index.js",
-  "types": "./lib/index.d.ts",
+  "main": "lib/cjs/index.js",
+  "types": "lib/cjs/index.d.ts",
   "files": [
     "src/**/*",
     "lib/**/*"
@@ -26,6 +26,7 @@
   "devDependencies": {
     "@types/argon2-browser": "^1.18.1",
     "@types/jest": "^29.1.2",
+    "@types/node": "^18.11.9",
     "@types/node-jose": "^1.1.10",
     "@typescript-eslint/eslint-plugin": "^5.40.0",
     "@typescript-eslint/parser": "^5.40.0",
@@ -52,5 +53,17 @@
     "node-jose": "^2.1.1",
     "tiny-secp256k1": "^2.2.1",
     "tweetnacl": "^1.0.3"
+  },
+  "exports": {
+    ".": {
+      "import": {
+        "types": "lib/esm/index.d.ts",
+        "default": "lib/esm/index.js"
+      },
+      "require": {
+        "types": "lib/cjs/index.d.js",
+        "default": "lib/cjs/index.js"
+      }
+    }
   }
 }

@@ -1,8 +1,7 @@
 /* eslint-disable no-unused-vars */
 
-import { CHAIN, Near } from '@dsrv/kms/lib/blockchains/near';
-import { getNearAccount } from '../getAccount';
-import { getNearOfflineTx, getNearTx } from '../getTx';
+import { CHAIN, Near } from '@dsrv/kms';
+import { getNearOfflineTx } from '../getTx';
 import { nearSdkSignedTx } from '../sdkSignedTx';
 
 export const getNearSignature = async (mnemonic: string) => {

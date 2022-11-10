@@ -1,5 +1,4 @@
-import { Aptos } from '@dsrv/kms';
-import { CHAIN } from '@dsrv/kms/src/types';
+import { Aptos, CHAIN } from '@dsrv/kms';
 import { getAptosTx } from '../getTx';
 import { aptosSdkSignedTx } from '../sdkSignedTx/aptosSdkSignedTx';
 

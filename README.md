@@ -7,8 +7,7 @@
 > Through getAccount method, you can get account of your mnemonic.
 
 ```typescript
-import { Account, CHAIN } from '@dsrv/kms/lib/types';
-import { Ethereum } from '@dsrv/kms/lib/blockchains/ethereum';
+import { Account, CHAIN, Ethereum } from '@dsrv/kms';
 
 /* Ethereum getAccount */
 export const getEthereumAccount = (mnemonic: string): Account => {
@@ -50,8 +49,7 @@ typeof mnemonic === string; // "your private mnemonic"
 > Through getPrivateKey method, you can get a private key of your mnemonic.
 
 ```typescript
-import { CHAIN } from '@dsrv/kms/lib/types';
-import { Ethereum } from '@dsrv/kms/lib/blockchains/ethereum';
+import { CHAIN, Ethereum } from '@dsrv/kms';
 
 /* Ethereum getPrivateKey */
 export const getEthereumPrivateKey = (mnemonic: string): string => {
@@ -90,8 +88,7 @@ typeof mnemonic === string; // "your private mnemonic"
 > Through signTx method, you can get a signature for the transaction.
 
 ```typescript
-import { CHAIN } from '@dsrv/kms/lib/types';
-import { Ethereum } from '@dsrv/kms/lib/blockchains/ethereum';
+import { CHAIN, Ethereum } from '@dsrv/kms';
 
 const { signature } = Ethereum.signTx(
   {
@@ -126,7 +123,7 @@ Through kms, you can get a signature for the transaction. The steps listed below
 3. The raw transaction is joined with the signature from kms to create a signed transaction.
 
 ```typescript
-import { Ethereum } from '@dsrv/kms/lib/blockchains/ethereum';
+import { Ethereum } from '@dsrv/kms';
 
 export const getEthereumSignedTx = async (mnemonic: string) => {
   // 1. Create raw transactions for each chain using the SDK.

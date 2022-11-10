@@ -8,8 +8,8 @@
     "composite": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "strict": false
+    "strict": false,
   },
-  "include": ["src"],
-  "exclude": ["__tests__"]
+  "include": ["utils"],
+  "exclude": ["**/__tests__"]
 }

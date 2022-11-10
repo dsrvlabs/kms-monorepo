@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
 
-import { Near } from '@dsrv/kms';
-import { CHAIN } from '@dsrv/kms/src/types';
+import { Near, CHAIN } from '@dsrv/kms';
+
 import { sha256 } from 'js-sha256';
 import { transactions, utils } from 'near-api-js';
 import { getNearOfflineTx, getNearTx } from '../getTx';

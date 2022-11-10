@@ -1,7 +1,5 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
-import { Solana } from '@dsrv/kms';
-import { Account, CHAIN } from '@dsrv/kms/src/types';
 import {
   Connection,
   SystemProgram,

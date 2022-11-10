@@ -2,7 +2,6 @@
   "name": "@dsrv/kms-monorepo",
   "version": "0.0.4",
   "description": "blockchain key managament system",
-  "main": "./lib/cjs/index.js",
   "repository": "https://github.com/dsrvlabs/kms-monorepo",
   "author": "daoauth",
   "license": "MIT",
@@ -60,17 +59,5 @@
       "cd packages/kms && jest",
       "git add"
     ]
-  },
-  "exports": {
-    ".": {
-      "import": {
-        "types": "lib/esm/index.d.ts",
-        "default": "lib/esm/index.js"
-      },
-      "require": {
-        "types": "lib/cjs/index.d.js",
-        "default": "lib/cjs/index.js"
-      }
-    }
   }
 }
