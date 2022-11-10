@@ -2,7 +2,7 @@
   "name": "@dsrv/kms-monorepo",
   "version": "0.0.4",
   "description": "blockchain key managament system",
-  "main": "index.js",
+  "main": "./lib/cjs/index.js",
   "repository": "https://github.com/dsrvlabs/kms-monorepo",
   "author": "daoauth",
   "license": "MIT",
@@ -39,9 +39,11 @@
     }
   ],
   "scripts": {
-    "build:kms": "cd packages/kms && tsc",
+    "build:kms": "rm -rf lib &&yarn build:kms-cjs && yarn build:kms-esm",
+    "build:kms-cjs": "cd packages/kms && tsc --module commonjs --outDir lib/cjs --strict true",
+    "build:kms-esm": "cd packages/kms && tsc --module es6 --outDir lib/esm",
     "prettier": "prettier --write --config ./.prettierrc \"**/*.{ts,tsx}\"",
-    "start:example": "cd packages/examples && ts-node",
+    "stasrt:example": "cd packages/examples && ts-node",
     "test:kms": "cd packages/kms && jest",
     "test:examples": "cd packages/examples && jest",
     "lint": "eslint './packages/**/*.{ts,tsx}'",
@@ -58,5 +60,17 @@
       "cd packages/kms && jest",
       "git add"
     ]
+  },
+  "exports": {
+    ".": {
+      "import": {
+        "types": "lib/esm/index.d.ts",
+        "default": "lib/esm/index.js"
+      },
+      "require": {
+        "types": "lib/cjs/index.d.js",
+        "default": "lib/cjs/index.js"
+      }
+    }
   }
 }
