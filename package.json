@@ -42,7 +42,7 @@
     "build:kms-cjs": "cd packages/kms && tsc --module commonjs --outDir lib/cjs --strict true",
     "build:kms-esm": "cd packages/kms && tsc --module es6 --outDir lib/esm",
     "prettier": "prettier --write --config ./.prettierrc \"**/*.{ts,tsx}\"",
-    "stasrt:example": "cd packages/examples && ts-node",
+    "start:example": "cd packages/examples && ts-node",
     "test:kms": "cd packages/kms && jest",
     "test:examples": "cd packages/examples && jest",
     "lint": "eslint './packages/**/*.{ts,tsx}'",
