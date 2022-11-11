@@ -40,7 +40,7 @@ export async function createKeyStore(
   mem: number = 10,
 ): Promise<KeyStore | null> {
   const encoder = new TextEncoder();
-  const opt = { t: time, m: mem, s: encode(randomBytes(LENGTH)), j: [] };
+  const opt = { t: time, m: mem, s: encode(randomBytes(LENGTH)), j: [] as Array<any> };
   const key = await getAlgo2HashKey(password, opt);
   if (key) {
     const jwe = await JWE.createEncrypt({ format: 'compact', contentAlg: 'A256GCM' }, key)

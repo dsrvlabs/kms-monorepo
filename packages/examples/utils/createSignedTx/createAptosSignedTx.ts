@@ -4,7 +4,7 @@ import { getAptosAccount } from '../getAccount';
 interface createAptosSignedTxProps {
   serializedTx: string;
   signature: string;
-  mnemonic?: string;
+  mnemonic: string;
 }
 export const createAptosSignedTx = async ({
   serializedTx,
@@ -26,5 +26,5 @@ export const createAptosSignedTx = async ({
     ),
   );
 
-  return signed;
+  return signed as TxnBuilderTypes.SignedTransaction;
 };

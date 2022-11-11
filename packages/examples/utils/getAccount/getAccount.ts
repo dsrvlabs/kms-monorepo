@@ -1,12 +1,5 @@
 /* eslint-disable no-console */
-import { Account, CHAIN } from '@dsrv/kms/lib/types';
-import { Cosmos } from '@dsrv/kms/lib/blockchains/cosmos';
-import { Ethereum } from '@dsrv/kms/lib/blockchains/ethereum';
-import { Eth2 } from '@dsrv/kms/lib/blockchains/eth2';
-import { Near } from '@dsrv/kms/lib/blockchains/near';
-import { Solana } from '@dsrv/kms/lib/blockchains/solana';
-import { Sui } from '@dsrv/kms/lib/blockchains/sui';
-import { Aptos } from '@dsrv/kms/lib/blockchains/aptos';
+import { Account, CHAIN, Cosmos, Ethereum, Eth2, Near, Solana, Sui, Aptos } from '@dsrv/kms';
 
 /* Aptos getAccount */
 export const getAptosAccount = (mnemonic: string): Account => {

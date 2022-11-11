@@ -9,6 +9,7 @@ export const sendCeloTransaction = async (serializedTx) => {
   }
 
   const celo = new ethers.providers.JsonRpcProvider(rpcUrl);
-  const result = await celo.sendTransaction(serializedTx);
+  const tx = await celo.sendTransaction(serializedTx);
+  const result = await tx.wait();
   return result;
 };

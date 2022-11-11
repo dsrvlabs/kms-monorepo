@@ -2,7 +2,6 @@
   "name": "@dsrv/kms-monorepo",
   "version": "0.0.4",
   "description": "blockchain key managament system",
-  "main": "index.js",
   "repository": "https://github.com/dsrvlabs/kms-monorepo",
   "author": "daoauth",
   "license": "MIT",
@@ -39,7 +38,9 @@
     }
   ],
   "scripts": {
-    "build:kms": "cd packages/kms && tsc",
+    "build:kms": "rm -rf lib &&yarn build:kms-cjs && yarn build:kms-esm",
+    "build:kms-cjs": "cd packages/kms && tsc --module commonjs --outDir lib/cjs --strict true",
+    "build:kms-esm": "cd packages/kms && tsc --module es6 --outDir lib/esm",
     "prettier": "prettier --write --config ./.prettierrc \"**/*.{ts,tsx}\"",
     "start:example": "cd packages/examples && ts-node",
     "test:kms": "cd packages/kms && jest",

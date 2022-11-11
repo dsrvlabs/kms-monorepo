@@ -10,9 +10,9 @@ import {
 } from '@cosmjs/proto-signing';
 import { encodeSecp256k1Pubkey } from '@cosmjs/amino';
 import { Int53 } from '@cosmjs/math';
+import { SignDoc } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
+import { StargateClient, defaultRegistryTypes } from '@cosmjs/stargate';
 import { RPC_URL, RECEIVER_ADDRESS } from '../../constants';
-
-const { StargateClient, defaultRegistryTypes } = require('@cosmjs/stargate');
 
 const getTxBodyBytes = (transaction) => {
   const registry = new Registry(defaultRegistryTypes);

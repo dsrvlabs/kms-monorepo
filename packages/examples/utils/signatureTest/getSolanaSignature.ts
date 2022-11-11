@@ -1,7 +1,6 @@
 /* eslint-disable no-unused-vars */
-import { Solana } from '@dsrv/kms';
-import { CHAIN } from '@dsrv/kms/src/types';
-import { getSolanaOfflineTx, getSolanaTx } from '../getTx';
+import { Solana, CHAIN } from '@dsrv/kms';
+import { getSolanaOfflineTx } from '../getTx';
 import { solanaSdkSignedTx } from '../sdkSignedTx';
 
 export const getSolanaSignature = async (mnemonic: string) => {

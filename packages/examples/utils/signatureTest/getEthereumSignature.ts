@@ -1,5 +1,4 @@
-import { Ethereum } from '@dsrv/kms';
-import { CHAIN } from '@dsrv/kms/src/types';
+import { Ethereum, CHAIN } from '@dsrv/kms';
 import { getEthereumOfflineTx } from '../getTx';
 import { ethereumSdkSignedTx } from '../sdkSignedTx';
 

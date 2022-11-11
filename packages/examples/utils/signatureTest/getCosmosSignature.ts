@@ -1,5 +1,4 @@
-import { Cosmos } from '@dsrv/kms';
-import { CHAIN } from '@dsrv/kms/lib/types';
+import { Cosmos, CHAIN } from '@dsrv/kms';
 import { getCosmosOfflineTx } from '../getTx';
 import { cosmosSdkSignedTx } from '../sdkSignedTx';
 
