@@ -1,6 +1,6 @@
 import { JWK, JWE, util } from 'node-jose';
 import { encode, decode } from 'bs58';
-import { randomBytes } from 'crypto';
+import randomBytes from 'randombytes';
 import { hash } from 'argon2-browser';
 import { KeyStore } from './types';
 
