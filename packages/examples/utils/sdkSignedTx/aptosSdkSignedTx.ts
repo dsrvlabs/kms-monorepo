@@ -1,4 +1,4 @@
-import { CHAIN } from '@dsrv/kms/src/types';
+import { CHAIN } from '@dsrv/kms';
 import { AptosAccount } from 'aptos';
 import { getAptosTx } from '../getTx';
 

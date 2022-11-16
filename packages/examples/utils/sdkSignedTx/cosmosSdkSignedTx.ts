@@ -1,10 +1,8 @@
 /* eslint-disable no-unused-vars */
 import { DirectSecp256k1Wallet } from '@cosmjs/proto-signing';
-import { Cosmos } from '@dsrv/kms';
-import { CHAIN } from '@dsrv/kms/src/types';
 import { getCosmosAccount } from '../getAccount';
 import { getCosmosPrivateKey } from '../getPrivateKey';
-import { getCosmosOfflineTx, getCosmosTx } from '../getTx';
+import { getCosmosOfflineTx } from '../getTx';
 
 export const cosmosSdkSignedTx = async (mnemonic: string) => {
   const cosmosAccount = getCosmosAccount(mnemonic);

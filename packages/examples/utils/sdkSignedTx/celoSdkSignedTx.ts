@@ -1,11 +1,10 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
-import { Ethereum } from '@dsrv/kms';
-import { CHAIN } from '@dsrv/kms/src/types';
+import { Ethereum, CHAIN } from '@dsrv/kms';
+
 import { ethers, Wallet } from 'ethers';
 import { RPC_URL } from '../../constants';
-import { getCeloAccount } from '../getAccount';
-import { getCeloOfflineTx, getCeloTx } from '../getTx';
+import { getCeloOfflineTx } from '../getTx';
 
 /* Create singedTx and sen by using ethers */
 export const celoSdkSignedTx = async (mnemonic: string) => {
@@ -26,8 +25,6 @@ export const celoSdkSignedTx = async (mnemonic: string) => {
     s: transaction.s,
     v: transaction.v,
   });
-
-  // const sentTx = await celo.sendTransaction(signedTx);
 
   return sigature;
 };

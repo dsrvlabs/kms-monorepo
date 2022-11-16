@@ -21,6 +21,7 @@ const MNEMONIC = require('./mnemonic.json');
 
 const main = async () => {
   const mnemonic = MNEMONIC.bip44;
+
   /* ethereum sendtransaction */
   const { ethereumSignedTx } = await getEthereumSignedTx(mnemonic);
   console.log('>ethSignedTx', ethereumSignedTx);

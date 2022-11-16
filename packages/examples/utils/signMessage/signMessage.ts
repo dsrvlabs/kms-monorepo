@@ -1,7 +1,5 @@
 /* eslint-disable no-console */
-import { CHAIN } from '@dsrv/kms/lib/types';
-import { Near } from '@dsrv/kms/lib/blockchains/near';
-import { Solana } from '@dsrv/kms/lib/blockchains/solana';
+import { CHAIN, Near, Solana } from '@dsrv/kms';
 
 /* Near - signMsg */
 export const getNearSignMsg = (mnemonic: string, message: string) => {

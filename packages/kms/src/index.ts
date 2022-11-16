@@ -1,4 +1,15 @@
 export * from './argon2';
+export {
+  CHAIN,
+  Account,
+  BIP44,
+  SignedTx,
+  SignedMsg,
+  KeyStore,
+  SimpleKeypair,
+  PathOption,
+  KeyOption,
+} from './types';
 export { Aptos } from './blockchains/aptos';
 export { Cosmos } from './blockchains/cosmos';
 export { Ethereum } from './blockchains/ethereum';

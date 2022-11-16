@@ -1,13 +1,6 @@
 /* eslint-disable no-undef */
-// import { createKeyStore, getMnemonic } from '@dsrv/kms/src/argon2';
-import { CHAIN } from '@dsrv/kms/src/types';
-import { Aptos } from '@dsrv/kms/src/blockchains/aptos';
-import { Cosmos } from '@dsrv/kms/src/blockchains/cosmos';
-import { Ethereum } from '@dsrv/kms/src/blockchains/ethereum';
-import { Eth2 } from '@dsrv/kms/src/blockchains/eth2';
-import { Near } from '@dsrv/kms/src/blockchains/near';
-import { Solana } from '@dsrv/kms/src/blockchains/solana';
-import { Sui } from '@dsrv/kms/src/blockchains/sui';
+
+import { CHAIN, Aptos, Cosmos, Ethereum, Eth2, Near, Solana, Sui } from '@dsrv/kms';
 
 const mnemonic = 'shoot island position soft burden budget tooth cruel issue economy destroy above';
 // const password = 'strong password';

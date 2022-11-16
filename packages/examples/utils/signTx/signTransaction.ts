@@ -1,11 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
-import { CHAIN } from '@dsrv/kms/lib/types';
-import { Cosmos } from '@dsrv/kms/lib/blockchains/cosmos';
-import { Ethereum } from '@dsrv/kms/lib/blockchains/ethereum';
-import { Near } from '@dsrv/kms/lib/blockchains/near';
-import { Solana } from '@dsrv/kms/lib/blockchains/solana';
-import { Aptos } from '@dsrv/kms/lib/blockchains/aptos';
+import { CHAIN, Cosmos, Ethereum, Near, Solana, Aptos } from '@dsrv/kms';
 import { getAptosTx } from '../getTx/getAptosTx';
 import { getCeloTx } from '../getTx/getCeloTx';
 import { getCosmosTx } from '../getTx/getCosmosTx';
