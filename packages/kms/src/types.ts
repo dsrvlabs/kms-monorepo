@@ -34,7 +34,6 @@ export interface BIP44 {
   type: number;
   account: number;
   index: number;
-  password?: string;
 }
 
 export interface PathOption {

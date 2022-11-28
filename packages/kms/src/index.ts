@@ -17,3 +17,4 @@ export { Eth2 } from './blockchains/eth2';
 export { Near } from './blockchains/near';
 export { Solana } from './blockchains/solana';
 export { Sui } from './blockchains/sui';
+export { getDerivePath } from './blockchains/signer';
