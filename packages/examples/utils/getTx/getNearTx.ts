@@ -11,7 +11,7 @@ export const getNearTx = async (mnemonic: string) => {
   const account = getNearAccount(mnemonic);
   const rpc = RPC_URL.NEAR;
   const provider = new providers.JsonRpcProvider({ url: rpc });
-  const helperURL = `https://near-utils.welldonestudio.io/accounts?address=${account.address}`;
+  const helperURL = `https://api.welldonestudio.io/wds-near-util/accounts?address=${account.address}`;
   const accountIds = await fetch(helperURL).then((res) => res.json());
 
   const testnetAccountIds = accountIds.filter((el) => {
@@ -56,7 +56,7 @@ export const getNearOfflineTx = async (mnemonic: string) => {
   const account = getNearAccount(mnemonic);
   const rpc = RPC_URL.NEAR;
   const provider = new providers.JsonRpcProvider({ url: rpc });
-  const helperURL = `https://near-utils.welldonestudio.io/accounts?address=${account.address}`;
+  const helperURL = `https://api.welldonestudio.io/wds-near-util/accounts?address=${account.address}`;
   const accountIds = await fetch(helperURL).then((res) => res.json());
 
   const testnetAccountIds = accountIds.filter((el) => {

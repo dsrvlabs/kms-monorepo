@@ -6,7 +6,7 @@ interface createAptosSignedTxProps {
   signature: string;
   mnemonic: string;
 }
-export const createAptosSignedTx = async ({
+export const createAptosSignedTx = ({
   serializedTx,
   signature,
   mnemonic,
