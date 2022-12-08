@@ -24,7 +24,7 @@ export const getAptosSignedTx = async (mnemonic: string) => {
     },
     serializedTx,
   );
-  const aptosSignedTx = await createAptosSignedTx({
+  const aptosSignedTx = createAptosSignedTx({
     serializedTx,
     signature: aptosSignature.signature,
     mnemonic,
@@ -118,7 +118,7 @@ export const getSolanaSignedTx = async (mnemonic: string) => {
     serializedTx,
   );
 
-  const solanaSignedTx = await createSolanaSignedTx({
+  const solanaSignedTx = createSolanaSignedTx({
     unSignedTx,
     signature: solanaSignature.signature,
   });
