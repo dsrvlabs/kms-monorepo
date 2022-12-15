@@ -7,10 +7,57 @@ import { Eth2 } from '../src/blockchains/eth2';
 import { Near } from '../src/blockchains/near';
 import { Solana } from '../src/blockchains/solana';
 import { Sui } from '../src/blockchains/sui';
+import { Ton } from '../src/blockchains/ton';
 
 const mnemonic = 'shoot island position soft burden budget tooth cruel issue economy destroy above';
 const password = 'strong password';
 const message = 'Hello, world!';
+
+// const mnemonicForTon = 'recall, casino, puppy give remind umbrella month zoo car basket current system maze medal skate property ocean inform indicate pink address timber fall diesel'
+test('Ton - getAccount', async () => {
+  // EQBKZ5-jt1v36P1TQVrsXtt3g2bkbOBi7ic6exjvoWMsLe5A
+  expect(
+    await Ton.getAccount({
+      mnemonic: mnemonic,
+      path: { type: CHAIN.TON, account: 0, index: 0 },
+    }),
+  ).toEqual({
+    address: 'EQBKZ5-jt1v36P1TQVrsXtt3g2bkbOBi7ic6exjvoWMsLe5A',
+    publicKey: '7MYDnB9nziAErTYRc7owGARuko7TCHARSqUGZQtRZQv',
+  });
+});
+
+test('Ton - signTx', () => {
+  expect(
+    Ton.signTx(
+      {
+        mnemonic,
+        path: { type: CHAIN.TON, account: 0, index: 0 },
+      },
+      '0x68656c6c6f20776f726c6421',
+    ),
+  ).toEqual({
+    signature:
+      '0x2d5949b824ee80d559ff028a0bba7d133fab0179cdbb0550c217bdcfe574383bad4a3b2742d747b1d554faf3af115c9a910b7ef79d662a1bc48a81f05a4ba700',
+    unsignedTx: '0x68656c6c6f20776f726c6421',
+  });
+});
+
+test('Ton - signMsg', () => {
+  expect(
+    Ton.signMsg(
+      {
+        mnemonic,
+        path: { type: CHAIN.TON, account: 0, index: 0 },
+      },
+      message,
+    ),
+  ).toEqual({
+    signature:
+      '0x5e9d6b44bda5b2374d51ca52cebf3f9e68dd7186574ed539df9826432bc43c187786c5525f9f4285e2ac15dfc7196b751997b3200e1bdbdb9de56d8b4e52c70b',
+    message: message,
+  });
+});
 
 test('Argon2', async () => {
   const keystore = await createKeyStore(mnemonic.split(' '), password);
@@ -63,10 +110,13 @@ test('Cosmos - signTx', () => {
 
 test('Injective - getAccount (60)', () => {
   expect(
-    Ethereum.getAccount({
-      mnemonic,
-      path: { type: CHAIN.ETHEREUM, account: 0, index: 0 },
-    }, { prefix: 'inj' }),
+    Ethereum.getAccount(
+      {
+        mnemonic,
+        path: { type: CHAIN.ETHEREUM, account: 0, index: 0 },
+      },
+      { prefix: 'inj' },
+    ),
   ).toEqual({
     address: 'inj13u6g7vqgw074mgmf2ze2cadzvkz9snlwcrtq8a',
     publicKey: '0x035a0c6b83b8bd9827e507270cadb499b7e3a9095246f6a2213281f783d877c98b',
@@ -75,10 +125,13 @@ test('Injective - getAccount (60)', () => {
 
 test('Injective - getAccount (118)', () => {
   expect(
-    Cosmos.getAccount({
-      mnemonic,
-      path: { type: CHAIN.COSMOS, account: 0, index: 0 },
-    }, { prefix: 'inj'}),
+    Cosmos.getAccount(
+      {
+        mnemonic,
+        path: { type: CHAIN.COSMOS, account: 0, index: 0 },
+      },
+      { prefix: 'inj' },
+    ),
   ).toEqual({
     address: 'inj1seqzn42dm7q3l7amgfswdheuhyvwwegqh2w8v0',
     publicKey: '0x03c156c16c456788349d1cd306a681dcf408cd3a4a121eb18396ed5be59b9b8370',
@@ -215,14 +268,17 @@ test('Ethereum - signTx (Eip2930)', () => {
 
 test('Eth2 - getAccount (withdrawal)', () => {
   expect(
-    Eth2.getAccount({
-      mnemonic,
-      path: {
-        type: CHAIN.ETHEREUM,
-        account: 0,
-        index: 0,
+    Eth2.getAccount(
+      {
+        mnemonic,
+        path: {
+          type: CHAIN.ETHEREUM,
+          account: 0,
+          index: 0,
+        },
       },
-    }, { keyType: "withdrawal" }),
+      { keyType: 'withdrawal' },
+    ),
   ).toEqual({
     address:
       '0xb2b1b76b034615ebc67c4ca8e6b0e65d8d9a9191d0ffd2d6884933d2e001617bfa420ad25d525c88034dfd51f58f6c43',
@@ -233,14 +289,17 @@ test('Eth2 - getAccount (withdrawal)', () => {
 
 test('Eth2 - getAccount (signing)', () => {
   expect(
-    Eth2.getAccount({
-      mnemonic,
-      path: {
-        type: CHAIN.ETHEREUM,
-        account: 0,
-        index: 0,
+    Eth2.getAccount(
+      {
+        mnemonic,
+        path: {
+          type: CHAIN.ETHEREUM,
+          account: 0,
+          index: 0,
+        },
       },
-    }, { keyType: 'signing' }),
+      { keyType: 'signing' },
+    ),
   ).toEqual({
     address:
       '0xb84d8ea3b5b8b0d7f483c384749291d9993de245c8370466121f8c29f815c45767ca1b732f18dea47a2eef46ac6631d9',

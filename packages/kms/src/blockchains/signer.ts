@@ -55,6 +55,7 @@ export function getDerivePath(path: BIP44, option?: KeyOption): string[] {
       ];
     case CHAIN.SOLANA:
     case CHAIN.TEZOS:
+    case CHAIN.TON:
       return [
         `m/44'/${path.type}'/${path.account}'/${path.index}'`,
         `m/44'/${path.type}'/${path.account}'/`,
@@ -93,7 +94,7 @@ export abstract class Signer {
     throw new Error('not implemented!');
   }
 
-  static getAccount(_pk: string | PathOption, _option?: KeyOption): Account {
+  static getAccount(_pk: string | PathOption, _option?: KeyOption): Account | Promise<Account> {
     throw new Error('not implemented!');
   }
 

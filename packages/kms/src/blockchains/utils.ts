@@ -29,3 +29,7 @@ export function stripHexPrefix(str: string): string {
     throw new Error(`[stripHexPrefix] input must be type 'string', received ${typeof str}`);
   return padToEven(isHexString(str) ? str.slice(2) : str);
 }
+
+export const stringToHex = (str: string) => {
+  return addHexPrefix(Buffer.from(str, 'utf8').toString('hex'));
+};
