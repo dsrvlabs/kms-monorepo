@@ -3,8 +3,9 @@ import * as ecc from 'tiny-secp256k1';
 // eslint-disable-next-line camelcase
 import { keccak_256 } from '@noble/hashes/sha3';
 import { bech32 } from 'bech32';
-import { addHexPrefix, stripHexPrefix } from '../utils';
-import { Account, KeyOption, PathOption, SignedTx, SimpleKeypair } from '../../types';
+import { hexToBytes } from '@noble/hashes/utils';
+import { addHexPrefix, isHexString, stringToHex, stripHexPrefix } from '../utils';
+import { Account, KeyOption, PathOption, SignedMsg, SignedTx, SimpleKeypair } from '../../types';
 import { Signer } from '../signer';
 
 export { CHAIN } from '../../types';
@@ -74,6 +75,29 @@ export class Ethereum extends Signer {
       signature: addHexPrefix(
         Buffer.concat([signature, Buffer.from([recoveryParam])]).toString('hex'),
       ),
+    };
+  }
+
+  static signMsg(pk: string | PathOption, message: string): SignedMsg {
+    const keyPair = Ethereum.getKeyPair(pk);
+    const msgHex = isHexString(message) ? message : stringToHex(message);
+    const messageBytes = hexToBytes(msgHex.replace('0x', ''));
+    const messageBuffer = Buffer.from(msgHex, 'hex');
+    const preamble = `\x19Ethereum Signed Message:\n${messageBytes.length}`;
+    const preambleBuffer = Buffer.from(preamble);
+    const ethMessage = Buffer.concat([preambleBuffer, messageBuffer]);
+
+    const { signature, recoveryId: recoveryParam } = ecc.signRecoverable(
+      Buffer.from(keccak_256(ethMessage)),
+      Buffer.from(stripHexPrefix(keyPair.privateKey), 'hex'),
+    );
+
+    return {
+      message,
+      signature: addHexPrefix(
+        Buffer.concat([signature, Buffer.from([recoveryParam])]).toString('hex'),
+      ),
+      publicKey: keyPair.publicKey,
     };
   }
 }

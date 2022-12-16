@@ -63,10 +63,13 @@ test('Cosmos - signTx', () => {
 
 test('Injective - getAccount (60)', () => {
   expect(
-    Ethereum.getAccount({
-      mnemonic,
-      path: { type: CHAIN.ETHEREUM, account: 0, index: 0 },
-    }, { prefix: 'inj' }),
+    Ethereum.getAccount(
+      {
+        mnemonic,
+        path: { type: CHAIN.ETHEREUM, account: 0, index: 0 },
+      },
+      { prefix: 'inj' },
+    ),
   ).toEqual({
     address: 'inj13u6g7vqgw074mgmf2ze2cadzvkz9snlwcrtq8a',
     publicKey: '0x035a0c6b83b8bd9827e507270cadb499b7e3a9095246f6a2213281f783d877c98b',
@@ -75,10 +78,13 @@ test('Injective - getAccount (60)', () => {
 
 test('Injective - getAccount (118)', () => {
   expect(
-    Cosmos.getAccount({
-      mnemonic,
-      path: { type: CHAIN.COSMOS, account: 0, index: 0 },
-    }, { prefix: 'inj'}),
+    Cosmos.getAccount(
+      {
+        mnemonic,
+        path: { type: CHAIN.COSMOS, account: 0, index: 0 },
+      },
+      { prefix: 'inj' },
+    ),
   ).toEqual({
     address: 'inj1seqzn42dm7q3l7amgfswdheuhyvwwegqh2w8v0',
     publicKey: '0x03c156c16c456788349d1cd306a681dcf408cd3a4a121eb18396ed5be59b9b8370',
@@ -213,16 +219,36 @@ test('Ethereum - signTx (Eip2930)', () => {
   });
 });
 
+test('Ethereum - signMsg', () => {
+  expect(
+    Ethereum.signMsg(
+      {
+        mnemonic,
+        path: { type: CHAIN.ETHEREUM, account: 0, index: 0 },
+      },
+      message,
+    ),
+  ).toEqual({
+    message,
+    publicKey: '0x035a0c6b83b8bd9827e507270cadb499b7e3a9095246f6a2213281f783d877c98b',
+    signature:
+      '0x4b878bb0b6e98a2745a9ebd003d383247d8b328fa5402cd47947ca163f49b3eb2cd68057950b936586a1ed4667dff00a96e06e7c34ffa139a410fb29c61a4ed300',
+  });
+});
+
 test('Eth2 - getAccount (withdrawal)', () => {
   expect(
-    Eth2.getAccount({
-      mnemonic,
-      path: {
-        type: CHAIN.ETHEREUM,
-        account: 0,
-        index: 0,
+    Eth2.getAccount(
+      {
+        mnemonic,
+        path: {
+          type: CHAIN.ETHEREUM,
+          account: 0,
+          index: 0,
+        },
       },
-    }, { keyType: "withdrawal" }),
+      { keyType: 'withdrawal' },
+    ),
   ).toEqual({
     address:
       '0xb2b1b76b034615ebc67c4ca8e6b0e65d8d9a9191d0ffd2d6884933d2e001617bfa420ad25d525c88034dfd51f58f6c43',
@@ -233,14 +259,17 @@ test('Eth2 - getAccount (withdrawal)', () => {
 
 test('Eth2 - getAccount (signing)', () => {
   expect(
-    Eth2.getAccount({
-      mnemonic,
-      path: {
-        type: CHAIN.ETHEREUM,
-        account: 0,
-        index: 0,
+    Eth2.getAccount(
+      {
+        mnemonic,
+        path: {
+          type: CHAIN.ETHEREUM,
+          account: 0,
+          index: 0,
+        },
       },
-    }, { keyType: 'signing' }),
+      { keyType: 'signing' },
+    ),
   ).toEqual({
     address:
       '0xb84d8ea3b5b8b0d7f483c384749291d9993de245c8370466121f8c29f815c45767ca1b732f18dea47a2eef46ac6631d9',
