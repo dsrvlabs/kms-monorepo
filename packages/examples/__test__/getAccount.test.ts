@@ -17,6 +17,18 @@ test('Aptos - getAccount', () => {
   });
 });
 
+test('ethereum - getAccount', () => {
+  expect(
+    Ethereum.getAccount({
+      mnemonic,
+      path: { type: CHAIN.ETHEREUM, account: 0, index: 0 },
+    }),
+  ).toEqual({
+    address: '0x8f348f300873fd5da36950b2ac75a26584584fee',
+    publicKey: '0x035a0c6b83b8bd9827e507270cadb499b7e3a9095246f6a2213281f783d877c98b',
+  });
+});
+
 test('Cosmos - getAccount', () => {
   expect(
     Cosmos.getAccount({
