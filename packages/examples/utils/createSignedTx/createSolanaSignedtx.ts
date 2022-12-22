@@ -5,10 +5,7 @@ interface createSolanaSignedTxProps {
   signature: string;
 }
 
-export const createSolanaSignedTx = async ({
-  unSignedTx,
-  signature,
-}: createSolanaSignedTxProps) => {
+export const createSolanaSignedTx = ({ unSignedTx, signature }: createSolanaSignedTxProps) => {
   const bufferSig = Buffer.from(signature.replace('0x', ''), 'hex');
   unSignedTx.addSignature(unSignedTx.feePayer, bufferSig);
   const serializedTx = unSignedTx.serialize().toString('hex');
