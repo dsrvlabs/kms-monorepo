@@ -1,6 +1,6 @@
 {
   "name": "@dsrv/kms",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "description": "blockchain key managament system",
   "main": "lib/cjs/index.js",
   "types": "lib/cjs/index.d.ts",

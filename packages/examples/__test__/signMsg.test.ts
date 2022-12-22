@@ -6,7 +6,7 @@ const mnemonic = 'shoot island position soft burden budget tooth cruel issue eco
 const message = 'Hello, world!';
 
 test('ethereum - signature test', async () => {
-  const sdkSignedMsg = ethereumSdkSignedMsg(mnemonic, message);
+  const sdkSignedMsg = await ethereumSdkSignedMsg(mnemonic, message);
   const kmsSignedMsg = getEthereumSignMsg(mnemonic, message);
-  expect(sdkSignedMsg).toEqual(kmsSignedMsg);
+  expect(sdkSignedMsg).toEqual(kmsSignedMsg.signature);
 });
