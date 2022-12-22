@@ -1,6 +1,6 @@
 {
   "name": "@dsrv/kms",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "description": "blockchain key managament system",
   "main": "lib/cjs/index.js",
   "types": "lib/cjs/index.d.ts",
@@ -53,6 +53,7 @@
     "ed25519-hd-key": "^1.3.0",
     "node-jose": "^2.1.1",
     "randombytes": "^2.1.0",
+    "secp256k1": "^4.0.3",
     "tiny-secp256k1": "^2.2.1",
     "tweetnacl": "^1.0.3"
   },
