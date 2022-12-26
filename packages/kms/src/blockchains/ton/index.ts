@@ -5,7 +5,7 @@ import { baseEncode } from 'borsh';
 import TonWeb from 'tonweb';
 import { getDerivePath, Signer } from '../signer';
 import { Account, PathOption, SignedMsg, SignedTx } from '../../types';
-import { addHexPrefix, stringToHex, stripHexPrefix } from '../utils';
+import { addHexPrefix, isHexString, stringToHex, stripHexPrefix } from '../utils';
 
 export { CHAIN } from '../../types';
 
@@ -63,8 +63,7 @@ export class Ton extends Signer {
   }
 
   static signMsg(pk: string | PathOption, message: string): SignedMsg {
-    const hexMsg = stringToHex(message);
-    super.isHexString(hexMsg);
+    const hexMsg = isHexString(message) ? message : stringToHex(message);
 
     const keyPair = Ton.getKeyPair(pk);
     const hash = Buffer.from(stripHexPrefix(hexMsg), 'hex');
