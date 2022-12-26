@@ -3,7 +3,6 @@ import { SignKeyPair, sign as naclSign } from 'tweetnacl';
 import { derivePath } from 'ed25519-hd-key';
 import { baseEncode } from 'borsh';
 import TonWeb from 'tonweb';
-import { sha256 } from '@noble/hashes/sha256';
 import { getDerivePath, Signer } from '../signer';
 import { Account, PathOption, SignedMsg, SignedTx } from '../../types';
 import { addHexPrefix, stringToHex, stripHexPrefix } from '../utils';
@@ -54,7 +53,7 @@ export class Ton extends Signer {
     super.isHexString(unsignedTx);
 
     const keyPair = Ton.getKeyPair(pk);
-    const hash = sha256(Buffer.from(stripHexPrefix(unsignedTx), 'hex'));
+    const hash = Buffer.from(stripHexPrefix(unsignedTx), 'hex');
     const signature = naclSign.detached(new Uint8Array(hash), new Uint8Array(keyPair.secretKey));
 
     return {
@@ -68,7 +67,7 @@ export class Ton extends Signer {
     super.isHexString(hexMsg);
 
     const keyPair = Ton.getKeyPair(pk);
-    const hash = sha256(Buffer.from(stripHexPrefix(hexMsg), 'hex'));
+    const hash = Buffer.from(stripHexPrefix(hexMsg), 'hex');
     const signature = naclSign.detached(new Uint8Array(hash), new Uint8Array(keyPair.secretKey));
 
     return {

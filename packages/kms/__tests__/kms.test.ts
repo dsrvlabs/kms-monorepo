@@ -27,6 +27,15 @@ test('Ton - getAccount', async () => {
   });
 });
 
+test('Ton - getPrivateKey', async () => {
+  expect(
+    await Ton.getPrivateKey({
+      mnemonic: mnemonic,
+      path: { type: CHAIN.TON, account: 0, index: 0 },
+    }),
+  ).toEqual('5momanKYppxx2jiE97gSUt55yffpLqXCrq7Cto7pryrq3m67TP3BqUP7cbrGgyw2i7kVtYZUpc9N9GY56PS7YQRx');
+});
+
 test('Ton - signTx', () => {
   expect(
     Ton.signTx(
@@ -38,7 +47,7 @@ test('Ton - signTx', () => {
     ),
   ).toEqual({
     signature:
-      '0x2d5949b824ee80d559ff028a0bba7d133fab0179cdbb0550c217bdcfe574383bad4a3b2742d747b1d554faf3af115c9a910b7ef79d662a1bc48a81f05a4ba700',
+      '0x4d361227b79f6bc87ef476a5bc326c28089b4b758d62a052b308480d9f7f3b9fb3e4bc5697c7041f32ef52d70fa272b941826293ec6136471cf4d6865283f601',
     unsignedTx: '0x68656c6c6f20776f726c6421',
   });
 });
@@ -54,7 +63,7 @@ test('Ton - signMsg', () => {
     ),
   ).toEqual({
     signature:
-      '0x5e9d6b44bda5b2374d51ca52cebf3f9e68dd7186574ed539df9826432bc43c187786c5525f9f4285e2ac15dfc7196b751997b3200e1bdbdb9de56d8b4e52c70b',
+      '0x39fd5b893a160aa68dcb8266f9ea21df558d01a3fba4449810e7cc6bb4e5ebe6b93b26a78a906a0cccb94439e75f8cd6ee5a4f8e2c4f7fedad891c91b58f5502',
     message: message,
   });
 });
