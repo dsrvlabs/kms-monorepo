@@ -13,9 +13,7 @@ const mnemonic = 'shoot island position soft burden budget tooth cruel issue eco
 const password = 'strong password';
 const message = 'Hello, world!';
 
-// const mnemonicForTon = 'recall, casino, puppy give remind umbrella month zoo car basket current system maze medal skate property ocean inform indicate pink address timber fall diesel'
 test('Ton - getAccount', async () => {
-  // EQBKZ5-jt1v36P1TQVrsXtt3g2bkbOBi7ic6exjvoWMsLe5A
   expect(
     await Ton.getAccount({
       mnemonic: mnemonic,
