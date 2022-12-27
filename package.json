@@ -54,8 +54,7 @@
     "lint-staged": "^13.0.3"
   },
   "lint-staged": {
-    "*.{ts,tsx}": [
-      "cd packages/kms && npx jest",
+    "**/*.{ts,tsx}": [
       "eslint",
       "git add"
     ]
