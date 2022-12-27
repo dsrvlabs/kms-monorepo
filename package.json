@@ -55,8 +55,8 @@
   },
   "lint-staged": {
     "*.{ts,tsx}": [
+      "cd packages/kms && npx jest",
       "eslint",
-      "cd packages/kms && jest",
       "git add"
     ]
   }

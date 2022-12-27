@@ -26,7 +26,7 @@ export class Sui extends Signer {
   }
 
   protected static getKeyPair(pk: string | PathOption): SignKeyPair {
-    const keyPair = naclSign.keyPair.fromSecretKey(
+    const keyPair = naclSign.keyPair.fromSeed(
       Buffer.from(stripHexPrefix(Sui.getPrivateKey(pk)), 'hex'),
     );
     return keyPair;

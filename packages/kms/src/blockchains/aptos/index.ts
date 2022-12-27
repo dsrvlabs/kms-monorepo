@@ -20,7 +20,7 @@ export class Aptos extends Signer {
   }
 
   protected static getKeyPair(pk: string | PathOption): SignKeyPair {
-    const keyPair = naclSign.keyPair.fromSecretKey(
+    const keyPair = naclSign.keyPair.fromSeed(
       Buffer.from(stripHexPrefix(Aptos.getPrivateKey(pk)), 'hex'),
     );
     return keyPair;

@@ -56,6 +56,7 @@ export function getDerivePath(path: BIP44, option?: KeyOption): string[] {
     case CHAIN.SOLANA:
     case CHAIN.TEZOS:
     case CHAIN.TON:
+      // @TODO TON check
       return [
         `m/44'/${path.type}'/${path.account}'/${path.index}'`,
         `m/44'/${path.type}'/${path.account}'/`,
