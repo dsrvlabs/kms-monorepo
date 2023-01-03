@@ -1,9 +1,8 @@
 import { decode, encode } from 'bs58';
 import { SignKeyPair, sign as naclSign } from 'tweetnacl';
 import { baseEncode } from 'borsh';
-import { deriveEd25519Path, keyPairFromSeed } from 'ton-crypto';
-import { mnemonicToSeedSync } from 'bip39';
-import { Signer } from '../signer';
+import { derivePath } from 'ed25519-hd-key';
+import { getDerivePath, Signer } from '../signer';
 import { Account, PathOption, SignedMsg, SignedTx } from '../../types';
 import { addHexPrefix, isHexString, stringToHex, stripHexPrefix } from '../utils';
 import { addressFromPubkey } from './makeAddress';
@@ -12,17 +11,13 @@ export { CHAIN } from '../../types';
 
 export class Ton extends Signer {
   static async getPrivateKey(pk: string | PathOption): Promise<string> {
-    let mnemonicLedger;
-
     if (typeof pk === 'string') {
-      mnemonicLedger = pk.split(' ');
-    } else {
-      mnemonicLedger = pk.mnemonic.split(' ');
+      return pk;
     }
-    const seed = mnemonicToSeedSync(mnemonicLedger.join(' '));
-    const pathEd25519 = await deriveEd25519Path(seed, [44, 607, 0, 0, 0, 0]);
-    const keyPair = keyPairFromSeed(pathEd25519);
+    const { seed } = Signer.getChild(pk);
+    const { key } = derivePath(getDerivePath(pk.path)[0], seed.toString('hex'));
 
+    const keyPair = naclSign.keyPair.fromSeed(key);
     return `${encode(Buffer.from(keyPair.secretKey))}`;
   }
 

@@ -55,8 +55,6 @@
     "node-jose": "^2.1.1",
     "randombytes": "^2.1.0",
     "tiny-secp256k1": "^2.2.1",
-    "ton": "^11.14.0",
-    "ton-crypto": "^3.2.0",
     "tonweb": "^0.0.58",
     "tweetnacl": "^1.0.3"
   },

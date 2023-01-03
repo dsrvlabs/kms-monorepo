@@ -1,40 +1,10 @@
 import { sha256 } from 'js-sha256';
-import { Address, Cell } from 'ton';
+
 import { DATA_HEADER, DATA_TAIL, ROOT_HEADER } from './constants';
 import { crc16 } from './utils';
 
 // https://github.com/ton-community/ton-ledger-ts/blob/main/source/TonTransport.ts#L109
 export const addressFromPubkey = (publicKey: Buffer) => {
-  // https://github.com/tonwhales/ton-contracts/blob/master/src/contracts/WalletV4Source.ts#L6
-  const SOURCE = Buffer.from(
-    'te6ccgECFAEAAtQAART/APSkE/S88sgLAQIBIAIDAgFIBAUE+PKDCNcYINMf0x/THwL4I7vyZO1E0NMf0x/T//QE0VFDuvKhUVG68qIF+QFUEGT5EPKj+AAkpMjLH1JAyx9SMMv/UhD0AMntVPgPAdMHIcAAn2xRkyDXSpbTB9QC+wDoMOAhwAHjACHAAuMAAcADkTDjDQOkyMsfEssfy/8QERITAubQAdDTAyFxsJJfBOAi10nBIJJfBOAC0x8hghBwbHVnvSKCEGRzdHK9sJJfBeAD+kAwIPpEAcjKB8v/ydDtRNCBAUDXIfQEMFyBAQj0Cm+hMbOSXwfgBdM/yCWCEHBsdWe6kjgw4w0DghBkc3RyupJfBuMNBgcCASAICQB4AfoA9AQw+CdvIjBQCqEhvvLgUIIQcGx1Z4MesXCAGFAEywUmzxZY+gIZ9ADLaRfLH1Jgyz8gyYBA+wAGAIpQBIEBCPRZMO1E0IEBQNcgyAHPFvQAye1UAXKwjiOCEGRzdHKDHrFwgBhQBcsFUAPPFiP6AhPLassfyz/JgED7AJJfA+ICASAKCwBZvSQrb2omhAgKBrkPoCGEcNQICEekk30pkQzmkD6f+YN4EoAbeBAUiYcVnzGEAgFYDA0AEbjJftRNDXCx+AA9sp37UTQgQFA1yH0BDACyMoHy//J0AGBAQj0Cm+hMYAIBIA4PABmtznaiaEAga5Drhf/AABmvHfaiaEAQa5DrhY/AAG7SB/oA1NQi+QAFyMoHFcv/ydB3dIAYyMsFywIizxZQBfoCFMtrEszMyXP7AMhAFIEBCPRR8qcCAHCBAQjXGPoA0z/IVCBHgQEI9FHyp4IQbm90ZXB0gBjIywXLAlAGzxZQBPoCFMtqEssfyz/Jc/sAAgBsgQEI1xj6ANM/MFIkgQEI9Fnyp4IQZHN0cnB0gBjIywXLAlAFzxZQA/oCE8tqyx8Syz/Jc/sAAAr0AMntVA==',
-    'base64',
-  );
-
-  // https://github.com/tonwhales/ton-contracts/blob/master/src/contracts/WalletV4Source.ts#L15
-  const initialCode = Cell.fromBoc(SOURCE)[0];
-
-  // https://github.com/tonwhales/ton-contracts/blob/master/src/contracts/WalletV4Source.ts#L16
-  const initialData = new Cell();
-  initialData.bits.writeUint(0, 32);
-  initialData.bits.writeUint(698983191, 32);
-  initialData.bits.writeBuffer(publicKey);
-  initialData.bits.writeBit(0);
-
-  const endCell = new Cell();
-  // https://github.com/ton-community/ton/blob/master/src/contracts/contractAddress.ts
-  // https://github.com/ton-community/ton/blob/b5f838fc82063d56cbd3a6ab3f515b2c95c791d3/src/messages/StateInit.ts#L23
-  endCell.bits.writeBit(0);
-  endCell.bits.writeBit(0);
-  endCell.bits.writeBit(!!initialCode);
-  endCell.bits.writeBit(!!initialData);
-  endCell.bits.writeBit(0);
-
-  endCell.refs.push(initialCode);
-  endCell.refs.push(initialData);
-
-  const address = new Address(0, endCell.hash());
-
   // From ledger
   // https://github.com/LedgerHQ/app-ton-new/blob/develop/src/address.c
 
@@ -82,8 +52,11 @@ export const addressFromPubkey = (publicKey: Buffer) => {
   addressWithChecksum.set(addr);
   addressWithChecksum.set(crc16(addr), 34);
 
-  // eslint-disable-next-line no-unused-vars
   // const rawAddress = `0:${Buffer.from(addressWithChecksum.slice(2, 34)).toString('hex')}`;
 
-  return address.toFriendly();
+  const friendlyAddress = addressWithChecksum
+    .toString('base64')
+    .replace(/\+/g, '-')
+    .replace(/\//g, '_');
+  return friendlyAddress;
 };
