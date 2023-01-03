@@ -9,6 +9,7 @@ import {
   getNearPrivateKey,
   getSolanaPrivateKey,
   getSuiPrivateKey,
+  getTonPrivateKey,
 } from './utils/getPrivateKey';
 
 const MNEMONIC = require('./mnemonic.json');
@@ -25,6 +26,7 @@ const main = () => {
   const nearPrivateKey = getNearPrivateKey(mnemonic);
   const solanaPrivateKey = getSolanaPrivateKey(mnemonic);
   const suiPrivateKey = getSuiPrivateKey(mnemonic);
+  const tonPrivateKey = getTonPrivateKey(mnemonic);
 
   console.log('aptosPrivateKey', aptosPrivateKey);
   console.log('cosmosPrivateKey', cosmosPrivateKey);
@@ -35,6 +37,7 @@ const main = () => {
   console.log('nearPrivateKey', nearPrivateKey);
   console.log('solanaPrivateKey', solanaPrivateKey);
   console.log('suiPrivateKey', suiPrivateKey);
+  console.log('tonPrivateKey', tonPrivateKey);
 };
 
 main();

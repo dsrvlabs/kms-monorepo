@@ -9,6 +9,7 @@ import {
   getSolanaAccount,
   getSuiAccount,
   getCeloAccount,
+  getTonAccount,
 } from './utils/getAccount';
 
 const MNEMONIC = require('./mnemonic.json');
@@ -25,6 +26,7 @@ const main = () => {
   const nearAccount = getNearAccount(mnemonic);
   const solanaAccount = getSolanaAccount(mnemonic);
   const suiAccount = getSuiAccount(mnemonic);
+  const tonAccount = getTonAccount(mnemonic);
 
   console.log('aptosAccount', aptosAccount);
   console.log('cosmosAccount', cosmosAccount);
@@ -35,6 +37,7 @@ const main = () => {
   console.log('nearAccount', nearAccount);
   console.log('solanaAccount', solanaAccount);
   console.log('suiAccount', suiAccount);
+  console.log('tonAccount', tonAccount);
 };
 
 main();
