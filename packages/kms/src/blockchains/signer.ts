@@ -81,7 +81,7 @@ export abstract class Signer {
     return { seed, child };
   }
 
-  static getPrivateKey(_pk: string | PathOption, _option?: KeyOption): string | Promise<string> {
+  static getPrivateKey(_pk: string | PathOption, _option?: KeyOption): string {
     throw new Error('not implemented!');
   }
 
