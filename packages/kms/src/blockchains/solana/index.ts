@@ -1,4 +1,4 @@
-import { decode, encode } from 'bs58';
+import { encode } from 'bs58';
 import { sign as naclSign, SignKeyPair } from 'tweetnacl';
 import { derivePath } from 'ed25519-hd-key';
 import { Account, PathOption, SignedMsg, SignedTx } from '../../types';
@@ -20,12 +20,13 @@ export class Solana extends Signer {
     const { seed } = Signer.getChild(pk);
     const { key } = derivePath(getDerivePath(pk.path)[0], seed.toString('hex'));
     const keyPair = naclSign.keyPair.fromSeed(key);
-    return `${encode(Buffer.from(keyPair.secretKey))}`;
+    return addHexPrefix(Buffer.from(keyPair.secretKey).toString('hex').slice(0, 64));
   }
 
   protected static getKeyPair(pk: string | PathOption): SignKeyPair {
-    const secretKey = decode(Solana.getPrivateKey(pk));
-    const keyPair = naclSign.keyPair.fromSecretKey(secretKey);
+    const keyPair = naclSign.keyPair.fromSeed(
+      Buffer.from(stripHexPrefix(Solana.getPrivateKey(pk)), 'hex'),
+    );
     return keyPair;
   }
 

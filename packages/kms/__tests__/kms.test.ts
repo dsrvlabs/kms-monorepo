@@ -7,6 +7,7 @@ import { Eth2 } from '../src/blockchains/eth2';
 import { Near } from '../src/blockchains/near';
 import { Solana } from '../src/blockchains/solana';
 import { Sui } from '../src/blockchains/sui';
+import { Ton } from '../src/blockchains/ton';
 
 const mnemonic = 'shoot island position soft burden budget tooth cruel issue economy destroy above';
 const password = 'strong password';
@@ -373,3 +374,48 @@ test('Sui - getAccount', () => {
     publicKey: '0x3311e6a19adc1c06a509e5bf464e9d4ecc73039f311ac940bb11896f82fb6533',
   });
 });
+test('Ton - getAccount', async () => {
+  expect(
+    await Ton.getAccount({
+      mnemonic: mnemonic,
+      path: { type: CHAIN.TON, account: 0, index: 0 },
+    }),
+  ).toEqual({
+    address: 'EQD300MajvOkrDBnXx2u7_escYNWdaJOYB70UlpnkFQJQnAx',
+    publicKey: '33yz22f42QYGATGVoqwZvXXp4tAB9G5JmxHiayUmBDxq',
+  });
+});
+
+/*
+test('Ton - signTx', () => {
+  expect(
+    Ton.signTx(
+      {
+        mnemonic,
+        path: { type: CHAIN.TON, account: 0, index: 0 },
+      },
+      '0x68656c6c6f20776f726c6421',
+    ),
+  ).toEqual({
+    signature:
+      '0x4d361227b79f6bc87ef476a5bc326c28089b4b758d62a052b308480d9f7f3b9fb3e4bc5697c7041f32ef52d70fa272b941826293ec6136471cf4d6865283f601',
+    unsignedTx: '0x68656c6c6f20776f726c6421',
+  });
+});
+
+test('Ton - signMsg', () => {
+  expect(
+    Ton.signMsg(
+      {
+        mnemonic,
+        path: { type: CHAIN.TON, account: 0, index: 0 },
+      },
+      message,
+    ),
+  ).toEqual({
+    signature:
+      '0x39fd5b893a160aa68dcb8266f9ea21df558d01a3fba4449810e7cc6bb4e5ebe6b93b26a78a906a0cccb94439e75f8cd6ee5a4f8e2c4f7fedad891c91b58f5502',
+    message: message,
+  });
+});
+*/

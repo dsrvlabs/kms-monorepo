@@ -1,4 +1,3 @@
-import { decode, encode } from 'bs58';
 // eslint-disable-next-line camelcase
 import { sha3_256 } from '@noble/hashes/sha3';
 import { SignKeyPair, sign as naclSign } from 'tweetnacl';
@@ -23,12 +22,13 @@ export class Sui extends Signer {
     const { seed } = Signer.getChild(pk);
     const { key } = derivePath(getDerivePath(pk.path)[0], seed.toString('hex'));
     const keyPair = naclSign.keyPair.fromSeed(key);
-    return `${encode(Buffer.from(keyPair.secretKey))}`;
+    return addHexPrefix(Buffer.from(keyPair.secretKey).toString('hex').slice(0, 64));
   }
 
   protected static getKeyPair(pk: string | PathOption): SignKeyPair {
-    const secretKey = decode(Sui.getPrivateKey(pk));
-    const keyPair = naclSign.keyPair.fromSecretKey(secretKey);
+    const keyPair = naclSign.keyPair.fromSeed(
+      Buffer.from(stripHexPrefix(Sui.getPrivateKey(pk)), 'hex'),
+    );
     return keyPair;
   }
 
