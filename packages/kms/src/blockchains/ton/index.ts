@@ -9,7 +9,7 @@ import { addressFromPubkey } from './makeAddress';
 export { CHAIN } from '../../types';
 
 export class Ton extends Signer {
-  static async getPrivateKey(pk: string | PathOption): Promise<string> {
+  static getPrivateKey(pk: string | PathOption): string {
     if (typeof pk === 'string') {
       return pk;
     }
@@ -21,7 +21,7 @@ export class Ton extends Signer {
   }
 
   protected static async getKeyPair(pk: string | PathOption): Promise<SignKeyPair> {
-    const secretKey = Buffer.from(stripHexPrefix(await Ton.getPrivateKey(pk)), 'hex');
+    const secretKey = Buffer.from(stripHexPrefix(Ton.getPrivateKey(pk)), 'hex');
     const keyPair = naclSign.keyPair.fromSecretKey(secretKey);
 
     return keyPair;
