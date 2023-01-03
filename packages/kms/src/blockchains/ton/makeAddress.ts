@@ -1,4 +1,4 @@
-import { sha256 } from 'js-sha256';
+import { sha256 } from '@noble/hashes/sha256';
 
 import { DATA_HEADER, DATA_TAIL, ROOT_HEADER } from './constants';
 import { crc16 } from './utils';
@@ -17,7 +17,7 @@ export const addressFromPubkey = (publicKey: Buffer) => {
   cx_hash((cx_hash_t *) &state, CX_LAST, data_tail, sizeof(data_tail), inner, sizeof(inner));
   */
 
-  const inner = sha256.array(Buffer.concat([DATA_HEADER, publicKey, DATA_TAIL]));
+  const inner = sha256(Buffer.concat([DATA_HEADER, publicKey, DATA_TAIL]));
 
   // Hash root
   // https://github.com/LedgerHQ/app-ton-new/blob/d5746358778cd2b8e178749890fcbc2f24b1b7c2/src/address.c#L145
@@ -27,7 +27,7 @@ export const addressFromPubkey = (publicKey: Buffer) => {
   cx_hash((cx_hash_t *) &state, CX_LAST, inner, sizeof(inner), hash, sizeof(hash));
   */
   // let hash = sha256.array(root_header);
-  const hash = sha256.array(Buffer.concat([Buffer.from(ROOT_HEADER), Buffer.from(inner)]));
+  const hash = sha256(Buffer.concat([Buffer.from(ROOT_HEADER), Buffer.from(inner)]));
 
   // https://github.com/LedgerHQ/app-ton-new/blob/d5746358778cd2b8e178749890fcbc2f24b1b7c2/src/address.c#L91
   // address_to_friendly
