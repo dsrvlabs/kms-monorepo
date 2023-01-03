@@ -220,6 +220,23 @@ test('Ethereum - signTx (Eip2930)', () => {
   });
 });
 
+test('Ethereum - signMsg', () => {
+  expect(
+    Ethereum.signMsg(
+      {
+        mnemonic,
+        path: { type: CHAIN.ETHEREUM, account: 0, index: 0 },
+      },
+      message,
+    ),
+  ).toEqual({
+    message,
+    publicKey: '0x035a0c6b83b8bd9827e507270cadb499b7e3a9095246f6a2213281f783d877c98b',
+    signature:
+      '0x52fa78c4515b00b9e44852fecae31ca45ac47ac5c87c5ad99eacb0f7d95eb4a245f18c172a6535cf13445a39f367ad022617e2cd5d06417d4ac668d20e050ad01c',
+  });
+});
+
 test('Eth2 - getAccount (withdrawal)', () => {
   expect(
     Eth2.getAccount(
