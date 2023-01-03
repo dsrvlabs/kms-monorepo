@@ -1,58 +1,54 @@
 import { decode, encode } from 'bs58';
 import { SignKeyPair, sign as naclSign } from 'tweetnacl';
-import { derivePath } from 'ed25519-hd-key';
 import { baseEncode } from 'borsh';
-import TonWeb from 'tonweb';
-import { getDerivePath, Signer } from '../signer';
+import { deriveEd25519Path, keyPairFromSeed } from 'ton-crypto';
+import { mnemonicToSeedSync } from 'bip39';
+import { Signer } from '../signer';
 import { Account, PathOption, SignedMsg, SignedTx } from '../../types';
 import { addHexPrefix, isHexString, stringToHex, stripHexPrefix } from '../utils';
+import { addressFromPubkey } from './makeAddress';
 
 export { CHAIN } from '../../types';
 
 export class Ton extends Signer {
-  static getPrivateKey(pk: string | PathOption): string {
+  static async getPrivateKey(pk: string | PathOption): Promise<string> {
+    let mnemonicLedger;
+
     if (typeof pk === 'string') {
-      return pk;
+      mnemonicLedger = pk.split(' ');
+    } else {
+      mnemonicLedger = pk.mnemonic.split(' ');
     }
-    const { seed } = Signer.getChild(pk);
-    const { key } = derivePath(getDerivePath(pk.path)[0], seed.toString('hex'));
-    const keyPair = naclSign.keyPair.fromSeed(key);
+    const seed = mnemonicToSeedSync(mnemonicLedger.join(' '));
+    const pathEd25519 = await deriveEd25519Path(seed, [44, 607, 0, 0, 0, 0]);
+    const keyPair = keyPairFromSeed(pathEd25519);
 
     return `${encode(Buffer.from(keyPair.secretKey))}`;
   }
 
-  protected static getKeyPair(pk: string | PathOption): SignKeyPair {
-    const secretKey = decode(Ton.getPrivateKey(pk));
+  protected static async getKeyPair(pk: string | PathOption): Promise<SignKeyPair> {
+    const secretKey = decode(await Ton.getPrivateKey(pk));
     const keyPair = naclSign.keyPair.fromSecretKey(secretKey);
 
     return keyPair;
   }
 
   static async getAccount(pk: string | PathOption): Promise<Account> {
-    const keyPair = Ton.getKeyPair(pk);
+    const keyPair = await Ton.getKeyPair(pk);
     const publicKey = baseEncode(keyPair.publicKey);
 
-    // @TODO remove tonweb package
-    const tonweb = new TonWeb(
-      new TonWeb.HttpProvider('https://testnet.toncenter.com/api/v2/jsonRPC'),
-    );
-    const WalletClass = tonweb.wallet.all.v3R2;
-    const wallet = new WalletClass(tonweb.provider, {
-      publicKey: keyPair.publicKey,
-      wc: 0,
-    });
-    const walletAddress = (await wallet.getAddress()).toString(true, true, true);
+    const address = addressFromPubkey(Buffer.from(keyPair.publicKey));
 
     return {
-      address: walletAddress,
+      address,
       publicKey,
     };
   }
 
-  static signTx(pk: string | PathOption, unsignedTx: string): SignedTx {
+  static async signTx(pk: string | PathOption, unsignedTx: string): Promise<SignedTx> {
     super.isHexString(unsignedTx);
 
-    const keyPair = Ton.getKeyPair(pk);
+    const keyPair = await Ton.getKeyPair(pk);
     const hash = Buffer.from(stripHexPrefix(unsignedTx), 'hex');
     const signature = naclSign.detached(new Uint8Array(hash), new Uint8Array(keyPair.secretKey));
 
@@ -62,10 +58,10 @@ export class Ton extends Signer {
     };
   }
 
-  static signMsg(pk: string | PathOption, message: string): SignedMsg {
+  static async signMsg(pk: string | PathOption, message: string): Promise<SignedMsg> {
     const hexMsg = isHexString(message) ? message : stringToHex(message);
 
-    const keyPair = Ton.getKeyPair(pk);
+    const keyPair = await Ton.getKeyPair(pk);
     const hash = Buffer.from(stripHexPrefix(hexMsg), 'hex');
     const signature = naclSign.detached(new Uint8Array(hash), new Uint8Array(keyPair.secretKey));
 

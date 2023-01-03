@@ -7,7 +7,7 @@ import { Eth2 } from '../src/blockchains/eth2';
 import { Near } from '../src/blockchains/near';
 import { Solana } from '../src/blockchains/solana';
 import { Sui } from '../src/blockchains/sui';
-// import { Ton } from '../src/blockchains/ton';
+import { Ton } from '../src/blockchains/ton';
 
 const mnemonic = 'shoot island position soft burden budget tooth cruel issue economy destroy above';
 const password = 'strong password';
@@ -357,7 +357,6 @@ test('Sui - getAccount', () => {
     publicKey: '0x3311e6a19adc1c06a509e5bf464e9d4ecc73039f311ac940bb11896f82fb6533',
   });
 });
-/*
 test('Ton - getAccount', async () => {
   expect(
     await Ton.getAccount({
@@ -365,11 +364,11 @@ test('Ton - getAccount', async () => {
       path: { type: CHAIN.TON, account: 0, index: 0 },
     }),
   ).toEqual({
-    address: 'EQBKZ5-jt1v36P1TQVrsXtt3g2bkbOBi7ic6exjvoWMsLe5A',
-    publicKey: '7MYDnB9nziAErTYRc7owGARuko7TCHARSqUGZQtRZQv',
+    address: 'EQD300MajvOkrDBnXx2u7_escYNWdaJOYB70UlpnkFQJQnAx',
+    publicKey: '33yz22f42QYGATGVoqwZvXXp4tAB9G5JmxHiayUmBDxq',
   });
 });
-
+/*
 test('Ton - getPrivateKey', async () => {
   expect(
     await Ton.getPrivateKey({

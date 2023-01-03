@@ -78,7 +78,7 @@ export abstract class Signer {
     return { seed, child };
   }
 
-  static getPrivateKey(_pk: string | PathOption, _option?: KeyOption): string {
+  static getPrivateKey(_pk: string | PathOption, _option?: KeyOption): string | Promise<string> {
     throw new Error('not implemented!');
   }
 
@@ -91,7 +91,7 @@ export abstract class Signer {
   protected static getKeyPair(
     _pk: string | PathOption,
     _option?: KeyOption,
-  ): SimpleKeypair | SignKeyPair {
+  ): SimpleKeypair | SignKeyPair | Promise<SignKeyPair> {
     throw new Error('not implemented!');
   }
 
@@ -99,11 +99,19 @@ export abstract class Signer {
     throw new Error('not implemented!');
   }
 
-  static signTx(_pk: string | PathOption, _unsignedTx: string, _option?: KeyOption): SignedTx {
+  static signTx(
+    _pk: string | PathOption,
+    _unsignedTx: string,
+    _option?: KeyOption,
+  ): SignedTx | Promise<SignedTx> {
     throw new Error('not implemented!');
   }
 
-  static signMsg(_pk: string | PathOption, _message: string, _option?: KeyOption): SignedMsg {
+  static signMsg(
+    _pk: string | PathOption,
+    _message: string,
+    _option?: KeyOption,
+  ): SignedMsg | Promise<SignedMsg> {
     throw new Error('not implemented!');
   }
 }
