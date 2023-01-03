@@ -20,15 +20,15 @@ export class Ton extends Signer {
     return addHexPrefix(Buffer.from(keyPair.secretKey).toString('hex'));
   }
 
-  protected static async getKeyPair(pk: string | PathOption): Promise<SignKeyPair> {
+  protected static getKeyPair(pk: string | PathOption): SignKeyPair {
     const secretKey = Buffer.from(stripHexPrefix(Ton.getPrivateKey(pk)), 'hex');
     const keyPair = naclSign.keyPair.fromSecretKey(secretKey);
 
     return keyPair;
   }
 
-  static async getAccount(pk: string | PathOption): Promise<Account> {
-    const keyPair = await Ton.getKeyPair(pk);
+  static getAccount(pk: string | PathOption): Account {
+    const keyPair = Ton.getKeyPair(pk);
     const publicKey = baseEncode(keyPair.publicKey);
 
     const address = addressFromPubkey(Buffer.from(keyPair.publicKey));
@@ -39,10 +39,10 @@ export class Ton extends Signer {
     };
   }
 
-  static async signTx(pk: string | PathOption, unsignedTx: string): Promise<SignedTx> {
+  static signTx(pk: string | PathOption, unsignedTx: string): SignedTx {
     super.isHexString(unsignedTx);
 
-    const keyPair = await Ton.getKeyPair(pk);
+    const keyPair = Ton.getKeyPair(pk);
     const hash = Buffer.from(stripHexPrefix(unsignedTx), 'hex');
     const signature = naclSign.detached(new Uint8Array(hash), new Uint8Array(keyPair.secretKey));
 
@@ -52,10 +52,10 @@ export class Ton extends Signer {
     };
   }
 
-  static async signMsg(pk: string | PathOption, message: string): Promise<SignedMsg> {
+  static signMsg(pk: string | PathOption, message: string): SignedMsg {
     const hexMsg = isHexString(message) ? message : stringToHex(message);
 
-    const keyPair = await Ton.getKeyPair(pk);
+    const keyPair = Ton.getKeyPair(pk);
     const hash = Buffer.from(stripHexPrefix(hexMsg), 'hex');
     const signature = naclSign.detached(new Uint8Array(hash), new Uint8Array(keyPair.secretKey));
 

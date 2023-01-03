@@ -94,27 +94,19 @@ export abstract class Signer {
   protected static getKeyPair(
     _pk: string | PathOption,
     _option?: KeyOption,
-  ): SimpleKeypair | SignKeyPair | Promise<SignKeyPair> {
+  ): SimpleKeypair | SignKeyPair {
     throw new Error('not implemented!');
   }
 
-  static getAccount(_pk: string | PathOption, _option?: KeyOption): Account | Promise<Account> {
+  static getAccount(_pk: string | PathOption, _option?: KeyOption): Account {
     throw new Error('not implemented!');
   }
 
-  static signTx(
-    _pk: string | PathOption,
-    _unsignedTx: string,
-    _option?: KeyOption,
-  ): SignedTx | Promise<SignedTx> {
+  static signTx(_pk: string | PathOption, _unsignedTx: string, _option?: KeyOption): SignedTx {
     throw new Error('not implemented!');
   }
 
-  static signMsg(
-    _pk: string | PathOption,
-    _message: string,
-    _option?: KeyOption,
-  ): SignedMsg | Promise<SignedMsg> {
+  static signMsg(_pk: string | PathOption, _message: string, _option?: KeyOption): SignedMsg {
     throw new Error('not implemented!');
   }
 }
