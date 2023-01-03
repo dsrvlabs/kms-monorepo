@@ -368,15 +368,19 @@ test('Ton - getAccount', async () => {
     publicKey: '33yz22f42QYGATGVoqwZvXXp4tAB9G5JmxHiayUmBDxq',
   });
 });
-/*
+
 test('Ton - getPrivateKey', async () => {
   expect(
     await Ton.getPrivateKey({
       mnemonic: mnemonic,
       path: { type: CHAIN.TON, account: 0, index: 0 },
     }),
-  ).toEqual('5momanKYppxx2jiE97gSUt55yffpLqXCrq7Cto7pryrq3m67TP3BqUP7cbrGgyw2i7kVtYZUpc9N9GY56PS7YQRx');
+  ).toEqual(
+    '0x8b045c693f803897bc5db10bc0694b1ab8ae94876734492b3cd87e7ff480235c1e7af767c51118c3d14a9b1074fc9245eb200d89458906d84faf9f95994c0406',
+  );
 });
+/*
+
 
 test('Ton - signTx', () => {
   expect(

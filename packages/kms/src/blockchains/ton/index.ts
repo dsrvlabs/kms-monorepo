@@ -1,4 +1,3 @@
-import { decode, encode } from 'bs58';
 import { SignKeyPair, sign as naclSign } from 'tweetnacl';
 import { baseEncode } from 'borsh';
 import { derivePath } from 'ed25519-hd-key';
@@ -18,11 +17,11 @@ export class Ton extends Signer {
     const { key } = derivePath(getDerivePath(pk.path)[0], seed.toString('hex'));
 
     const keyPair = naclSign.keyPair.fromSeed(key);
-    return `${encode(Buffer.from(keyPair.secretKey))}`;
+    return addHexPrefix(Buffer.from(keyPair.secretKey).toString('hex'));
   }
 
   protected static async getKeyPair(pk: string | PathOption): Promise<SignKeyPair> {
-    const secretKey = decode(await Ton.getPrivateKey(pk));
+    const secretKey = Buffer.from(stripHexPrefix(await Ton.getPrivateKey(pk)), 'hex');
     const keyPair = naclSign.keyPair.fromSecretKey(secretKey);
 
     return keyPair;
