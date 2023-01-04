@@ -6,6 +6,7 @@ import {
   getCosmosSignature,
   getNearSignature,
   getSolanaSignature,
+  getTonSignature,
 } from '../utils/signatureTest';
 
 const mnemonic = 'shoot island position soft burden budget tooth cruel issue economy destroy above';
@@ -43,4 +44,10 @@ test('aptos - signature test', async () => {
   const { signature, aptosSdkSignature } = await getAptosSignature(mnemonic);
 
   expect({ hexString: signature }).toEqual(aptosSdkSignature);
+});
+
+test('ton - signature test', async () => {
+  const { signature, tonSdkSignature } = await getTonSignature(mnemonic);
+
+  expect(signature).toEqual(tonSdkSignature);
 });

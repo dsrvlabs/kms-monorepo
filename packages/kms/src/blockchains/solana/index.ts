@@ -20,12 +20,12 @@ export class Solana extends Signer {
     const { seed } = Signer.getChild(pk);
     const { key } = derivePath(getDerivePath(pk.path)[0], seed.toString('hex'));
     const keyPair = naclSign.keyPair.fromSeed(key);
-    return addHexPrefix(Buffer.from(keyPair.secretKey).toString('hex').slice(0, 64));
+    return addHexPrefix(Buffer.from(keyPair.secretKey).toString('hex'));
   }
 
   protected static getKeyPair(pk: string | PathOption): SignKeyPair {
     const keyPair = naclSign.keyPair.fromSeed(
-      Buffer.from(stripHexPrefix(Solana.getPrivateKey(pk)), 'hex'),
+      Buffer.from(stripHexPrefix(Solana.getPrivateKey(pk)).slice(0, 64), 'hex'),
     );
     return keyPair;
   }
