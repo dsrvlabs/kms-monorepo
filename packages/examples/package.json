@@ -21,7 +21,10 @@
     "long": "^5.2.0",
     "near-api-js": "^1.1.0",
     "protobufjs": "^7.1.2",
-    "secp256k1": "^4.0.3"
+    "secp256k1": "^4.0.3",
+    "ton": "^13.2.0",
+    "ton-core": "^0.36.1",
+    "ton-crypto": "^3.2.0"
   },
   "devDependencies": {
     "@jest/globals": "^29.2.2",

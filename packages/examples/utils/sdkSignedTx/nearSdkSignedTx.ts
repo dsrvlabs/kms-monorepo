@@ -4,6 +4,7 @@
 import { Near, CHAIN } from '@dsrv/kms';
 
 import { sha256 } from 'js-sha256';
+import { encode, decode } from 'bs58';
 import { transactions, utils } from 'near-api-js';
 import { getNearOfflineTx, getNearTx } from '../getTx';
 
@@ -20,7 +21,10 @@ export const nearSdkSignedTx = async (mnemonic: string) => {
     mnemonic,
     path: { type: CHAIN.NEAR, account: 0, index: 1 },
   });
-  const keyPair = utils.key_pair.KeyPairEd25519.fromString(privateKey);
+
+  const bufPrivateKey = Buffer.from(privateKey.replace('0x', ''), 'hex');
+
+  const keyPair = utils.key_pair.KeyPairEd25519.fromString(encode(bufPrivateKey));
   const signature = keyPair.sign(serializedTxHash);
 
   // const signTrnasaction = new transactions.SignedTransaction({

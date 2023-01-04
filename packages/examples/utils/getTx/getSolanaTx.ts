@@ -18,7 +18,7 @@ export const getSolanaTx = async (mnemonic: string) => {
   const TOACCOUNTPUBKEY = new PublicKey(RECEIVER_ADDRESS.SOLANA);
   const RECENTBLOCKHASH = await CONNECTION.getLatestBlockhash();
   const privateKey = getSolanaPrivateKey(mnemonic);
-  const signer = Keypair.fromSecretKey(base58.decode(privateKey));
+  const signer = Keypair.fromSecretKey(Buffer.from(privateKey.replace('0x', ''), 'hex'));
 
   const transaction = new Transaction({
     /* new blockHash */
@@ -48,7 +48,7 @@ export const getSolanaOfflineTx = async (mnemonic: string) => {
   const TOACCOUNTPUBKEY = new PublicKey(RECEIVER_ADDRESS.SOLANA);
   const RECENTBLOCKHASH = await CONNECTION.getLatestBlockhash();
   const privateKey = getSolanaPrivateKey(mnemonic);
-  const signer = Keypair.fromSecretKey(base58.decode(privateKey));
+  const signer = Keypair.fromSecretKey(Buffer.from(privateKey.replace('0x', ''), 'hex'));
 
   const transaction = new Transaction({
     /* blockHash for test */
