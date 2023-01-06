@@ -16,6 +16,7 @@ export const tonSdkSignedTx = async (mnemonic: string) => {
   const { publicKey } = getTonAccount(mnemonic);
   const wallet = WalletContractV4.create({ workchain: 0, publicKey: Buffer.from(publicKey) });
   const privateKey = getTonPrivateKey(mnemonic);
+
   const secretKey = Buffer.from(privateKey.replace('0x', ''), 'hex');
   const contract = client.open(wallet);
 
@@ -23,12 +24,12 @@ export const tonSdkSignedTx = async (mnemonic: string) => {
 
   const messages = [
     internal({
-      to: 'kQD6oPnzaaAMRW24R8F0_nlSsJQni0cGHntR027eT9_sgtwt',
+      to: 'EQDk-lcDdEmTB2Q_71ssGSnGn9Dr_ouAMVbEPsrafj12bjEn',
       value: '0.1',
       body: 'Hello world: 1',
     }),
     internal({
-      to: 'kQD6oPnzaaAMRW24R8F0_nlSsJQni0cGHntR027eT9_sgtwt',
+      to: 'EQDk-lcDdEmTB2Q_71ssGSnGn9Dr_ouAMVbEPsrafj12bjEn',
       value: '0.1',
       body: 'Hello world: 2',
     }),

@@ -95,17 +95,17 @@ test('Eth2 - getAccount (signing)', () => {
   });
 });
 
-// test('Near - getAccount', () => {
-//   expect(
-//     Near.getAccount({
-//       mnemonic,
-//       path: { type: CHAIN.NEAR, account: 0, index: 0 },
-//     }),
-//   ).toEqual({
-//     address: 'ed25519:D7MfH95uo87g3CFHbC3wuy8YZ8jh8CQa4rA8GT5DPPJF',
-//     publicKey: 'ed25519:D7MfH95uo87g3CFHbC3wuy8YZ8jh8CQa4rA8GT5DPPJF',
-//   });
-// });
+test('Near - getAccount', () => {
+  expect(
+    Near.getAccount({
+      mnemonic,
+      path: { type: CHAIN.NEAR, account: 0, index: 0 },
+    }),
+  ).toEqual({
+    address: 'ed25519:D7MfH95uo87g3CFHbC3wuy8YZ8jh8CQa4rA8GT5DPPJF',
+    publicKey: 'ed25519:D7MfH95uo87g3CFHbC3wuy8YZ8jh8CQa4rA8GT5DPPJF',
+  });
+});
 
 test('Solana - getAccount', () => {
   expect(

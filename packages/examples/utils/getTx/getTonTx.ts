@@ -1,9 +1,8 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-plusplus */
+import { CHAIN, Ton } from '@dsrv/kms';
 import { TonClient4, WalletContractV4 } from 'ton';
-
 import { beginCell, storeMessageRelaxed, SendMode, internal } from 'ton-core';
-import { getTonAccount } from '../getAccount';
 
 export const getTonTx = async (mnemonic: string) => {
   // Create Client
@@ -12,8 +11,12 @@ export const getTonTx = async (mnemonic: string) => {
   });
 
   // Create wallet contract
-  const { publicKey } = getTonAccount(mnemonic);
-  const wallet = WalletContractV4.create({ workchain: 0, publicKey: Buffer.from(publicKey) });
+  // const { publicKey } = getTonAccount(mnemonic);
+  const keypair = Ton.getKeyPair({ mnemonic, path: { type: CHAIN.TON, account: 0, index: 0 } });
+  const wallet = WalletContractV4.create({
+    workchain: 0,
+    publicKey: Buffer.from(keypair.publicKey),
+  });
   const contract = client.open(wallet);
 
   // Create a transfer
@@ -22,12 +25,12 @@ export const getTonTx = async (mnemonic: string) => {
   // createWalletTransferV4 https://github.com/ton-community/ton/blob/HEAD/src/wallets/signing/createWalletTransfer.ts#L140
   const messages = [
     internal({
-      to: 'kQD6oPnzaaAMRW24R8F0_nlSsJQni0cGHntR027eT9_sgtwt',
+      to: 'EQDk-lcDdEmTB2Q_71ssGSnGn9Dr_ouAMVbEPsrafj12bjEn',
       value: '0.1',
       body: 'Hello world: 1',
     }),
     internal({
-      to: 'kQD6oPnzaaAMRW24R8F0_nlSsJQni0cGHntR027eT9_sgtwt',
+      to: 'EQDk-lcDdEmTB2Q_71ssGSnGn9Dr_ouAMVbEPsrafj12bjEn',
       value: '0.1',
       body: 'Hello world: 2',
     }),
@@ -56,20 +59,8 @@ export const getTonTx = async (mnemonic: string) => {
   const unSignedTx = transaction.endCell().hash();
   const serializedTx = `0x${unSignedTx.toString('hex')}`;
 
-  // // const signature: Buffer = sign(realTx, secretKey);
-  // // console.log('signature', signature.toString('hex'));
-  // // console.log('transaction', transaction.asCell().toBoc().toString('hex'));
-  // const tonSignature = Ton.signTx(
-  //   {
-  //     mnemonic,
-  //     path: { type: CHAIN.TON, account: 0, index: 0 },
-  //   },
-  //   `0x${hashedTransaction.toString('hex')}`,
-  // );
-
-  // console.log('signature', tonSignature);
   return {
-    unSignedTx,
+    unSignedTx: transaction,
     serializedTx,
   };
 };
