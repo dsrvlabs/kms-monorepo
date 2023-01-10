@@ -25,7 +25,7 @@ export class Sui extends Signer {
     return addHexPrefix(Buffer.from(keyPair.secretKey).toString('hex').slice(0, 64));
   }
 
-  protected static getKeyPair(pk: string | PathOption): SignKeyPair {
+  static getKeyPair(pk: string | PathOption): SignKeyPair {
     const keyPair = naclSign.keyPair.fromSeed(
       Buffer.from(stripHexPrefix(Sui.getPrivateKey(pk)), 'hex'),
     );

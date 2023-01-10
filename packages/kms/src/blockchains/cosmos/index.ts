@@ -19,7 +19,7 @@ export class Cosmos extends Signer {
     return addHexPrefix(child.privateKey?.toString('hex') || '');
   }
 
-  protected static getKeyPair(pk: string | PathOption): SimpleKeypair {
+  static getKeyPair(pk: string | PathOption): SimpleKeypair {
     const privateKey = Buffer.from(stripHexPrefix(Cosmos.getPrivateKey(pk)), 'hex');
 
     const pair = BIP32Factory(ecc).fromPrivateKey(privateKey, Buffer.alloc(32, 0));

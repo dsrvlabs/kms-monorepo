@@ -20,7 +20,7 @@ export class Ton extends Signer {
     return addHexPrefix(Buffer.from(keyPair.secretKey).toString('hex'));
   }
 
-  protected static getKeyPair(pk: string | PathOption): SignKeyPair {
+  static getKeyPair(pk: string | PathOption): SignKeyPair {
     const secretKey = Buffer.from(stripHexPrefix(Ton.getPrivateKey(pk)), 'hex');
     const keyPair = naclSign.keyPair.fromSecretKey(secretKey);
 

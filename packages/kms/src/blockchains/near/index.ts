@@ -24,7 +24,7 @@ export class Near extends Signer {
     return addHexPrefix(Buffer.from(keyPair.secretKey).toString('hex'));
   }
 
-  protected static getKeyPair(pk: string | PathOption): SignKeyPair {
+  static getKeyPair(pk: string | PathOption): SignKeyPair {
     const keyPair = naclSign.keyPair.fromSeed(
       Buffer.from(stripHexPrefix(Near.getPrivateKey(pk)).slice(0, 64), 'hex'),
     );

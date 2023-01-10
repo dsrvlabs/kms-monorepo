@@ -91,10 +91,7 @@ export abstract class Signer {
     }
   }
 
-  protected static getKeyPair(
-    _pk: string | PathOption,
-    _option?: KeyOption,
-  ): SimpleKeypair | SignKeyPair {
+  static getKeyPair(_pk: string | PathOption, _option?: KeyOption): SimpleKeypair | SignKeyPair {
     throw new Error('not implemented!');
   }
 
