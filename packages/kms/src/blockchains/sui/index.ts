@@ -53,6 +53,7 @@ export class Sui extends Signer {
     );
     return {
       unsignedTx,
+      publicKey: addHexPrefix(Buffer.from(keyPair.publicKey).toString('hex')),
       signature: signature.toString(),
     };
   }

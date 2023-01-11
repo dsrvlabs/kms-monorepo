@@ -45,6 +45,7 @@ export class Solana extends Signer {
     const signature = sign(keyPair, Buffer.from(stripHexPrefix(unsignedTx), 'hex'));
     return {
       unsignedTx,
+      publicKey: encode(keyPair.publicKey),
       signature,
     };
   }
