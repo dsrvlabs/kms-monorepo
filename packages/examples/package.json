@@ -24,7 +24,8 @@
     "secp256k1": "^4.0.3",
     "ton": "^13.2.0",
     "ton-core": "^0.36.1",
-    "ton-crypto": "^3.2.0"
+    "ton-crypto": "^3.2.0",
+    "tonweb": "0.0.49"
   },
   "devDependencies": {
     "@jest/globals": "^29.2.2",
