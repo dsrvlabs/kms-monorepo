@@ -61,7 +61,6 @@ export interface SignedTx {
   unsignedTx: string;
   publicKey: string;
   signature?: string;
-  publicKey?: string;
 }
 
 export interface SignedMsg {
