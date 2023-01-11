@@ -51,7 +51,7 @@ export class Ethereum extends Signer {
     return addHexPrefix(child.privateKey?.toString('hex') || '');
   }
 
-  protected static getKeyPair(pk: string | PathOption): SimpleKeypair {
+  static getKeyPair(pk: string | PathOption): SimpleKeypair {
     const privateKey = Buffer.from(stripHexPrefix(Ethereum.getPrivateKey(pk)), 'hex');
 
     const pair = BIP32Factory(ecc).fromPrivateKey(privateKey, Buffer.alloc(32, 0));
@@ -104,6 +104,7 @@ export class Ethereum extends Signer {
     );
     return {
       unsignedTx,
+      publicKey: keyPair.publicKey,
       signature: addHexPrefix(
         Buffer.concat([signature, Buffer.from([recoveryParam])]).toString('hex'),
       ),
@@ -127,8 +128,8 @@ export class Ethereum extends Signer {
 
     return {
       message,
-      signature: addHexPrefix(signature),
       publicKey: keyPair.publicKey,
+      signature: addHexPrefix(signature),
     };
   }
 }

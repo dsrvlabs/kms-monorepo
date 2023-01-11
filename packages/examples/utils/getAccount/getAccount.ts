@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { Account, CHAIN, Cosmos, Ethereum, Eth2, Near, Solana, Sui, Aptos } from '@dsrv/kms';
+import { Account, CHAIN, Cosmos, Ethereum, Eth2, Near, Solana, Sui, Aptos, Ton } from '@dsrv/kms';
 
 /* Aptos getAccount */
 export const getAptosAccount = (mnemonic: string): Account => {
@@ -98,4 +98,13 @@ export const getSuiAccount = (mnemonic: string): Account => {
     path: { type: CHAIN.SUI, account: 0, index: 0 },
   });
   return suiAccount;
+};
+
+/* Ton getAccount */
+export const getTonAccount = (mnemonic: string): Account => {
+  const tonAccount = Ton.getAccount({
+    mnemonic,
+    path: { type: CHAIN.TON, account: 0, index: 0 },
+  });
+  return tonAccount;
 };

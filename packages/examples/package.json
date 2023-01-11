@@ -1,13 +1,13 @@
 {
   "name": "examples",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "license": "MIT",
   "dependencies": {
     "@cosmjs/amino": "^0.29.3",
     "@cosmjs/math": "^0.29.3",
     "@cosmjs/proto-signing": "^0.29.2",
     "@cosmjs/stargate": "^0.29.2",
-    "@dsrv/kms": "0.4.3",
+    "@dsrv/kms": "0.4.4",
     "@ethersproject/transactions": "^5.7.0",
     "@solana/web3.js": "^1.66.1",
     "aptos": "^1.3.16",
@@ -21,7 +21,11 @@
     "long": "^5.2.0",
     "near-api-js": "^1.1.0",
     "protobufjs": "^7.1.2",
-    "secp256k1": "^4.0.3"
+    "secp256k1": "^4.0.3",
+    "ton": "^13.2.0",
+    "ton-core": "^0.36.1",
+    "ton-crypto": "^3.2.0",
+    "tonweb": "0.0.49"
   },
   "devDependencies": {
     "@jest/globals": "^29.2.2",

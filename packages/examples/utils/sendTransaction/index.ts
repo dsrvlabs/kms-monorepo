@@ -4,3 +4,4 @@ export * from './sendCeloTransaction';
 export * from './sendCosmosTransaction';
 export * from './sendNearTransaction';
 export * from './sendSolanaTransaction';
+export * from './sendTonTransaction';

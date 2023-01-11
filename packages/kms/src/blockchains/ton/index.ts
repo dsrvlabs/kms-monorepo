@@ -17,12 +17,13 @@ export class Ton extends Signer {
     const { key } = derivePath(getDerivePath(pk.path)[0], seed.toString('hex'));
 
     const keyPair = naclSign.keyPair.fromSeed(key);
-    return addHexPrefix(Buffer.from(keyPair.secretKey).toString('hex'));
+    return addHexPrefix(Buffer.from(keyPair.secretKey).toString('hex').slice(0, 64));
   }
 
-  protected static getKeyPair(pk: string | PathOption): SignKeyPair {
-    const secretKey = Buffer.from(stripHexPrefix(Ton.getPrivateKey(pk)), 'hex');
-    const keyPair = naclSign.keyPair.fromSecretKey(secretKey);
+  static getKeyPair(pk: string | PathOption): SignKeyPair {
+    const keyPair = naclSign.keyPair.fromSeed(
+      Buffer.from(stripHexPrefix(Ton.getPrivateKey(pk)), 'hex'),
+    );
 
     return keyPair;
   }
@@ -48,6 +49,7 @@ export class Ton extends Signer {
 
     return {
       unsignedTx,
+      publicKey: addHexPrefix(Buffer.from(keyPair.publicKey).toString('hex')),
       signature: addHexPrefix(Buffer.from(signature).toString('hex')),
     };
   }
@@ -61,6 +63,7 @@ export class Ton extends Signer {
 
     return {
       message,
+      publicKey: addHexPrefix(Buffer.from(keyPair.publicKey).toString('hex')),
       signature: addHexPrefix(Buffer.from(signature).toString('hex')),
     };
   }

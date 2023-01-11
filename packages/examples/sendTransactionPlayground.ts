@@ -7,7 +7,9 @@ import {
   sendEthereumTransaction,
   sendNearTransaction,
   sendSolanaTransaction,
+  sendTonTransaction,
 } from './utils';
+
 import {
   getAptosSignedTx,
   getCosmosSignedTx,
@@ -15,6 +17,7 @@ import {
   getCeloSignedTx,
   getNearSignedTx,
   getSolanaSignedTx,
+  getTonSignedTx,
 } from './utils/signTx';
 
 const MNEMONIC = require('./mnemonic.json');
@@ -57,5 +60,11 @@ const main = async () => {
   console.log('>aptosSignedTx', aptosSignedTx);
   const aptosTxResult = await sendAptosTransaction(aptosSignedTx);
   console.log('Aptos TxHash', aptosTxResult);
+
+  /* ton sendtransaction */
+  const { tonSignedTx } = await getTonSignedTx(mnemonic);
+  console.log('>tonSignedTx', tonSignedTx);
+  const tonTxResult = await sendTonTransaction(tonSignedTx, mnemonic);
+  console.log('Ton TxHash', tonTxResult);
 };
 main();

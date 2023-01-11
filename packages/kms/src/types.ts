@@ -59,11 +59,12 @@ export interface Account {
 
 export interface SignedTx {
   unsignedTx: string;
+  publicKey: string;
   signature?: string;
 }
 
 export interface SignedMsg {
   message: string;
+  publicKey: string;
   signature?: string;
-  publicKey?: string;
 }

@@ -23,7 +23,7 @@ export class Eth2 extends Signer {
     return addHexPrefix(Buffer.from(pirvateKey).toString('hex'));
   }
 
-  protected static getKeyPair(pk: string | PathOption, option: KeyOption): SimpleKeypair {
+  static getKeyPair(pk: string | PathOption, option: KeyOption): SimpleKeypair {
     const privateKey = Buffer.from(stripHexPrefix(Eth2.getPrivateKey(pk, option)), 'hex');
 
     return {
