@@ -60,6 +60,7 @@ export interface Account {
 export interface SignedTx {
   unsignedTx: string;
   signature?: string;
+  publicKey?: string;
 }
 
 export interface SignedMsg {

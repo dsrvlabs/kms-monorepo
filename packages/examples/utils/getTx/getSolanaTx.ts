@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
+import { Solana, CHAIN } from '@dsrv/kms';
 import {
   Connection,
   SystemProgram,
@@ -17,8 +18,15 @@ export const getSolanaTx = async (mnemonic: string) => {
   const CONNECTION = new Connection(RPC, 'confirmed');
   const TOACCOUNTPUBKEY = new PublicKey(RECEIVER_ADDRESS.SOLANA);
   const RECENTBLOCKHASH = await CONNECTION.getLatestBlockhash();
-  const privateKey = getSolanaPrivateKey(mnemonic);
-  const signer = Keypair.fromSecretKey(Buffer.from(privateKey.replace('0x', ''), 'hex'));
+  const { secretKey } = Solana.getKeyPair({
+    mnemonic,
+    path: {
+      type: CHAIN.SOLANA,
+      account: 0,
+      index: 0,
+    },
+  });
+  const signer = Keypair.fromSecretKey(secretKey);
 
   const transaction = new Transaction({
     /* new blockHash */
@@ -47,8 +55,15 @@ export const getSolanaOfflineTx = async (mnemonic: string) => {
   const CONNECTION = new Connection(RPC, 'confirmed');
   const TOACCOUNTPUBKEY = new PublicKey(RECEIVER_ADDRESS.SOLANA);
   const RECENTBLOCKHASH = await CONNECTION.getLatestBlockhash();
-  const privateKey = getSolanaPrivateKey(mnemonic);
-  const signer = Keypair.fromSecretKey(Buffer.from(privateKey.replace('0x', ''), 'hex'));
+  const { secretKey } = Solana.getKeyPair({
+    mnemonic,
+    path: {
+      type: CHAIN.SOLANA,
+      account: 0,
+      index: 0,
+    },
+  });
+  const signer = Keypair.fromSecretKey(secretKey);
 
   const transaction = new Transaction({
     /* blockHash for test */

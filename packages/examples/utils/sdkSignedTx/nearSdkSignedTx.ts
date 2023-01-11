@@ -17,14 +17,12 @@ export const nearSdkSignedTx = async (mnemonic: string) => {
   const serializedTxHash = new Uint8Array(sha256.array(serializedTx));
 
   /* get signature */
-  const privateKey = Near.getPrivateKey({
+  const { secretKey } = Near.getKeyPair({
     mnemonic,
     path: { type: CHAIN.NEAR, account: 0, index: 1 },
   });
 
-  const bufPrivateKey = Buffer.from(privateKey.replace('0x', ''), 'hex');
-
-  const keyPair = utils.key_pair.KeyPairEd25519.fromString(encode(bufPrivateKey));
+  const keyPair = utils.key_pair.KeyPairEd25519.fromString(encode(secretKey));
   const signature = keyPair.sign(serializedTxHash);
 
   // const signTrnasaction = new transactions.SignedTransaction({

@@ -5,7 +5,6 @@ import { sign } from 'ton-crypto';
 
 import { beginCell, storeMessageRelaxed, SendMode, internal } from 'ton-core';
 import { CHAIN, Ton } from '@dsrv/kms';
-import { getTonPrivateKey } from '../getPrivateKey';
 
 export const tonSdkSignedTx = async (mnemonic: string) => {
   // Create Client
