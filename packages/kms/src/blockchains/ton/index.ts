@@ -48,6 +48,7 @@ export class Ton extends Signer {
 
     return {
       unsignedTx,
+      publicKey: addHexPrefix(Buffer.from(keyPair.publicKey).toString('hex')),
       signature: addHexPrefix(Buffer.from(signature).toString('hex')),
     };
   }
@@ -61,6 +62,7 @@ export class Ton extends Signer {
 
     return {
       message,
+      publicKey: addHexPrefix(Buffer.from(keyPair.publicKey).toString('hex')),
       signature: addHexPrefix(Buffer.from(signature).toString('hex')),
     };
   }

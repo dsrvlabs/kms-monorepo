@@ -1,7 +1,8 @@
 {
   "name": "@dsrv/kms",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "description": "blockchain key managament system",
+  "repository": "https://github.com/dsrvlabs/kms-monorepo",
   "main": "lib/cjs/index.js",
   "types": "lib/cjs/index.d.ts",
   "files": [

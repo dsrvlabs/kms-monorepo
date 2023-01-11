@@ -3,12 +3,20 @@ import * as ecc from 'tiny-secp256k1';
 import { sha256 } from '@noble/hashes/sha256';
 import { ripemd160 } from '@noble/hashes/ripemd160';
 import { bech32 } from 'bech32';
-import { addHexPrefix, stripHexPrefix } from '../utils';
-import { Account, KeyOption, PathOption, SignedTx, SimpleKeypair } from '../../types';
+import { addHexPrefix, isHexString, stringToHex, stripHexPrefix } from '../utils';
+import { Account, KeyOption, PathOption, SignedMsg, SignedTx, SimpleKeypair } from '../../types';
 import { Signer } from '../signer';
 import { Ethereum } from '../ethereum';
 
 export { CHAIN } from '../../types';
+
+function sign(keyPair: SimpleKeypair, hashed: Uint8Array): string {
+  const { signature } = ecc.signRecoverable(
+    hashed,
+    Buffer.from(stripHexPrefix(keyPair.privateKey), 'hex'),
+  );
+  return addHexPrefix(Buffer.from(signature).toString('hex'));
+}
 
 export class Cosmos extends Signer {
   static getPrivateKey(pk: string | PathOption): string {
@@ -54,15 +62,26 @@ export class Cosmos extends Signer {
     }
 
     const keyPair = Cosmos.getKeyPair(pk);
-    const hash = sha256(Buffer.from(stripHexPrefix(unsignedTx), 'hex'));
-    const { signature } = ecc.signRecoverable(
-      hash,
-      Buffer.from(stripHexPrefix(keyPair.privateKey), 'hex'),
-    );
+    const hashed = sha256(Buffer.from(stripHexPrefix(unsignedTx), 'hex'));
+    const signature = sign(keyPair, hashed);
 
     return {
       unsignedTx,
-      signature: addHexPrefix(Buffer.from(signature).toString('hex')),
+      publicKey: keyPair.publicKey,
+      signature,
+    };
+  }
+
+  static signMsg(pk: string | PathOption, message: string): SignedMsg {
+    const keyPair = Cosmos.getKeyPair(pk);
+    const msgHex = isHexString(message) ? message : stringToHex(message);
+    const hashed = sha256(Buffer.from(stripHexPrefix(msgHex), 'hex'));
+    const signature = sign(keyPair, hashed);
+
+    return {
+      message,
+      publicKey: keyPair.publicKey,
+      signature,
     };
   }
 }

@@ -46,6 +46,7 @@ export class Near extends Signer {
     const signature = sign(keyPair, Buffer.from(stripHexPrefix(unsignedTx), 'hex'));
     return {
       unsignedTx,
+      publicKey: `ed25519:${baseEncode(keyPair.publicKey)}`,
       signature,
     };
   }
@@ -60,8 +61,8 @@ export class Near extends Signer {
     );
     return {
       message,
-      signature,
       publicKey: `ed25519:${baseEncode(keyPair.publicKey)}`,
+      signature,
     };
   }
 }
