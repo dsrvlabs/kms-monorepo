@@ -5,5 +5,6 @@ export const createTonSignedTx = ({ unSignedTx, signature }) => {
     .storeBuffer(Buffer.from(signature.replace('0x', ''), 'hex'))
     .storeBuilder(unSignedTx)
     .endCell();
+
   return signedTx;
 };

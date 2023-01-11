@@ -4,7 +4,7 @@ import { TonClient4, WalletContractV4 } from 'ton';
 import { sign } from 'ton-crypto';
 
 import { beginCell, storeMessageRelaxed, SendMode, internal } from 'ton-core';
-import { getTonAccount } from '../getAccount';
+import { CHAIN, Ton } from '@dsrv/kms';
 import { getTonPrivateKey } from '../getPrivateKey';
 
 export const tonSdkSignedTx = async (mnemonic: string) => {
@@ -13,11 +13,13 @@ export const tonSdkSignedTx = async (mnemonic: string) => {
     endpoint: 'https://testnet-v4.tonhubapi.com',
   });
 
-  const { publicKey } = getTonAccount(mnemonic);
-  const wallet = WalletContractV4.create({ workchain: 0, publicKey: Buffer.from(publicKey) });
-  const privateKey = getTonPrivateKey(mnemonic);
+  const keypair = Ton.getKeyPair({ mnemonic, path: { type: CHAIN.TON, account: 0, index: 0 } });
 
-  const secretKey = Buffer.from(privateKey.replace('0x', ''), 'hex');
+  const wallet = WalletContractV4.create({
+    workchain: 0,
+    publicKey: Buffer.from(keypair.publicKey),
+  });
+
   const contract = client.open(wallet);
 
   const seqno: number = await contract.getSeqno();
@@ -25,12 +27,12 @@ export const tonSdkSignedTx = async (mnemonic: string) => {
   const messages = [
     internal({
       to: 'EQDk-lcDdEmTB2Q_71ssGSnGn9Dr_ouAMVbEPsrafj12bjEn',
-      value: '0.1',
+      value: '0.001',
       body: 'Hello world: 1',
     }),
     internal({
       to: 'EQDk-lcDdEmTB2Q_71ssGSnGn9Dr_ouAMVbEPsrafj12bjEn',
-      value: '0.1',
+      value: '0.17',
       body: 'Hello world: 2',
     }),
   ];
@@ -58,7 +60,7 @@ export const tonSdkSignedTx = async (mnemonic: string) => {
   const realTx = transaction.endCell().hash();
 
   // sdk sign method
-  const signature = sign(realTx, secretKey);
+  const signature = sign(realTx, Buffer.from(keypair.secretKey));
 
   return `0x${signature.toString('hex')}`;
 };

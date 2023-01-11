@@ -7,8 +7,9 @@ import {
   sendEthereumTransaction,
   sendNearTransaction,
   sendSolanaTransaction,
+  sendTonTransaction,
 } from './utils';
-import { sendTonTransaction } from './utils/sendTransaction/sendTonTransaction';
+
 import {
   getAptosSignedTx,
   getCosmosSignedTx,

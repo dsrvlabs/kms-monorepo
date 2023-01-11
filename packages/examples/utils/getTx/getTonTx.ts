@@ -11,7 +11,6 @@ export const getTonTx = async (mnemonic: string) => {
   });
 
   // Create wallet contract
-  // const { publicKey } = getTonAccount(mnemonic);
   const keypair = Ton.getKeyPair({ mnemonic, path: { type: CHAIN.TON, account: 0, index: 0 } });
   const wallet = WalletContractV4.create({
     workchain: 0,
@@ -26,12 +25,12 @@ export const getTonTx = async (mnemonic: string) => {
   const messages = [
     internal({
       to: 'EQDk-lcDdEmTB2Q_71ssGSnGn9Dr_ouAMVbEPsrafj12bjEn',
-      value: '0.1',
+      value: '0.001',
       body: 'Hello world: 1',
     }),
     internal({
       to: 'EQDk-lcDdEmTB2Q_71ssGSnGn9Dr_ouAMVbEPsrafj12bjEn',
-      value: '0.1',
+      value: '0.17',
       body: 'Hello world: 2',
     }),
   ];

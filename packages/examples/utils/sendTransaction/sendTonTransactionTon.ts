@@ -15,8 +15,6 @@ export const sendTonTransactionTon = async (signedTx, mnemonic) => {
 
   const contract = client.open(wallet);
 
-  // const balance = await contract.getBalance();
-
   const seqno = await contract.getSeqno();
 
   const result = await contract.sendTransfer({
