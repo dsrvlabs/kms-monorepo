@@ -61,7 +61,7 @@ export class Cosmos extends Signer {
       const signResult = Ethereum.signTx(pk, unsignedTx);
       return {
         ...signResult,
-        signature: signResult.signature.slice(0, 130),
+        signature: signResult.signature?.slice(0, 130),
       };
     }
 
