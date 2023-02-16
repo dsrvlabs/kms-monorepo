@@ -34,13 +34,17 @@ test('Aptos - getAccount', () => {
 
 test('Aptos - signMsg', () => {
   expect(
-    Aptos.signMsg({
-      mnemonic,
-      path: { type: CHAIN.APTOS, account: 0, index: 0 },
-    }, message),
+    Aptos.signMsg(
+      {
+        mnemonic,
+        path: { type: CHAIN.APTOS, account: 0, index: 0 },
+      },
+      message,
+    ),
   ).toEqual({
     message,
-    signature: '0xc660b970a3479d1678dccb50de070b34d50b34193557de36ff6b2f9873224a3e98c7f2729471c090749461c14f716b6d7778d1945bb3ee0f989fd1272caa4f01',
+    signature:
+      '0xc660b970a3479d1678dccb50de070b34d50b34193557de36ff6b2f9873224a3e98c7f2729471c090749461c14f716b6d7778d1945bb3ee0f989fd1272caa4f01',
     publicKey: '0xea526ba1710343d953461ff68641f1b7df5f23b9042ffa2d2a798d3adb3f3d6c',
   });
 });
@@ -70,7 +74,7 @@ test('Cosmos - signTx', () => {
     ),
   ).toEqual({
     unsignedTx,
-    publicKey: "0x03c156c16c456788349d1cd306a681dcf408cd3a4a121eb18396ed5be59b9b8370",
+    publicKey: '0x03c156c16c456788349d1cd306a681dcf408cd3a4a121eb18396ed5be59b9b8370',
     signature:
       '0x70a03cb9a3cb98353bc0cb8f68eeef1d3d6ad7111f0c5eae92c5b2c3947edbac474ec0e7eee920539eba02a5e9dab879ff06de8bf512cfdfe257bb73a0f49b7b',
   });
@@ -106,6 +110,36 @@ test('Injective - getAccount (118)', () => {
   });
 });
 
+test('Injective - signTx (60)', () => {
+  expect(
+    Ethereum.signTx(
+      {
+        mnemonic,
+        path: { type: CHAIN.ETHEREUM, account: 0, index: 0 },
+      },
+      '0x0a93010a90010a1c2f636f736d6f732e62616e6b2e763162657461312e4d736753656e6412700a2a696e6a313375366737767167773037346d676d66327a65326361647a766b7a39736e6c77637274713861122a696e6a313375366737767167773037346d676d66327a65326361647a766b7a39736e6c776372747138611a160a03696e6a120f313030303030303030303030303030127e0a5e0a540a2d2f696e6a6563746976652e63727970746f2e763162657461312e657468736563703235366b312e5075624b657912230a21035a0c6b83b8bd9827e507270cadb499b7e3a9095246f6a2213281f783d877c98b12040a0208011802121c0a160a03696e6a120f3230303030303030303030303030301080b5181a0b696e6a6563746976652d3120f48701',
+      { prefix: 'inj' },
+    ).signature,
+  ).toEqual(
+    '0xc1a428ce48f82abe8f616804b2c6bed3096963d2dbdc8abe3c7fd5c68140fda54cbd362aba3c9116c6f644f96ffc0c865f899a9c889751289ab456554077b470',
+  );
+});
+
+test('Injective - signTx (118)', () => {
+  expect(
+    Cosmos.signTx(
+      {
+        mnemonic,
+        path: { type: CHAIN.COSMOS, account: 0, index: 0 },
+      },
+      '0x0a93010a90010a1c2f636f736d6f732e62616e6b2e763162657461312e4d736753656e6412700a2a696e6a313375366737767167773037346d676d66327a65326361647a766b7a39736e6c77637274713861122a696e6a313375366737767167773037346d676d66327a65326361647a766b7a39736e6c776372747138611a160a03696e6a120f313030303030303030303030303030127e0a5e0a540a2d2f696e6a6563746976652e63727970746f2e763162657461312e657468736563703235366b312e5075624b657912230a21035a0c6b83b8bd9827e507270cadb499b7e3a9095246f6a2213281f783d877c98b12040a0208011802121c0a160a03696e6a120f3230303030303030303030303030301080b5181a0b696e6a6563746976652d3120f48701',
+      { prefix: 'inj' },
+    ).signature,
+  ).toEqual(
+    '0xf5ead11362c2ca95a38218ef14901f9acb3cc8cb8621ee75bf2f3d158c5af6db54a25a58d8cfe2744e24b52cd6b5289d6b75d43a9eb21ea80c6113fd15255153',
+  );
+});
+
 test('Ethereum - getAccount', () => {
   expect(
     Ethereum.getAccount({
@@ -138,7 +172,7 @@ test('Ethereum - signTx (Legacy)', () => {
     ),
   ).toEqual({
     unsignedTx,
-    publicKey: "0x035a0c6b83b8bd9827e507270cadb499b7e3a9095246f6a2213281f783d877c98b",
+    publicKey: '0x035a0c6b83b8bd9827e507270cadb499b7e3a9095246f6a2213281f783d877c98b',
     signature:
       '0x54a9cf09e052c29852b125a87ca01c06d0ff5597c081e129360bcd19e81d334d58c60edf5391d60915fab43e14303dc2fc2b89d48b22fa3cbbebe3567931be7c01',
   });
@@ -166,7 +200,7 @@ test('Ethereum - signTx (Celo)', () => {
     ),
   ).toEqual({
     unsignedTx,
-    publicKey: "0x035a0c6b83b8bd9827e507270cadb499b7e3a9095246f6a2213281f783d877c98b",
+    publicKey: '0x035a0c6b83b8bd9827e507270cadb499b7e3a9095246f6a2213281f783d877c98b',
     signature:
       '0x525492a0ba9f1866f30a007cd456dc788a0595dc4638291af6fa81a5db945bbe10cd49df621bf0edd53266ec74a7b26a5a5862cabe4c6be3bdda74552302f6e100',
   });
@@ -193,7 +227,7 @@ test('Ethereum - signTx (Eip1559)', () => {
     ),
   ).toEqual({
     unsignedTx,
-    publicKey: "0x035a0c6b83b8bd9827e507270cadb499b7e3a9095246f6a2213281f783d877c98b",
+    publicKey: '0x035a0c6b83b8bd9827e507270cadb499b7e3a9095246f6a2213281f783d877c98b',
     signature:
       '0x8b6e5c3e894e6d8c9833d7ee40cc9674e6a1c886caf14ae5108a57bfd5c9a9bd724cc84f71d2e8603aea2c927336878b42d14d455fe02cb8a95eecb2fa04c98e01',
   });
@@ -232,7 +266,7 @@ test('Ethereum - signTx (Eip2930)', () => {
     ),
   ).toEqual({
     unsignedTx,
-    publicKey: "0x035a0c6b83b8bd9827e507270cadb499b7e3a9095246f6a2213281f783d877c98b",
+    publicKey: '0x035a0c6b83b8bd9827e507270cadb499b7e3a9095246f6a2213281f783d877c98b',
     signature:
       '0x1eb1cb45dcad7c4fa882f8c92fe117dafccbf86c318bbffb1e8a0adf0cbae198694eb5083f931034b5cbdbc9e272dd8f469e222fa1ee01beba7ff3d4239ac2cd00',
   });

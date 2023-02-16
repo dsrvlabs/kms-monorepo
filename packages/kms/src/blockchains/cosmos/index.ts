@@ -58,7 +58,11 @@ export class Cosmos extends Signer {
   static signTx(pk: string | PathOption, unsignedTx: string, option?: KeyOption): SignedTx {
     super.isHexString(unsignedTx);
     if (option && option.prefix === 'inj') {
-      return Ethereum.signTx(pk, unsignedTx);
+      const signResult = Ethereum.signTx(pk, unsignedTx);
+      return {
+        ...signResult,
+        signature: signResult.signature.slice(0, 130),
+      };
     }
 
     const keyPair = Cosmos.getKeyPair(pk);

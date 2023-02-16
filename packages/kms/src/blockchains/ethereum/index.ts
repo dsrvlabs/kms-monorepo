@@ -95,13 +95,22 @@ export class Ethereum extends Signer {
     return account;
   }
 
-  static signTx(pk: string | PathOption, unsignedTx: string): SignedTx {
+  static signTx(pk: string | PathOption, unsignedTx: string, option?: KeyOption): SignedTx {
     super.isHexString(unsignedTx);
     const keyPair = Ethereum.getKeyPair(pk);
     const { signature, recoveryId: recoveryParam } = ecc.signRecoverable(
       Buffer.from(keccak_256(Buffer.from(stripHexPrefix(unsignedTx), 'hex'))),
       Buffer.from(stripHexPrefix(keyPair.privateKey), 'hex'),
     );
+    if (option && option.prefix === 'inj') {
+      return {
+        unsignedTx,
+        publicKey: keyPair.publicKey,
+        signature: addHexPrefix(
+          Buffer.concat([signature, Buffer.from([recoveryParam])]).toString('hex'),
+        ).slice(0, 130),
+      };
+    }
     return {
       unsignedTx,
       publicKey: keyPair.publicKey,
