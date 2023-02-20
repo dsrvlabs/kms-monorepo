@@ -1,4 +1,4 @@
-export * from './argon2';
+export { getAlgo2HashKey, getMnemonic, createKeyStore } from './argon2';
 export {
   CHAIN,
   Account,
