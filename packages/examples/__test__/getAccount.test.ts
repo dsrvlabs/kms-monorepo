@@ -126,7 +126,7 @@ test('Sui - getAccount', () => {
       path: { type: CHAIN.SUI, account: 0, index: 0 },
     }),
   ).toEqual({
-    address: '0x061ce2b2100a71bb7aa0da98998887ad82597948',
+    address: '0xada112cfb90b44ba889cc5d39ac2bf46281e4a91f7919c693bcd9b8323e81ed2',
     publicKey: '0x3311e6a19adc1c06a509e5bf464e9d4ecc73039f311ac940bb11896f82fb6533',
   });
 });

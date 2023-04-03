@@ -7,9 +7,12 @@ import { addHexPrefix, isHexString, stripHexPrefix } from '../utils';
 
 export { CHAIN } from '../../types';
 
-function sign(keyPair: SignKeyPair, message: Uint8Array): string {
+function sign(keyPair: SignKeyPair, message: Uint8Array): { publicKey: string; signature: string } {
   const signature = naclSign.detached(message, keyPair.secretKey);
-  return addHexPrefix(Buffer.from(signature).toString('hex'));
+  return {
+    publicKey: encode(keyPair.publicKey),
+    signature: addHexPrefix(Buffer.from(signature).toString('hex')),
+  };
 }
 
 export class Solana extends Signer {
@@ -42,17 +45,17 @@ export class Solana extends Signer {
   static signTx(pk: string | PathOption, unsignedTx: string): SignedTx {
     super.isHexString(unsignedTx);
     const keyPair = Solana.getKeyPair(pk);
-    const signature = sign(keyPair, Buffer.from(stripHexPrefix(unsignedTx), 'hex'));
+    const { publicKey, signature } = sign(keyPair, Buffer.from(stripHexPrefix(unsignedTx), 'hex'));
     return {
       unsignedTx,
-      publicKey: encode(keyPair.publicKey),
+      publicKey,
       signature,
     };
   }
 
   static signMsg(pk: string | PathOption, message: string): SignedMsg {
     const keyPair = Solana.getKeyPair(pk);
-    const signature = sign(
+    const { publicKey, signature } = sign(
       keyPair,
       isHexString(message)
         ? Buffer.from(stripHexPrefix(message), 'hex')
@@ -60,7 +63,7 @@ export class Solana extends Signer {
     );
     return {
       message,
-      publicKey: encode(keyPair.publicKey),
+      publicKey,
       signature: signature.slice(0, 130),
     };
   }

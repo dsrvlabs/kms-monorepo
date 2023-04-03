@@ -8,9 +8,12 @@ import { getDerivePath, Signer } from '../signer';
 
 export { CHAIN } from '../../types';
 
-function sign(keyPair: SignKeyPair, message: Uint8Array): string {
+function sign(keyPair: SignKeyPair, message: Uint8Array): { publicKey: string; signature: string } {
   const signature = Buffer.from(naclSign(message, keyPair.secretKey).slice(0, 64)).toString('hex');
-  return addHexPrefix(signature);
+  return {
+    publicKey: addHexPrefix(Buffer.from(keyPair.publicKey).toString('hex')),
+    signature: addHexPrefix(signature),
+  };
 }
 
 export class Aptos extends Signer {
@@ -46,17 +49,17 @@ export class Aptos extends Signer {
   static signTx(pk: string | PathOption, unsignedTx: string): SignedTx {
     super.isHexString(unsignedTx);
     const keyPair = Aptos.getKeyPair(pk);
-    const signature = sign(keyPair, Buffer.from(stripHexPrefix(unsignedTx), 'hex'));
+    const { publicKey, signature } = sign(keyPair, Buffer.from(stripHexPrefix(unsignedTx), 'hex'));
     return {
       unsignedTx,
-      publicKey: addHexPrefix(Buffer.from(keyPair.publicKey).toString('hex')),
+      publicKey,
       signature,
     };
   }
 
   static signMsg(pk: string | PathOption, message: string): SignedMsg {
     const keyPair = Aptos.getKeyPair(pk);
-    const signature = sign(
+    const { publicKey, signature } = sign(
       keyPair,
       isHexString(message)
         ? Buffer.from(stripHexPrefix(message), 'hex')
@@ -64,7 +67,7 @@ export class Aptos extends Signer {
     );
     return {
       message,
-      publicKey: addHexPrefix(Buffer.from(keyPair.publicKey).toString('hex')),
+      publicKey,
       signature,
     };
   }

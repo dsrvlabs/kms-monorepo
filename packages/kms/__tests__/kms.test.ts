@@ -423,13 +423,47 @@ test('Sui - getAccount', () => {
       path: { type: CHAIN.SUI, account: 0, index: 0 },
     }),
   ).toEqual({
-    address: '0x061ce2b2100a71bb7aa0da98998887ad82597948',
+    address: '0xada112cfb90b44ba889cc5d39ac2bf46281e4a91f7919c693bcd9b8323e81ed2',
     publicKey: '0x3311e6a19adc1c06a509e5bf464e9d4ecc73039f311ac940bb11896f82fb6533',
   });
 });
+
+test('Sui - signTx', () => {
+  const unsignedTx = '0x000002000896000000000000000020ada112cfb90b44ba889cc5d39ac2bf46281e4a91f7919c693bcd9b8323e81ed20202000101000001010300000000010100ada112cfb90b44ba889cc5d39ac2bf46281e4a91f7919c693bcd9b8323e81ed20109f0eeb54120d584c45c5e98a1b6f1114962e23c9abf4452a649dbcbdd78fe79f31300000000000020f87433e9bb9959260446e91481dd229352f047cf446f3affc8e8720dab0a7de9ada112cfb90b44ba889cc5d39ac2bf46281e4a91f7919c693bcd9b8323e81ed20100000000000000102700000000000000';
+  expect(
+    Sui.signTx(
+      {
+      mnemonic,
+      path: { type: CHAIN.SUI, account: 0, index: 0 },
+    },
+    unsignedTx),
+  ).toEqual({
+    unsignedTx,
+    publicKey: '0x3311e6a19adc1c06a509e5bf464e9d4ecc73039f311ac940bb11896f82fb6533',
+    signature:
+      '0x001c599d91fea0f2de7db543fd487a68d431dc959a4eeee89762cc6152df585ce043b6b398b3ff6af319063792ad66575b905ca7a5f0364966add422d119dc210f3311e6a19adc1c06a509e5bf464e9d4ecc73039f311ac940bb11896f82fb6533',
+  });
+});
+
+test('Sui - signMsg', () => {
+  expect(
+    Sui.signMsg(
+      {
+      mnemonic,
+      path: { type: CHAIN.SUI, account: 0, index: 0 },
+    },
+    message),
+  ).toEqual({
+    message,
+    publicKey: '0x3311e6a19adc1c06a509e5bf464e9d4ecc73039f311ac940bb11896f82fb6533',
+    signature:
+      '0x0070b1ab8ac7ad1b420fe6166bba2e37c96087cb5970cbe91b478ab95e2975c531b90d5625ab5e63ce43cd2f1370cb23bdb052e903dbe38f73272cbaf55cccac0c3311e6a19adc1c06a509e5bf464e9d4ecc73039f311ac940bb11896f82fb6533',
+  });
+});
+
 test('Ton - getAccount', async () => {
   expect(
-    await Ton.getAccount({
+    Ton.getAccount({
       mnemonic: mnemonic,
       path: { type: CHAIN.TON, account: 0, index: 0 },
     }),
