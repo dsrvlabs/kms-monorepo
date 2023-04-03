@@ -8,9 +8,12 @@ import { getDerivePath, Signer } from '../signer';
 
 export { CHAIN } from '../../types';
 
-function sign(keyPair: SignKeyPair, message: Uint8Array): string {
+function sign(keyPair: SignKeyPair, message: Uint8Array): { publicKey: string; signature: string } {
   const signature = naclSign.detached(sha256(message), keyPair.secretKey);
-  return addHexPrefix(Buffer.from(signature).toString('hex'));
+  return {
+    publicKey: `ed25519:${baseEncode(keyPair.publicKey)}`,
+    signature: addHexPrefix(Buffer.from(signature).toString('hex')),
+  };
 }
 
 export class Near extends Signer {
@@ -43,17 +46,17 @@ export class Near extends Signer {
   static signTx(pk: string | PathOption, unsignedTx: string): SignedTx {
     super.isHexString(unsignedTx);
     const keyPair = Near.getKeyPair(pk);
-    const signature = sign(keyPair, Buffer.from(stripHexPrefix(unsignedTx), 'hex'));
+    const { publicKey, signature } = sign(keyPair, Buffer.from(stripHexPrefix(unsignedTx), 'hex'));
     return {
       unsignedTx,
-      publicKey: `ed25519:${baseEncode(keyPair.publicKey)}`,
+      publicKey,
       signature,
     };
   }
 
   static signMsg(pk: string | PathOption, message: string): SignedMsg {
     const keyPair = Near.getKeyPair(pk);
-    const signature = sign(
+    const { publicKey, signature } = sign(
       keyPair,
       isHexString(message)
         ? Buffer.from(stripHexPrefix(message), 'hex')
@@ -61,7 +64,7 @@ export class Near extends Signer {
     );
     return {
       message,
-      publicKey: `ed25519:${baseEncode(keyPair.publicKey)}`,
+      publicKey,
       signature,
     };
   }
