@@ -50,7 +50,6 @@ export const getSuiTx = async (mnemonic: string) => {
   const { address } = getSuiAccount(mnemonic);
 
   const coins = await request('suix_getCoins', [address]);
-  console.log('getCoins', coins.data.length);
 
   const coinType = '0x2::sui::SUI';
   const filtered = coins.data.filter((item) => item.coinType === coinType);
