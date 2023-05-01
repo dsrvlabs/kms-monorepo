@@ -7,6 +7,7 @@ import {
   getNearSignature,
   getSolanaSignature,
   getTonSignature,
+  getSuiSignature,
 } from '../utils/signatureTest';
 
 const mnemonic = 'shoot island position soft burden budget tooth cruel issue economy destroy above';
@@ -50,4 +51,10 @@ test('ton - signature test', async () => {
   const { signature, tonSdkSignature } = await getTonSignature(mnemonic);
 
   expect(signature).toEqual(tonSdkSignature);
+});
+
+test('sui - signature test', async () => {
+  const { signature, suiSdkSignature } = await getSuiSignature(mnemonic);
+
+  expect(signature).toEqual(suiSdkSignature);
 });
