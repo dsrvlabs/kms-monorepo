@@ -1,10 +1,9 @@
 import { TransactionBlock } from '@mysten/sui.js';
 import { getSuiAccount } from '../getAccount';
-
-export const SUI_RPC = 'https://wallet-rpc.devnet.sui.io/';
+import { RPC_URL } from '../../constants';
 
 async function request(method, params) {
-  const res = await fetch(SUI_RPC, {
+  const res = await fetch(RPC_URL.SUI, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

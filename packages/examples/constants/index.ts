@@ -5,6 +5,7 @@ export const RPC_URL = {
   APTOS: 'https://fullnode.devnet.aptoslabs.com/v1',
   ETHEREUM: 'https://ethereum-goerli-rpc.allthatnode.com',
   CELO: 'https://celo-alfajores-rpc.allthatnode.com',
+  SUI: 'https://wallet-rpc.devnet.sui.io/',
 };
 
 export const RECEIVER_ADDRESS = {
