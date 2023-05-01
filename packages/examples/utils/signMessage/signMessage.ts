@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { CHAIN, Near, Solana, Ethereum } from '@dsrv/kms';
+import { CHAIN, Near, Solana, Ethereum, Sui } from '@dsrv/kms';
 
 /* Near - signMsg */
 export const getNearSignMsg = (mnemonic: string, message: string) => {
@@ -34,4 +34,15 @@ export const getEthereumSignMsg = (mnemonic: string, message: string) => {
     message,
   );
   return ethereumSignMsg;
+};
+
+export const getSuiSignMsg = (mnemonic: string, message: string) => {
+  const suiSignMsg = Sui.signMsg(
+    {
+      mnemonic,
+      path: { type: CHAIN.SUI, account: 0, index: 0 },
+    },
+    message,
+  );
+  return suiSignMsg;
 };

@@ -9,15 +9,14 @@ import {
   Transaction,
   Keypair,
 } from '@solana/web3.js';
-import { base58 } from 'ethers/lib/utils';
 import { RPC_URL, RECEIVER_ADDRESS } from '../../constants';
-import { getSolanaPrivateKey } from '../getPrivateKey';
 
 export const getSolanaTx = async (mnemonic: string) => {
   const RPC = RPC_URL.SOLANA;
   const CONNECTION = new Connection(RPC, 'confirmed');
   const TOACCOUNTPUBKEY = new PublicKey(RECEIVER_ADDRESS.SOLANA);
   const RECENTBLOCKHASH = await CONNECTION.getLatestBlockhash();
+  console.log('RECENTBLOCKHASH', RECENTBLOCKHASH);
   const { secretKey } = Solana.getKeyPair({
     mnemonic,
     path: {
@@ -51,10 +50,10 @@ export const getSolanaTx = async (mnemonic: string) => {
 };
 
 export const getSolanaOfflineTx = async (mnemonic: string) => {
-  const RPC = RPC_URL.SOLANA;
-  const CONNECTION = new Connection(RPC, 'confirmed');
+  // const RPC = RPC_URL.SOLANA;
+  // const CONNECTION = new Connection(RPC, 'confirmed');
   const TOACCOUNTPUBKEY = new PublicKey(RECEIVER_ADDRESS.SOLANA);
-  const RECENTBLOCKHASH = await CONNECTION.getLatestBlockhash();
+  // const RECENTBLOCKHASH = await CONNECTION.getLatestBlockhash();
   const { secretKey } = Solana.getKeyPair({
     mnemonic,
     path: {

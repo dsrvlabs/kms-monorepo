@@ -5,3 +5,4 @@ export * from './getEthereumTx';
 export * from './getNearTx';
 export * from './getSolanaTx';
 export * from './getTonTx';
+export * from './getSuiTx';
