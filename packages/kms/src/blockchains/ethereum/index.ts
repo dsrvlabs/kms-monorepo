@@ -3,10 +3,9 @@ import * as ecc from 'tiny-secp256k1';
 import { ecdsaSign } from 'secp256k1';
 // eslint-disable-next-line camelcase
 import { keccak_256 } from '@noble/hashes/sha3';
-import { bech32 } from 'bech32';
 import { hexToBytes } from '@noble/hashes/utils';
 import { addHexPrefix, isHexString, stringToHex, stripHexPrefix } from '../utils';
-import { Account, KeyOption, PathOption, SignedMsg, SignedTx, SimpleKeypair } from '../../types';
+import { Account, PathOption, SignedMsg, SignedTx, SimpleKeypair } from '../../types';
 import { Signer } from '../signer';
 
 export { CHAIN } from '../../types';
@@ -62,7 +61,7 @@ export class Ethereum extends Signer {
     };
   }
 
-  static getAccount(pk: string | PathOption, option?: KeyOption): Account {
+  static getAccount(pk: string | PathOption): Account {
     const keyPair = Ethereum.getKeyPair(pk);
     const temp = Buffer.from(
       ecc.pointCompress(Buffer.from(stripHexPrefix(keyPair.publicKey), 'hex'), false),
@@ -81,36 +80,16 @@ export class Ethereum extends Signer {
       publicKey: keyPair.publicKey,
     };
 
-    if (option && option.prefix === 'inj') {
-      const prefix = option && option.prefix ? option.prefix : 'cosmos';
-      return {
-        address: bech32.encode(
-          prefix,
-          bech32.toWords(Buffer.from(stripHexPrefix(account.address), 'hex')),
-        ),
-        publicKey: account.publicKey,
-      };
-    }
-
     return account;
   }
 
-  static signTx(pk: string | PathOption, unsignedTx: string, option?: KeyOption): SignedTx {
+  static signTx(pk: string | PathOption, unsignedTx: string): SignedTx {
     super.isHexString(unsignedTx);
     const keyPair = Ethereum.getKeyPair(pk);
     const { signature, recoveryId: recoveryParam } = ecc.signRecoverable(
       Buffer.from(keccak_256(Buffer.from(stripHexPrefix(unsignedTx), 'hex'))),
       Buffer.from(stripHexPrefix(keyPair.privateKey), 'hex'),
     );
-    if (option && option.prefix === 'inj') {
-      return {
-        unsignedTx,
-        publicKey: keyPair.publicKey,
-        signature: addHexPrefix(
-          Buffer.concat([signature, Buffer.from([recoveryParam])]).toString('hex'),
-        ).slice(0, 130),
-      };
-    }
     return {
       unsignedTx,
       publicKey: keyPair.publicKey,

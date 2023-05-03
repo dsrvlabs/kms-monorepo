@@ -80,66 +80,6 @@ test('Cosmos - signTx', () => {
   });
 });
 
-test('Injective - getAccount (60)', () => {
-  expect(
-    Ethereum.getAccount(
-      {
-        mnemonic,
-        path: { type: CHAIN.ETHEREUM, account: 0, index: 0 },
-      },
-      { prefix: 'inj' },
-    ),
-  ).toEqual({
-    address: 'inj13u6g7vqgw074mgmf2ze2cadzvkz9snlwcrtq8a',
-    publicKey: '0x035a0c6b83b8bd9827e507270cadb499b7e3a9095246f6a2213281f783d877c98b',
-  });
-});
-
-test('Injective - getAccount (118)', () => {
-  expect(
-    Cosmos.getAccount(
-      {
-        mnemonic,
-        path: { type: CHAIN.COSMOS, account: 0, index: 0 },
-      },
-      { prefix: 'inj' },
-    ),
-  ).toEqual({
-    address: 'inj1seqzn42dm7q3l7amgfswdheuhyvwwegqh2w8v0',
-    publicKey: '0x03c156c16c456788349d1cd306a681dcf408cd3a4a121eb18396ed5be59b9b8370',
-  });
-});
-
-test('Injective - signTx (60)', () => {
-  expect(
-    Ethereum.signTx(
-      {
-        mnemonic,
-        path: { type: CHAIN.ETHEREUM, account: 0, index: 0 },
-      },
-      '0x0a93010a90010a1c2f636f736d6f732e62616e6b2e763162657461312e4d736753656e6412700a2a696e6a313375366737767167773037346d676d66327a65326361647a766b7a39736e6c77637274713861122a696e6a313375366737767167773037346d676d66327a65326361647a766b7a39736e6c776372747138611a160a03696e6a120f313030303030303030303030303030127e0a5e0a540a2d2f696e6a6563746976652e63727970746f2e763162657461312e657468736563703235366b312e5075624b657912230a21035a0c6b83b8bd9827e507270cadb499b7e3a9095246f6a2213281f783d877c98b12040a0208011802121c0a160a03696e6a120f3230303030303030303030303030301080b5181a0b696e6a6563746976652d3120f48701',
-      { prefix: 'inj' },
-    ).signature,
-  ).toEqual(
-    '0xc1a428ce48f82abe8f616804b2c6bed3096963d2dbdc8abe3c7fd5c68140fda54cbd362aba3c9116c6f644f96ffc0c865f899a9c889751289ab456554077b470',
-  );
-});
-
-test('Injective - signTx (118)', () => {
-  expect(
-    Cosmos.signTx(
-      {
-        mnemonic,
-        path: { type: CHAIN.COSMOS, account: 0, index: 0 },
-      },
-      '0x0a93010a90010a1c2f636f736d6f732e62616e6b2e763162657461312e4d736753656e6412700a2a696e6a313375366737767167773037346d676d66327a65326361647a766b7a39736e6c77637274713861122a696e6a313375366737767167773037346d676d66327a65326361647a766b7a39736e6c776372747138611a160a03696e6a120f313030303030303030303030303030127e0a5e0a540a2d2f696e6a6563746976652e63727970746f2e763162657461312e657468736563703235366b312e5075624b657912230a21035a0c6b83b8bd9827e507270cadb499b7e3a9095246f6a2213281f783d877c98b12040a0208011802121c0a160a03696e6a120f3230303030303030303030303030301080b5181a0b696e6a6563746976652d3120f48701',
-      { prefix: 'inj' },
-    ).signature,
-  ).toEqual(
-    '0xf5ead11362c2ca95a38218ef14901f9acb3cc8cb8621ee75bf2f3d158c5af6db54a25a58d8cfe2744e24b52cd6b5289d6b75d43a9eb21ea80c6113fd15255153',
-  );
-});
-
 test('Ethereum - getAccount', () => {
   expect(
     Ethereum.getAccount({

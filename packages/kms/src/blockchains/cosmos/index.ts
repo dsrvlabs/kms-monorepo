@@ -6,7 +6,6 @@ import { bech32 } from 'bech32';
 import { addHexPrefix, isHexString, stringToHex, stripHexPrefix } from '../utils';
 import { Account, KeyOption, PathOption, SignedMsg, SignedTx, SimpleKeypair } from '../../types';
 import { Signer } from '../signer';
-import { Ethereum } from '../ethereum';
 
 export { CHAIN } from '../../types';
 
@@ -39,10 +38,6 @@ export class Cosmos extends Signer {
   }
 
   static getAccount(pk: string | PathOption, option?: KeyOption): Account {
-    if (option && option.prefix === 'inj') {
-      return Ethereum.getAccount(pk, option);
-    }
-
     const keyPair = Cosmos.getKeyPair(pk);
     const temp = Buffer.from(stripHexPrefix(keyPair.publicKey), 'hex');
     const hash = ripemd160(sha256(temp));
@@ -55,16 +50,8 @@ export class Cosmos extends Signer {
     };
   }
 
-  static signTx(pk: string | PathOption, unsignedTx: string, option?: KeyOption): SignedTx {
+  static signTx(pk: string | PathOption, unsignedTx: string): SignedTx {
     super.isHexString(unsignedTx);
-    if (option && option.prefix === 'inj') {
-      const signResult = Ethereum.signTx(pk, unsignedTx);
-      return {
-        ...signResult,
-        signature: signResult.signature?.slice(0, 130),
-      };
-    }
-
     const keyPair = Cosmos.getKeyPair(pk);
     const hashed = sha256(Buffer.from(stripHexPrefix(unsignedTx), 'hex'));
     const signature = sign(keyPair, hashed);
