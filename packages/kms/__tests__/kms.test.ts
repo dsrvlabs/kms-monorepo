@@ -7,6 +7,7 @@ import { Eth2 } from '../src/blockchains/eth2';
 import { Near } from '../src/blockchains/near';
 import { Solana } from '../src/blockchains/solana';
 import { Sui } from '../src/blockchains/sui';
+import { Ton } from '../src/blockchains/ton';
 
 const mnemonic = 'shoot island position soft burden budget tooth cruel issue economy destroy above';
 const password = 'strong password';
@@ -27,6 +28,23 @@ test('Aptos - getAccount', () => {
     }),
   ).toEqual({
     address: '0x07968dab936c1bad187c60ce4082f307d030d780e91e694ae03aef16aba73f30',
+    publicKey: '0xea526ba1710343d953461ff68641f1b7df5f23b9042ffa2d2a798d3adb3f3d6c',
+  });
+});
+
+test('Aptos - signMsg', () => {
+  expect(
+    Aptos.signMsg(
+      {
+        mnemonic,
+        path: { type: CHAIN.APTOS, account: 0, index: 0 },
+      },
+      message,
+    ),
+  ).toEqual({
+    message,
+    signature:
+      '0xc660b970a3479d1678dccb50de070b34d50b34193557de36ff6b2f9873224a3e98c7f2729471c090749461c14f716b6d7778d1945bb3ee0f989fd1272caa4f01',
     publicKey: '0xea526ba1710343d953461ff68641f1b7df5f23b9042ffa2d2a798d3adb3f3d6c',
   });
 });
@@ -56,38 +74,9 @@ test('Cosmos - signTx', () => {
     ),
   ).toEqual({
     unsignedTx,
+    publicKey: '0x03c156c16c456788349d1cd306a681dcf408cd3a4a121eb18396ed5be59b9b8370',
     signature:
       '0x70a03cb9a3cb98353bc0cb8f68eeef1d3d6ad7111f0c5eae92c5b2c3947edbac474ec0e7eee920539eba02a5e9dab879ff06de8bf512cfdfe257bb73a0f49b7b',
-  });
-});
-
-test('Injective - getAccount (60)', () => {
-  expect(
-    Ethereum.getAccount(
-      {
-        mnemonic,
-        path: { type: CHAIN.ETHEREUM, account: 0, index: 0 },
-      },
-      { prefix: 'inj' },
-    ),
-  ).toEqual({
-    address: 'inj13u6g7vqgw074mgmf2ze2cadzvkz9snlwcrtq8a',
-    publicKey: '0x035a0c6b83b8bd9827e507270cadb499b7e3a9095246f6a2213281f783d877c98b',
-  });
-});
-
-test('Injective - getAccount (118)', () => {
-  expect(
-    Cosmos.getAccount(
-      {
-        mnemonic,
-        path: { type: CHAIN.COSMOS, account: 0, index: 0 },
-      },
-      { prefix: 'inj' },
-    ),
-  ).toEqual({
-    address: 'inj1seqzn42dm7q3l7amgfswdheuhyvwwegqh2w8v0',
-    publicKey: '0x03c156c16c456788349d1cd306a681dcf408cd3a4a121eb18396ed5be59b9b8370',
   });
 });
 
@@ -123,6 +112,7 @@ test('Ethereum - signTx (Legacy)', () => {
     ),
   ).toEqual({
     unsignedTx,
+    publicKey: '0x035a0c6b83b8bd9827e507270cadb499b7e3a9095246f6a2213281f783d877c98b',
     signature:
       '0x54a9cf09e052c29852b125a87ca01c06d0ff5597c081e129360bcd19e81d334d58c60edf5391d60915fab43e14303dc2fc2b89d48b22fa3cbbebe3567931be7c01',
   });
@@ -150,6 +140,7 @@ test('Ethereum - signTx (Celo)', () => {
     ),
   ).toEqual({
     unsignedTx,
+    publicKey: '0x035a0c6b83b8bd9827e507270cadb499b7e3a9095246f6a2213281f783d877c98b',
     signature:
       '0x525492a0ba9f1866f30a007cd456dc788a0595dc4638291af6fa81a5db945bbe10cd49df621bf0edd53266ec74a7b26a5a5862cabe4c6be3bdda74552302f6e100',
   });
@@ -176,6 +167,7 @@ test('Ethereum - signTx (Eip1559)', () => {
     ),
   ).toEqual({
     unsignedTx,
+    publicKey: '0x035a0c6b83b8bd9827e507270cadb499b7e3a9095246f6a2213281f783d877c98b',
     signature:
       '0x8b6e5c3e894e6d8c9833d7ee40cc9674e6a1c886caf14ae5108a57bfd5c9a9bd724cc84f71d2e8603aea2c927336878b42d14d455fe02cb8a95eecb2fa04c98e01',
   });
@@ -214,6 +206,7 @@ test('Ethereum - signTx (Eip2930)', () => {
     ),
   ).toEqual({
     unsignedTx,
+    publicKey: '0x035a0c6b83b8bd9827e507270cadb499b7e3a9095246f6a2213281f783d877c98b',
     signature:
       '0x1eb1cb45dcad7c4fa882f8c92fe117dafccbf86c318bbffb1e8a0adf0cbae198694eb5083f931034b5cbdbc9e272dd8f469e222fa1ee01beba7ff3d4239ac2cd00',
   });
@@ -338,9 +331,9 @@ test('Solana - signMsg', () => {
     ),
   ).toEqual({
     message,
+    publicKey: account.publicKey,
     signature:
       '0x6f0512ed8eb1e8bb8cef5fca8cb243629c367e4f0e8744e172b0052a3567fd7e8d155b4dcf96c304233f4e6cfbd1743ead5bf07673ecb56ec8231c5429c88b0d',
-    publicKey: account.publicKey,
   });
 });
 
@@ -357,6 +350,7 @@ test('Solana - signTx', () => {
     ),
   ).toEqual({
     unsignedTx,
+    publicKey: '57mwmnV2rFuVDmhiJEjonD7cfuFtcaP9QvYNGfDEWK71',
     signature:
       '0xc61c125ab311d183583b172733ab68cd2479e10cc9fa5e965317c69ab9962a3e28375c9dd35cc77c78159c54b7a4542fc12ecc9180b7dbb26bd739e2430e7b0a',
   });
@@ -369,7 +363,86 @@ test('Sui - getAccount', () => {
       path: { type: CHAIN.SUI, account: 0, index: 0 },
     }),
   ).toEqual({
-    address: '0x061ce2b2100a71bb7aa0da98998887ad82597948',
+    address: '0xada112cfb90b44ba889cc5d39ac2bf46281e4a91f7919c693bcd9b8323e81ed2',
     publicKey: '0x3311e6a19adc1c06a509e5bf464e9d4ecc73039f311ac940bb11896f82fb6533',
   });
 });
+
+test('Sui - signTx', () => {
+  const unsignedTx = '0x000002000896000000000000000020ada112cfb90b44ba889cc5d39ac2bf46281e4a91f7919c693bcd9b8323e81ed20202000101000001010300000000010100ada112cfb90b44ba889cc5d39ac2bf46281e4a91f7919c693bcd9b8323e81ed20109f0eeb54120d584c45c5e98a1b6f1114962e23c9abf4452a649dbcbdd78fe79f31300000000000020f87433e9bb9959260446e91481dd229352f047cf446f3affc8e8720dab0a7de9ada112cfb90b44ba889cc5d39ac2bf46281e4a91f7919c693bcd9b8323e81ed20100000000000000102700000000000000';
+  expect(
+    Sui.signTx(
+      {
+      mnemonic,
+      path: { type: CHAIN.SUI, account: 0, index: 0 },
+    },
+    unsignedTx),
+  ).toEqual({
+    unsignedTx,
+    publicKey: '0x3311e6a19adc1c06a509e5bf464e9d4ecc73039f311ac940bb11896f82fb6533',
+    signature:
+      '0x001c599d91fea0f2de7db543fd487a68d431dc959a4eeee89762cc6152df585ce043b6b398b3ff6af319063792ad66575b905ca7a5f0364966add422d119dc210f3311e6a19adc1c06a509e5bf464e9d4ecc73039f311ac940bb11896f82fb6533',
+  });
+});
+
+test('Sui - signMsg', () => {
+  expect(
+    Sui.signMsg(
+      {
+      mnemonic,
+      path: { type: CHAIN.SUI, account: 0, index: 0 },
+    },
+    message),
+  ).toEqual({
+    message,
+    publicKey: '0x3311e6a19adc1c06a509e5bf464e9d4ecc73039f311ac940bb11896f82fb6533',
+    signature:
+      '0x0070b1ab8ac7ad1b420fe6166bba2e37c96087cb5970cbe91b478ab95e2975c531b90d5625ab5e63ce43cd2f1370cb23bdb052e903dbe38f73272cbaf55cccac0c3311e6a19adc1c06a509e5bf464e9d4ecc73039f311ac940bb11896f82fb6533',
+  });
+});
+
+test('Ton - getAccount', async () => {
+  expect(
+    Ton.getAccount({
+      mnemonic: mnemonic,
+      path: { type: CHAIN.TON, account: 0, index: 0 },
+    }),
+  ).toEqual({
+    address: 'EQD300MajvOkrDBnXx2u7_escYNWdaJOYB70UlpnkFQJQnAx',
+    publicKey: '33yz22f42QYGATGVoqwZvXXp4tAB9G5JmxHiayUmBDxq',
+  });
+});
+
+/*
+test('Ton - signTx', () => {
+  expect(
+    Ton.signTx(
+      {
+        mnemonic,
+        path: { type: CHAIN.TON, account: 0, index: 0 },
+      },
+      '0x68656c6c6f20776f726c6421',
+    ),
+  ).toEqual({
+    signature:
+      '0x4d361227b79f6bc87ef476a5bc326c28089b4b758d62a052b308480d9f7f3b9fb3e4bc5697c7041f32ef52d70fa272b941826293ec6136471cf4d6865283f601',
+    unsignedTx: '0x68656c6c6f20776f726c6421',
+  });
+});
+
+test('Ton - signMsg', () => {
+  expect(
+    Ton.signMsg(
+      {
+        mnemonic,
+        path: { type: CHAIN.TON, account: 0, index: 0 },
+      },
+      message,
+    ),
+  ).toEqual({
+    signature:
+      '0x39fd5b893a160aa68dcb8266f9ea21df558d01a3fba4449810e7cc6bb4e5ebe6b93b26a78a906a0cccb94439e75f8cd6ee5a4f8e2c4f7fedad891c91b58f5502',
+    message: message,
+  });
+});
+*/

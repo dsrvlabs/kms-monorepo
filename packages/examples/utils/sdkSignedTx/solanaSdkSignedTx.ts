@@ -1,13 +1,21 @@
+import { CHAIN, Solana } from '@dsrv/kms';
 import { Keypair } from '@solana/web3.js';
-import { base58 } from 'ethers/lib/utils';
-import { getSolanaPrivateKey } from '../getPrivateKey';
+
 import { getSolanaOfflineTx } from '../getTx';
 
 export const solanaSdkSignedTx = async (mnemonic: string) => {
-  const privateKey = getSolanaPrivateKey(mnemonic);
+  const { secretKey } = Solana.getKeyPair({
+    mnemonic,
+    path: {
+      type: CHAIN.SOLANA,
+      account: 0,
+      index: 0,
+    },
+  });
+
   const transaction = await getSolanaOfflineTx(mnemonic);
 
-  const keyPair = Keypair.fromSecretKey(base58.decode(privateKey));
+  const keyPair = Keypair.fromSecretKey(secretKey);
 
   transaction.unSignedTx.sign(keyPair);
   const signedTxSignature = transaction.unSignedTx.signature;

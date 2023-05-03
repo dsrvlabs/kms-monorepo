@@ -4,3 +4,4 @@ export * from './cosmosSdkSignedTx';
 export * from './nearSdkSignedTx';
 export * from './solanaSdkSignedTx';
 export * from './aptosSdkSignedTx';
+export * from './tonSdkSignedTx';

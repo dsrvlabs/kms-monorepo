@@ -1,10 +1,11 @@
 export const RPC_URL = {
-  NEAR: 'https://near-testnet-rpc.allthatnode.com:3030',
+  NEAR: 'https://rpc.testnet.near.org',
   COSMOS: 'https://cosmos-testnet-rpc.allthatnode.com:26657',
   SOLANA: 'https://rpc.ankr.com/solana',
   APTOS: 'https://fullnode.devnet.aptoslabs.com/v1',
   ETHEREUM: 'https://ethereum-goerli-rpc.allthatnode.com',
   CELO: 'https://celo-alfajores-rpc.allthatnode.com',
+  SUI: 'https://wallet-rpc.devnet.sui.io/',
 };
 
 export const RECEIVER_ADDRESS = {

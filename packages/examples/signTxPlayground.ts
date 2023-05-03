@@ -7,6 +7,7 @@ import {
   getCeloSignedTx,
   getNearSignedTx,
   getSolanaSignedTx,
+  getTonSignedTx,
 } from './utils/signTx';
 
 const MNEMONIC = require('./mnemonic.json');
@@ -30,6 +31,9 @@ const main = async () => {
 
   const { aptosSignedTx } = await getAptosSignedTx(mnemonic);
   console.log('Aptos SignedTx : ', aptosSignedTx);
+
+  const { tonSignedTx } = await getTonSignedTx(mnemonic);
+  console.log('Ton SignedTx : ', tonSignedTx);
 };
 
 main();

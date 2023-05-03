@@ -4,3 +4,5 @@ export * from './getSolanaSignature';
 export * from './getCeloSignature';
 export * from './getCosmosSignature';
 export * from './getEthereumSignature';
+export * from './getTonSignature';
+export * from './getSuiSignature';

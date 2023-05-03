@@ -59,6 +59,11 @@ export function getDerivePath(path: BIP44, option?: KeyOption): string[] {
         `m/44'/${path.type}'/${path.account}'/${path.index}'`,
         `m/44'/${path.type}'/${path.account}'/`,
       ];
+    case CHAIN.TON:
+      return [
+        `m/44'/${path.type}'/${path.account}'/0'/0'/${path.index}'`,
+        `m/44'/${path.type}'/${path.account}'/0'/0'/`,
+      ];
     // add blockchains....
     // blockchains
     default:
@@ -86,10 +91,7 @@ export abstract class Signer {
     }
   }
 
-  protected static getKeyPair(
-    _pk: string | PathOption,
-    _option?: KeyOption,
-  ): SimpleKeypair | SignKeyPair {
+  static getKeyPair(_pk: string | PathOption, _option?: KeyOption): SimpleKeypair | SignKeyPair {
     throw new Error('not implemented!');
   }
 

@@ -42,6 +42,7 @@
     "build:kms-esm": "cd packages/kms && tsc --module es6 --outDir lib/esm",
     "prettier": "prettier --write --config ./.prettierrc \"**/*.{ts,tsx}\"",
     "start:example": "cd packages/examples && ts-node",
+    "start:kms": "cd packages/kms && ts-node",
     "test:kms": "cd packages/kms && jest",
     "test:examples": "cd packages/examples && jest",
     "lint": "eslint './packages/**/*.{ts,tsx}'",
@@ -53,9 +54,8 @@
     "lint-staged": "^13.0.3"
   },
   "lint-staged": {
-    "*.{ts,tsx}": [
+    "**/*.{ts,tsx}": [
       "eslint",
-      "cd packages/kms && jest",
       "git add"
     ]
   }

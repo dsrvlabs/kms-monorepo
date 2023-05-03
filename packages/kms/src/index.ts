@@ -1,4 +1,4 @@
-export * from './argon2';
+export { getAlgo2HashKey, getMnemonic, createKeyStore } from './argon2';
 export {
   CHAIN,
   Account,
@@ -17,4 +17,5 @@ export { Eth2 } from './blockchains/eth2';
 export { Near } from './blockchains/near';
 export { Solana } from './blockchains/solana';
 export { Sui } from './blockchains/sui';
+export { Ton } from './blockchains/ton';
 export { getDerivePath } from './blockchains/signer';

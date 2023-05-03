@@ -1,4 +1,3 @@
-import { decode, encode } from 'bs58';
 import { SignKeyPair, sign as naclSign } from 'tweetnacl';
 import { sha256 } from '@noble/hashes/sha256';
 import { derivePath } from 'ed25519-hd-key';
@@ -9,12 +8,12 @@ import { getDerivePath, Signer } from '../signer';
 
 export { CHAIN } from '../../types';
 
-function sign(keyPair: SignKeyPair, message: Uint8Array): string {
-  const signature = naclSign.detached(
-    sha256(message),
-    decode(encode(Buffer.from(keyPair.secretKey))),
-  );
-  return addHexPrefix(Buffer.from(signature).toString('hex'));
+function sign(keyPair: SignKeyPair, message: Uint8Array): { publicKey: string; signature: string } {
+  const signature = naclSign.detached(sha256(message), keyPair.secretKey);
+  return {
+    publicKey: `ed25519:${baseEncode(keyPair.publicKey)}`,
+    signature: addHexPrefix(Buffer.from(signature).toString('hex')),
+  };
 }
 
 export class Near extends Signer {
@@ -25,12 +24,13 @@ export class Near extends Signer {
     const { seed } = Signer.getChild(pk);
     const { key } = derivePath(getDerivePath(pk.path)[0], seed.toString('hex'));
     const keyPair = naclSign.keyPair.fromSeed(key);
-    return `${encode(Buffer.from(keyPair.secretKey))}`;
+    return addHexPrefix(Buffer.from(keyPair.secretKey).toString('hex').slice(0, 64));
   }
 
-  protected static getKeyPair(pk: string | PathOption): SignKeyPair {
-    const secretKey = decode(Near.getPrivateKey(pk));
-    const keyPair = naclSign.keyPair.fromSecretKey(secretKey);
+  static getKeyPair(pk: string | PathOption): SignKeyPair {
+    const keyPair = naclSign.keyPair.fromSeed(
+      Buffer.from(stripHexPrefix(Near.getPrivateKey(pk)), 'hex'),
+    );
     return keyPair;
   }
 
@@ -46,16 +46,17 @@ export class Near extends Signer {
   static signTx(pk: string | PathOption, unsignedTx: string): SignedTx {
     super.isHexString(unsignedTx);
     const keyPair = Near.getKeyPair(pk);
-    const signature = sign(keyPair, Buffer.from(stripHexPrefix(unsignedTx), 'hex'));
+    const { publicKey, signature } = sign(keyPair, Buffer.from(stripHexPrefix(unsignedTx), 'hex'));
     return {
       unsignedTx,
+      publicKey,
       signature,
     };
   }
 
   static signMsg(pk: string | PathOption, message: string): SignedMsg {
     const keyPair = Near.getKeyPair(pk);
-    const signature = sign(
+    const { publicKey, signature } = sign(
       keyPair,
       isHexString(message)
         ? Buffer.from(stripHexPrefix(message), 'hex')
@@ -63,8 +64,8 @@ export class Near extends Signer {
     );
     return {
       message,
+      publicKey,
       signature,
-      publicKey: `ed25519:${baseEncode(keyPair.publicKey)}`,
     };
   }
 }

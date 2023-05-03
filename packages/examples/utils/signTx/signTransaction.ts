@@ -1,18 +1,19 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
-import { CHAIN, Cosmos, Ethereum, Near, Solana, Aptos } from '@dsrv/kms';
+import { CHAIN, Cosmos, Ethereum, Near, Solana, Aptos, Ton, Sui } from '@dsrv/kms';
 import { getAptosTx } from '../getTx/getAptosTx';
 import { getCeloTx } from '../getTx/getCeloTx';
 import { getCosmosTx } from '../getTx/getCosmosTx';
 import { getEthereumTx } from '../getTx/getEthereumTx';
 import { getNearTx } from '../getTx/getNearTx';
 import { getSolanaTx } from '../getTx/getSolanaTx';
-import { createEthereumSignedTx } from '../createSignedTx';
+import { createEthereumSignedTx, createSuiSignedTx, createTonSignedTx } from '../createSignedTx';
 import { createCeloSignedTx } from '../createSignedTx/createCeloSignedTx';
 import { createNearSignedTx } from '../createSignedTx/createNearSignedTx';
 import { createCosmosSignedTx } from '../createSignedTx/createCosmosSignedTx';
 import { createSolanaSignedTx } from '../createSignedTx/createSolanaSignedtx';
 import { createAptosSignedTx } from '../createSignedTx/createAptosSignedTx';
+import { getSuiTx, getTonTx } from '../getTx';
 
 /* Aptos signTx */
 export const getAptosSignedTx = async (mnemonic: string) => {
@@ -124,4 +125,42 @@ export const getSolanaSignedTx = async (mnemonic: string) => {
   });
 
   return { solanaSignedTx, signature: solanaSignature.signature };
+};
+
+/* Ton signTx */
+export const getTonSignedTx = async (mnemonic: string) => {
+  const { serializedTx, unSignedTx } = await getTonTx(mnemonic);
+  const tonSignature = Ton.signTx(
+    {
+      mnemonic,
+      path: { type: CHAIN.TON, account: 0, index: 0 },
+    },
+    serializedTx,
+  );
+
+  const tonSignedTx = createTonSignedTx({
+    unSignedTx,
+    signature: tonSignature.signature,
+  });
+
+  return { tonSignedTx, signature: tonSignature.signature };
+};
+
+/* Sui signTx */
+export const getSuiSignedTx = async (mnemonic: string) => {
+  const { serializedTx, unSignedTx } = await getSuiTx(mnemonic);
+  const suiSignature = Sui.signTx(
+    {
+      mnemonic,
+      path: { type: CHAIN.SUI, account: 0, index: 0 },
+    },
+    serializedTx,
+  );
+
+  const suiSignedTx = createSuiSignedTx({
+    unSignedTx,
+    signature: suiSignature.signature,
+  });
+
+  return { suiSignedTx, signature: suiSignature.signature };
 };

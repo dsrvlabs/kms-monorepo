@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { CHAIN, Aptos, Cosmos, Ethereum, Eth2, Near, Solana, Sui } from '@dsrv/kms';
+import { CHAIN, Aptos, Cosmos, Ethereum, Eth2, Near, Solana, Sui, Ton } from '@dsrv/kms';
 
 /* Aptos getPrivateKey */
 export const getAptosPrivateKey = (mnemonic: string): string => {
@@ -98,4 +98,13 @@ export const getSuiPrivateKey = (mnemonic: string): string => {
     path: { type: CHAIN.SUI, account: 0, index: 0 },
   });
   return suiPrivateKey;
+};
+
+/* Sui getPrivateKey */
+export const getTonPrivateKey = (mnemonic: string): string => {
+  const tonPrivateKey = Ton.getPrivateKey({
+    mnemonic,
+    path: { type: CHAIN.TON, account: 0, index: 0 },
+  });
+  return tonPrivateKey;
 };

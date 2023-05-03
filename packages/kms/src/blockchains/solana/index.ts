@@ -1,4 +1,4 @@
-import { decode, encode } from 'bs58';
+import { encode } from 'bs58';
 import { sign as naclSign, SignKeyPair } from 'tweetnacl';
 import { derivePath } from 'ed25519-hd-key';
 import { Account, PathOption, SignedMsg, SignedTx } from '../../types';
@@ -7,9 +7,12 @@ import { addHexPrefix, isHexString, stripHexPrefix } from '../utils';
 
 export { CHAIN } from '../../types';
 
-function sign(keyPair: SignKeyPair, message: Uint8Array): string {
+function sign(keyPair: SignKeyPair, message: Uint8Array): { publicKey: string; signature: string } {
   const signature = naclSign.detached(message, keyPair.secretKey);
-  return addHexPrefix(Buffer.from(signature).toString('hex'));
+  return {
+    publicKey: encode(keyPair.publicKey),
+    signature: addHexPrefix(Buffer.from(signature).toString('hex')),
+  };
 }
 
 export class Solana extends Signer {
@@ -20,12 +23,13 @@ export class Solana extends Signer {
     const { seed } = Signer.getChild(pk);
     const { key } = derivePath(getDerivePath(pk.path)[0], seed.toString('hex'));
     const keyPair = naclSign.keyPair.fromSeed(key);
-    return `${encode(Buffer.from(keyPair.secretKey))}`;
+    return addHexPrefix(Buffer.from(keyPair.secretKey).toString('hex').slice(0, 64));
   }
 
-  protected static getKeyPair(pk: string | PathOption): SignKeyPair {
-    const secretKey = decode(Solana.getPrivateKey(pk));
-    const keyPair = naclSign.keyPair.fromSecretKey(secretKey);
+  static getKeyPair(pk: string | PathOption): SignKeyPair {
+    const keyPair = naclSign.keyPair.fromSeed(
+      Buffer.from(stripHexPrefix(Solana.getPrivateKey(pk)), 'hex'),
+    );
     return keyPair;
   }
 
@@ -41,16 +45,17 @@ export class Solana extends Signer {
   static signTx(pk: string | PathOption, unsignedTx: string): SignedTx {
     super.isHexString(unsignedTx);
     const keyPair = Solana.getKeyPair(pk);
-    const signature = sign(keyPair, Buffer.from(stripHexPrefix(unsignedTx), 'hex'));
+    const { publicKey, signature } = sign(keyPair, Buffer.from(stripHexPrefix(unsignedTx), 'hex'));
     return {
       unsignedTx,
+      publicKey,
       signature,
     };
   }
 
   static signMsg(pk: string | PathOption, message: string): SignedMsg {
     const keyPair = Solana.getKeyPair(pk);
-    const signature = sign(
+    const { publicKey, signature } = sign(
       keyPair,
       isHexString(message)
         ? Buffer.from(stripHexPrefix(message), 'hex')
@@ -58,8 +63,8 @@ export class Solana extends Signer {
     );
     return {
       message,
+      publicKey,
       signature: signature.slice(0, 130),
-      publicKey: encode(keyPair.publicKey),
     };
   }
 }

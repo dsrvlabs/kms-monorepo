@@ -3,10 +3,9 @@ import * as ecc from 'tiny-secp256k1';
 import { ecdsaSign } from 'secp256k1';
 // eslint-disable-next-line camelcase
 import { keccak_256 } from '@noble/hashes/sha3';
-import { bech32 } from 'bech32';
 import { hexToBytes } from '@noble/hashes/utils';
 import { addHexPrefix, isHexString, stringToHex, stripHexPrefix } from '../utils';
-import { Account, KeyOption, PathOption, SignedMsg, SignedTx, SimpleKeypair } from '../../types';
+import { Account, PathOption, SignedMsg, SignedTx, SimpleKeypair } from '../../types';
 import { Signer } from '../signer';
 
 export { CHAIN } from '../../types';
@@ -51,7 +50,7 @@ export class Ethereum extends Signer {
     return addHexPrefix(child.privateKey?.toString('hex') || '');
   }
 
-  protected static getKeyPair(pk: string | PathOption): SimpleKeypair {
+  static getKeyPair(pk: string | PathOption): SimpleKeypair {
     const privateKey = Buffer.from(stripHexPrefix(Ethereum.getPrivateKey(pk)), 'hex');
 
     const pair = BIP32Factory(ecc).fromPrivateKey(privateKey, Buffer.alloc(32, 0));
@@ -62,7 +61,7 @@ export class Ethereum extends Signer {
     };
   }
 
-  static getAccount(pk: string | PathOption, option?: KeyOption): Account {
+  static getAccount(pk: string | PathOption): Account {
     const keyPair = Ethereum.getKeyPair(pk);
     const temp = Buffer.from(
       ecc.pointCompress(Buffer.from(stripHexPrefix(keyPair.publicKey), 'hex'), false),
@@ -81,17 +80,6 @@ export class Ethereum extends Signer {
       publicKey: keyPair.publicKey,
     };
 
-    if (option && option.prefix === 'inj') {
-      const prefix = option && option.prefix ? option.prefix : 'cosmos';
-      return {
-        address: bech32.encode(
-          prefix,
-          bech32.toWords(Buffer.from(stripHexPrefix(account.address), 'hex')),
-        ),
-        publicKey: account.publicKey,
-      };
-    }
-
     return account;
   }
 
@@ -104,6 +92,7 @@ export class Ethereum extends Signer {
     );
     return {
       unsignedTx,
+      publicKey: keyPair.publicKey,
       signature: addHexPrefix(
         Buffer.concat([signature, Buffer.from([recoveryParam])]).toString('hex'),
       ),
@@ -127,8 +116,8 @@ export class Ethereum extends Signer {
 
     return {
       message,
-      signature: addHexPrefix(signature),
       publicKey: keyPair.publicKey,
+      signature: addHexPrefix(signature),
     };
   }
 }

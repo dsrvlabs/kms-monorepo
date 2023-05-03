@@ -16,6 +16,7 @@ export const CHAIN = {
   AGORIC: 564,
   SUI: 784,
   APTOS: 637,
+  TON: 607,
 } as const;
 
 export interface KeyStore {
@@ -58,11 +59,12 @@ export interface Account {
 
 export interface SignedTx {
   unsignedTx: string;
+  publicKey: string;
   signature?: string;
 }
 
 export interface SignedMsg {
   message: string;
+  publicKey: string;
   signature?: string;
-  publicKey?: string;
 }
