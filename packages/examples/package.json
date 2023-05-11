@@ -1,13 +1,13 @@
 {
   "name": "examples",
-  "version": "0.4.8",
+  "version": "0.4.9",
   "license": "MIT",
   "dependencies": {
     "@cosmjs/amino": "^0.29.3",
     "@cosmjs/math": "^0.29.3",
     "@cosmjs/proto-signing": "^0.29.2",
     "@cosmjs/stargate": "^0.29.2",
-    "@dsrv/kms": "0.4.8",
+    "@dsrv/kms": "0.4.9",
     "@ethersproject/transactions": "^5.7.0",
     "@mysten/sui.js": "^0.32.2",
     "@solana/web3.js": "^1.66.1",

@@ -115,7 +115,7 @@ test('Solana - getAccount', () => {
     }),
   ).toEqual({
     address: '57mwmnV2rFuVDmhiJEjonD7cfuFtcaP9QvYNGfDEWK71',
-    publicKey: '57mwmnV2rFuVDmhiJEjonD7cfuFtcaP9QvYNGfDEWK71',
+    publicKey: '0x3d2b0d21b0b91cd177ce4b45bb27333e19134952d02212adb035f2df6066c3bc',
   });
 });
 
