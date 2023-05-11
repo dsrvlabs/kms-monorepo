@@ -312,7 +312,7 @@ test('Solana - getAccount', () => {
     }),
   ).toEqual({
     address: '57mwmnV2rFuVDmhiJEjonD7cfuFtcaP9QvYNGfDEWK71',
-    publicKey: '57mwmnV2rFuVDmhiJEjonD7cfuFtcaP9QvYNGfDEWK71',
+    publicKey: '0x3d2b0d21b0b91cd177ce4b45bb27333e19134952d02212adb035f2df6066c3bc',
   });
 });
 
@@ -350,7 +350,7 @@ test('Solana - signTx', () => {
     ),
   ).toEqual({
     unsignedTx,
-    publicKey: '57mwmnV2rFuVDmhiJEjonD7cfuFtcaP9QvYNGfDEWK71',
+    publicKey: '0x3d2b0d21b0b91cd177ce4b45bb27333e19134952d02212adb035f2df6066c3bc',
     signature:
       '0xc61c125ab311d183583b172733ab68cd2479e10cc9fa5e965317c69ab9962a3e28375c9dd35cc77c78159c54b7a4542fc12ecc9180b7dbb26bd739e2430e7b0a',
   });

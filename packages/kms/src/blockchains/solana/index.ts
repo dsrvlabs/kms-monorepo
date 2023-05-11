@@ -10,7 +10,7 @@ export { CHAIN } from '../../types';
 function sign(keyPair: SignKeyPair, message: Uint8Array): { publicKey: string; signature: string } {
   const signature = naclSign.detached(message, keyPair.secretKey);
   return {
-    publicKey: encode(keyPair.publicKey),
+    publicKey: addHexPrefix(Buffer.from(keyPair.publicKey).toString('hex')),
     signature: addHexPrefix(Buffer.from(signature).toString('hex')),
   };
 }
@@ -35,10 +35,9 @@ export class Solana extends Signer {
 
   static getAccount(pk: string | PathOption): Account {
     const keyPair = Solana.getKeyPair(pk);
-    const publicKey = encode(keyPair.publicKey);
     return {
-      address: publicKey,
-      publicKey,
+      address: encode(keyPair.publicKey),
+      publicKey: addHexPrefix(Buffer.from(keyPair.publicKey).toString('hex')),
     };
   }
 
