@@ -17,6 +17,7 @@ export const CHAIN = {
   SUI: 784,
   APTOS: 637,
   TON: 607,
+  ARBITRUM: 9001,
 } as const;
 
 export interface KeyStore {
