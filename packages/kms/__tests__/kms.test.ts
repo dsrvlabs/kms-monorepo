@@ -2,8 +2,9 @@ import { createKeyStore, getMnemonic } from '../src/argon2';
 import { CHAIN } from '../src/types';
 import { Aptos } from '../src/blockchains/aptos';
 import { Cosmos } from '../src/blockchains/cosmos';
-import { Ethereum } from '../src/blockchains/ethereum';
 import { Eth2 } from '../src/blockchains/eth2';
+import { Ethereum } from '../src/blockchains/ethereum';
+import { EtherMint } from '../src/blockchains/ethermint';
 import { Near } from '../src/blockchains/near';
 import { Solana } from '../src/blockchains/solana';
 import { Sui } from '../src/blockchains/sui';
@@ -268,6 +269,33 @@ test('Eth2 - getAccount (signing)', () => {
       '0xb84d8ea3b5b8b0d7f483c384749291d9993de245c8370466121f8c29f815c45767ca1b732f18dea47a2eef46ac6631d9',
     publicKey:
       '0xb84d8ea3b5b8b0d7f483c384749291d9993de245c8370466121f8c29f815c45767ca1b732f18dea47a2eef46ac6631d9',
+  });
+});
+
+test('EtherMint - getAccount', () => {
+  expect(
+    EtherMint.getAccount({
+      mnemonic,
+      path: { type: CHAIN.ETHEREUM, account: 0, index: 0 },
+    }, { prefix: 'inj' }),
+  ).toEqual({
+    address: 'inj13u6g7vqgw074mgmf2ze2cadzvkz9snlwcrtq8a',
+    publicKey: '0x035a0c6b83b8bd9827e507270cadb499b7e3a9095246f6a2213281f783d877c98b',
+  });
+});
+
+test('EtherMint - signTx', () => {
+  const unsignedTx = '0x0a85010a82010a1c2f636f736d6f732e62616e6b2e763162657461312e4d736753656e6412620a2a696e6a313375366737767167773037346d676d66327a65326361647a766b7a39736e6c77637274713861122a696e6a313375366737767167773037346d676d66327a65326361647a766b7a39736e6c776372747138611a080a03696e6a120131127d0a5c0a540a2d2f696e6a6563746976652e63727970746f2e763162657461312e657468736563703235366b312e5075624b657912230a21035a0c6b83b8bd9827e507270cadb499b7e3a9095246f6a2213281f783d877c98b12040a020801121d0a170a03696e6a1210313030303030303030303030303030301080897a1a0d696e6a6563746976652d383838208f4e';
+  expect(
+    EtherMint.signTx({
+      mnemonic,
+      path: { type: CHAIN.ETHEREUM, account: 0, index: 0 },
+    }, 
+    unsignedTx),
+  ).toEqual({
+    unsignedTx,
+    publicKey: '0x035a0c6b83b8bd9827e507270cadb499b7e3a9095246f6a2213281f783d877c98b',
+    signature: '0x78644340d2e634be5a98569b4625f3a4ad20558c7b8957b1e40def247f4badb25451f092d8700ff2310f9886ee34e2b1d8d22ee9932b726c3bd262da74b76425'
   });
 });
 

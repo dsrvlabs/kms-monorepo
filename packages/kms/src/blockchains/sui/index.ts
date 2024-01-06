@@ -5,8 +5,6 @@ import { addHexPrefix, isHexString, stripHexPrefix } from '../utils';
 import { Account, PathOption, SignedMsg, SignedTx } from '../../types';
 import { getDerivePath, Signer } from '../signer';
 
-export { CHAIN } from '../../types';
-
 const PUBLIC_KEY_SIZE = 32;
 const SUI_ADDRESS_LENGTH = 32;
 const SIGNATURE_SCHEME_TO_FLAG = {

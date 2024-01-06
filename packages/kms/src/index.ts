@@ -12,8 +12,9 @@ export {
 } from './types';
 export { Aptos } from './blockchains/aptos';
 export { Cosmos } from './blockchains/cosmos';
-export { Ethereum } from './blockchains/ethereum';
 export { Eth2 } from './blockchains/eth2';
+export { Ethereum } from './blockchains/ethereum';
+export { EtherMint } from './blockchains/ethermint';
 export { Near } from './blockchains/near';
 export { Solana } from './blockchains/solana';
 export { Sui } from './blockchains/sui';

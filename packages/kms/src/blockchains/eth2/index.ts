@@ -5,8 +5,6 @@ import { getDerivePath, Signer } from '../signer';
 import { addHexPrefix, stripHexPrefix } from '../utils';
 import { deriveChildSKMultiple, hkdfModR } from './bls';
 
-export { CHAIN } from '../../types';
-
 export class Eth2 extends Signer {
   static getPrivateKey(pk: string | PathOption, option: KeyOption): string {
     if (typeof pk === 'string') {

@@ -7,8 +7,6 @@ import { addHexPrefix, isHexString, stringToHex, stripHexPrefix } from '../utils
 import { Account, KeyOption, PathOption, SignedMsg, SignedTx, SimpleKeypair } from '../../types';
 import { Signer } from '../signer';
 
-export { CHAIN } from '../../types';
-
 function sign(keyPair: SimpleKeypair, hashed: Uint8Array): string {
   const { signature } = ecc.signRecoverable(
     hashed,
