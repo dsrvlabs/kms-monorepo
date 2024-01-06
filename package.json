@@ -37,7 +37,7 @@
     }
   ],
   "scripts": {
-    "build:kms": "rm -rf lib &&yarn build:kms-cjs && yarn build:kms-esm",
+    "build:kms": "rm -rf lib && rm -f ./packages/kms/tsconfig.tsbuildinfo && yarn build:kms-cjs && yarn build:kms-esm",
     "build:kms-cjs": "cd packages/kms && tsc --module commonjs --outDir lib/cjs --strict true",
     "build:kms-esm": "cd packages/kms && tsc --module es6 --outDir lib/esm",
     "prettier": "prettier --write --config ./.prettierrc \"**/*.{ts,tsx}\"",
