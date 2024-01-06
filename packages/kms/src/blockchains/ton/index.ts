@@ -6,8 +6,6 @@ import { Account, PathOption, SignedMsg, SignedTx } from '../../types';
 import { addHexPrefix, isHexString, stringToHex, stripHexPrefix } from '../utils';
 import { addressFromPubkey } from './makeAddress';
 
-export { CHAIN } from '../../types';
-
 export class Ton extends Signer {
   static getPrivateKey(pk: string | PathOption): string {
     if (typeof pk === 'string') {

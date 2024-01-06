@@ -5,8 +5,6 @@ import { Account, PathOption, SignedMsg, SignedTx } from '../../types';
 import { getDerivePath, Signer } from '../signer';
 import { addHexPrefix, isHexString, stripHexPrefix } from '../utils';
 
-export { CHAIN } from '../../types';
-
 function sign(keyPair: SignKeyPair, message: Uint8Array): { publicKey: string; signature: string } {
   const signature = naclSign.detached(message, keyPair.secretKey);
   return {

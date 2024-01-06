@@ -1,6 +1,5 @@
 import BIP32Factory from 'bip32';
 import * as ecc from 'tiny-secp256k1';
-import { ecdsaSign } from 'secp256k1';
 // eslint-disable-next-line camelcase
 import { keccak_256 } from '@noble/hashes/sha3';
 import { hexToBytes } from '@noble/hashes/utils';
@@ -29,18 +28,6 @@ const hashMessage = (msgHex: string): Uint8Array => {
   );
 };
 
-const ecsign = (msgHash: Buffer, privateKey: Buffer, chainId?: bigint): ECDSASignature => {
-  const { signature, recid } = ecdsaSign(msgHash, privateKey);
-
-  const r = Buffer.from(signature.slice(0, 32));
-  const s = Buffer.from(signature.slice(32, 64));
-
-  const v =
-    chainId === undefined ? BigInt(recid + 27) : BigInt(recid + 35) + BigInt(chainId) * BigInt(2);
-
-  return { r, s, v };
-};
-
 export class Ethereum extends Signer {
   static getPrivateKey(pk: string | PathOption): string {
     if (typeof pk === 'string') {
@@ -63,20 +50,14 @@ export class Ethereum extends Signer {
 
   static getAccount(pk: string | PathOption): Account {
     const keyPair = Ethereum.getKeyPair(pk);
-    const temp = Buffer.from(
-      ecc.pointCompress(Buffer.from(stripHexPrefix(keyPair.publicKey), 'hex'), false),
-    )
-      .toString('hex')
-      .slice(2);
+    const temp = ecc.pointCompress(hexToBytes(stripHexPrefix(keyPair.publicKey)), false).slice(1);
 
-    if (temp.length !== 128) {
+    if (temp.length !== 64) {
       throw new Error('Expected pubKey (hex) to be of length 128');
     }
 
     const account = {
-      address: addHexPrefix(
-        Buffer.from(keccak_256(Buffer.from(temp, 'hex')).slice(-20)).toString('hex'),
-      ),
+      address: addHexPrefix(Buffer.from(keccak_256(temp).slice(-20)).toString('hex')),
       publicKey: keyPair.publicKey,
     };
 
@@ -86,7 +67,7 @@ export class Ethereum extends Signer {
   static signTx(pk: string | PathOption, unsignedTx: string): SignedTx {
     super.isHexString(unsignedTx);
     const keyPair = Ethereum.getKeyPair(pk);
-    const { signature, recoveryId: recoveryParam } = ecc.signRecoverable(
+    const { signature, recoveryId } = ecc.signRecoverable(
       Buffer.from(keccak_256(Buffer.from(stripHexPrefix(unsignedTx), 'hex'))),
       Buffer.from(stripHexPrefix(keyPair.privateKey), 'hex'),
     );
@@ -94,7 +75,7 @@ export class Ethereum extends Signer {
       unsignedTx,
       publicKey: keyPair.publicKey,
       signature: addHexPrefix(
-        Buffer.concat([signature, Buffer.from([recoveryParam])]).toString('hex'),
+        Buffer.concat([signature, Buffer.from([recoveryId])]).toString('hex'),
       ),
     };
   }
@@ -102,22 +83,21 @@ export class Ethereum extends Signer {
   static signMsg(pk: string | PathOption, message: string): SignedMsg {
     const keyPair = Ethereum.getKeyPair(pk);
     const msgHex = isHexString(message) ? message : stringToHex(message);
-    const hashedMessage = hashMessage(msgHex);
 
-    const sig = ecsign(
-      Buffer.from(hashedMessage),
+    const { signature, recoveryId } = ecc.signRecoverable(
+      Buffer.from(hashMessage(msgHex)),
       Buffer.from(stripHexPrefix(keyPair.privateKey), 'hex'),
     );
-    const signature = Buffer.concat([
-      sig.r,
-      sig.s,
-      Buffer.from(sig.v.toString(16), 'hex'),
-    ]).toString('hex');
 
     return {
       message,
       publicKey: keyPair.publicKey,
-      signature: addHexPrefix(signature),
+      signature: addHexPrefix(
+        Buffer.concat([
+          signature,
+          Buffer.from(BigInt(parseInt(recoveryId.toString(), 10) + 27).toString(16), 'hex'),
+        ]).toString('hex'),
+      ),
     };
   }
 }
